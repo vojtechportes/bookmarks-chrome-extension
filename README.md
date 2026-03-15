@@ -1,8 +1,10 @@
 # Bookmarks
 
-A simple bookmark manager designed for speed and simplicity.
+A simple **bookmark manager** designed for speed and simplicity.
 
 This extension supports both dark mode and light mode, card and list data views, full text search, sorting and pinning.
+
+![Application screens](https://github.com/vojtechportes/bookmarks-chrome-extension/blob/main/app-screens.png)
 
 ## Prerequisities
 
@@ -65,6 +67,8 @@ Information about `sorting` and `view type` are stored under separate storage ke
 
 Assets, specifically icons and screenshots are stored separately in `IndexedDb` to avoid filling storage quota.
 
+All assets are downscaled and compressed with exception of svg files.
+
 ## Library choices and architectonical decissions
 
 This app is using minimum dependencies to keep the extension small. It is not using any UI library or styling library aside what vite is providing out of the box. Therefore css modules are used for styling and radix-ui for some more complex components. Though it is using only skeletons of few components from radix-ui, not styles.
@@ -77,6 +81,19 @@ In general, the service worker in this extension owns data storage and mutation,
 
 For search, `minisearch` is used as it is performant, indexes and ranks searched data and handles well things like fuzzy search.
 
-The extension is also prepared for internacionalization and is using `i18next` and `react-i18next` for the React UI with all copy located in translation files.
+The extension is also prepared for internacionalization and is using `i18next` and `react-i18next` within the React UI with all copy located in translation files.
 
 To make the app functioning both in extension context and in a browser tab, runtime api and storage api have both chrome api functions and classes and browser api functions and classes. This way, the app can be developed and tested in a browser more efficiently providing the same functionality as chrome api.
+
+## Intentional deviation from assignment brief
+
+Sorting is not done via toggle but via dropdown list. I found it quite unintuitive to toggle between four sorting states using toggle and dropdown with sorting options is serving better purpose in my opinion.
+
+Scraping page content is done in oposite order. Instead page content and then description, it is description and then page content as sraping page content isn't always helpful without actually summarizing what the page is about which would require some sort of heuristic or prompt api, which I don't find very suitable for extension like this considering hardware requirements.
+
+### Additional functionality
+
+- User can switch between two different views, where one is more condensed.
+- User can delete all bookmarks.
+- User can pin bookmarks. If there are any pinned bookmarks, sorting happens in two stages. First pinned bookmarks are sorted, which stay on top and then the rest.
+
