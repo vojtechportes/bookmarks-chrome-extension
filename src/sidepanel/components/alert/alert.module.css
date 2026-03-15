@@ -59,6 +59,42 @@
       }
     }
 
+    &.warning {
+      background-color: color-mix(
+        in srgb,
+        var(--color-warning-light) 70%,
+        var(--color-white) 30%
+      );
+      border-color: color-mix(
+        in srgb,
+        var(--color-warning) 70%,
+        var(--color-white) 30%
+      );
+
+      @media (prefers-color-scheme: dark) {
+        background-color: var(--color-warning-light);
+        border-color: var(--color-warning);
+      }
+    }
+
+    &.info {
+      background-color: color-mix(
+        in srgb,
+        var(--color-info-light) 70%,
+        var(--color-white) 30%
+      );
+      border-color: color-mix(
+        in srgb,
+        var(--color-info) 70%,
+        var(--color-white) 30%
+      );
+
+      @media (prefers-color-scheme: dark) {
+        background-color: var(--color-info-light);
+        border-color: var(--color-info);
+      }
+    }
+
     &.close-button {
       margin: calc(var(--space-size) * -1) 0;
     }
@@ -117,6 +153,42 @@
         background-color: color-mix(
           in srgb,
           var(--color-success) 65%,
+          var(--color-black) 35%
+        );
+      }
+    }
+  }
+
+  &.warning {
+    .progress-bar {
+      background-color: color-mix(
+        in srgb,
+        var(--color-warning) 75%,
+        var(--color-black) 25%
+      );
+
+      @media (prefers-color-scheme: dark) {
+        background-color: color-mix(
+          in srgb,
+          var(--color-warning) 65%,
+          var(--color-black) 35%
+        );
+      }
+    }
+  }
+
+  &.info {
+    .progress-bar {
+      background-color: color-mix(
+        in srgb,
+        var(--color-info) 75%,
+        var(--color-black) 25%
+      );
+
+      @media (prefers-color-scheme: dark) {
+        background-color: color-mix(
+          in srgb,
+          var(--color-info) 65%,
           var(--color-black) 35%
         );
       }

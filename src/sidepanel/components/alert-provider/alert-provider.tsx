@@ -58,6 +58,26 @@ export const AlertProvider: FC<PropsWithChildren> = ({ children }) => {
     [pushAlert],
   );
 
+  const warning = useCallback<IAlertContextValue['error']>(
+    (content, options) =>
+      pushAlert({
+        ...options,
+        variant: 'warning',
+        content,
+      }),
+    [pushAlert],
+  );
+
+  const info = useCallback<IAlertContextValue['error']>(
+    (content, options) =>
+      pushAlert({
+        ...options,
+        variant: 'info',
+        content,
+      }),
+    [pushAlert],
+  );
+
   const value = useMemo<IAlertContextValue>(
     () => ({
       alerts,
@@ -66,8 +86,19 @@ export const AlertProvider: FC<PropsWithChildren> = ({ children }) => {
       clearAlerts,
       success,
       error,
+      warning,
+      info,
     }),
-    [alerts, pushAlert, removeAlert, clearAlerts, success, error],
+    [
+      alerts,
+      pushAlert,
+      removeAlert,
+      clearAlerts,
+      success,
+      error,
+      warning,
+      info,
+    ],
   );
 
   return (

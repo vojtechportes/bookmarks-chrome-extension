@@ -2,7 +2,7 @@ import { AspectRatio } from 'radix-ui';
 import type { FC } from 'react';
 import classes from './image.module.css';
 import { clsx } from 'clsx';
-import type { ViewType } from '../../../../scenes/list-scene/types';
+import type { ViewType } from '../../../../scenes/list-scene/types/view-type';
 
 export interface IImageProps {
   src: string;

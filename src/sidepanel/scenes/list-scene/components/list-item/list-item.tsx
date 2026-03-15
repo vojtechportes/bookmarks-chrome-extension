@@ -18,11 +18,12 @@ import {
 import { runtimeApi } from '../../../../api/runtime-api/runtime-api';
 import { useAssetUrl } from './hooks/use-asset-url';
 import { Image } from '../../../../components/card/components/image/image';
-import type { ViewType } from '../../types';
 import { useAlert } from '../../../../components/alert-provider/hooks/use-alert';
 import { useTranslation } from 'react-i18next';
 import { DATE_TIME_FORMAT } from '../../../../constants/date';
 import { format } from 'date-fns';
+import type { ViewType } from '../../types/view-type';
+import { useDarkMode } from '../../../../hooks/use-dark-mode';
 
 export interface IListItemProps extends BookmarkItem {
   viewType: ViewType;
@@ -36,6 +37,8 @@ export const ListItem: FC<IListItemProps> = ({
   url,
   icon,
   iconAssetId,
+  darkIconAssetId,
+  lightIconAssetId,
   screenshotAssetId,
   pinned,
   addedAt,
@@ -45,10 +48,21 @@ export const ListItem: FC<IListItemProps> = ({
   const { t } = useTranslation();
   const { success, error } = useAlert();
   const { assetUrl: iconAssetUrl } = useAssetUrl(iconAssetId, icon);
+  const { assetUrl: darkIconAssetUrl } = useAssetUrl(darkIconAssetId, icon);
+  const { assetUrl: lightIconAssetUrl } = useAssetUrl(lightIconAssetId, icon);
   const { assetUrl: screenshotAssetUrl } = useAssetUrl(
     screenshotAssetId,
     undefined,
   );
+  const isDarkMode = useDarkMode();
+
+  const resolvedIconUrl = useMemo(() => {
+    if (isDarkMode) {
+      return darkIconAssetUrl ?? lightIconAssetUrl ?? iconAssetUrl;
+    }
+
+    return lightIconAssetUrl ?? iconAssetUrl;
+  }, [darkIconAssetUrl, iconAssetUrl, isDarkMode, lightIconAssetUrl]);
 
   const dropdownItems = useMemo<IDropdownMenuItem[]>(
     () => [
@@ -98,6 +112,23 @@ export const ListItem: FC<IListItemProps> = ({
     [error, id, success, t],
   );
 
+  const handleOpenBookmark = useCallback(
+    async (event: React.MouseEvent) => {
+      const element = event.target as HTMLElement;
+
+      if (element.closest('button, [role="menuitem"], [role="menu"]')) {
+        return;
+      }
+
+      const response = await runtimeApi.openBookmark(url);
+
+      if (!response.ok) {
+        error(t(`error-messages.${response.error}`));
+      }
+    },
+    [url, error, t],
+  );
+
   const renderHighlightedText = useCallback(
     (value?: string) => {
       const resolvedValue = value ?? '';
@@ -124,6 +155,7 @@ export const ListItem: FC<IListItemProps> = ({
       highlighted={pinned}
       viewType={viewType}
       clickable
+      onClick={handleOpenBookmark}
     >
       <Title
         viewType={viewType}
@@ -131,7 +163,7 @@ export const ListItem: FC<IListItemProps> = ({
         endAdornment={
           <div className={clsx(classes.endAdornment)}>
             <div className={clsx(classes.icon)}>
-              <img src={iconAssetUrl} alt="" />
+              {resolvedIconUrl && <img src={resolvedIconUrl} alt={title} />}
             </div>
 
             <DropdownMenu

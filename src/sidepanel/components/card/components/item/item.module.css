@@ -1,6 +1,9 @@
 .item {
   padding: var(--space-size) calc(var(--space-size) * 3);
-  word-wrap: break-word;
+
+  p {
+    overflow-wrap: anywhere;
+  }
 
   &:last-child {
     padding-bottom: calc(var(--space-size) * 3);

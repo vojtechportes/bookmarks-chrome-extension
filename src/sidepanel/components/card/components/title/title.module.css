@@ -6,8 +6,10 @@
     var(--color-white) 80%,
     var(--color-black) 20%
   );
-  word-wrap: break-word;
 
+  p {
+    overflow-wrap: anywhere;
+  }
 
   @media (prefers-color-scheme: dark) {
     border-color: color-mix(

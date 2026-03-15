@@ -5,8 +5,8 @@
   border-radius: var(--space-size);
   background-color: color-mix(
     in srgb,
-    var(--color-primary) 20%,
-    var(--color-white) 70%
+    var(--color-primary) 70%,
+    var(--color-white) 30%
   );
   width: auto;
 

@@ -1,4 +1,5 @@
 import type { DelteteAllBookmarksResponse } from './delete-all-bookmarks-response';
+import type { OpenBookmarkResponse } from './open-bookmark-response';
 import type { PinBookmarkResponse } from './pin-bookmark-response';
 import type { SetActiveTabResponse } from './set-active-tab-response';
 import type { UnpinBookmarkResponse } from './unpin-bookmark-response';
@@ -9,4 +10,5 @@ export interface IRuntimeApi {
   unpinBookmark(id: string): Promise<UnpinBookmarkResponse>;
   deleteBookmark(id: string): Promise<DelteteAllBookmarksResponse>;
   deleteAllBookmarks: () => Promise<DelteteAllBookmarksResponse>;
+  openBookmark: (url: string) => Promise<OpenBookmarkResponse>;
 }

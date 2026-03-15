@@ -14,6 +14,9 @@
     "UNSUPPORTED_MESSAGE_TYPE": "Something went wrong :(",
     "INVALID_BOOKMARK_URL": "Opening bookmarked tab failed"
   },
+  "info-messages": {
+    "BOOKMARK_ALREADY_EXISTS": "Bookmark already exsts"
+  },
   "success-messages": {
     "bookmark-added": "Tab added to your collection",
     "bookmarks-deleted": "All bookmarked tabs were deleted",
@@ -32,8 +35,14 @@
   "bookmark": "Save to read later",
   "newest-to-oldest": "Newest to oldest",
   "oldest-to-newest": "Oldest to newest",
+  "title-asc": "Title A to Z",
+  "title-desc": "Title Z to A",
   "pin": "Pin",
   "unpin": "Unpin",
   "delete": "Delete",
-  "delete-all": "Delete all"
+  "delete-all": "Delete all",
+  "delete-all-modal": {
+    "title": "Delete all bookmarks?",
+    "description": "This action is irreversible. Are you sure you want to proceed?"
+  }
 }

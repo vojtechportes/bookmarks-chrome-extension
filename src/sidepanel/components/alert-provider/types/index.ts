@@ -26,4 +26,12 @@ export interface IAlertContextValue {
     content: ReactNode,
     options?: Omit<IPushAlertInput, 'content' | 'variant'>,
   ) => string;
+  warning: (
+    content: ReactNode,
+    options?: Omit<IPushAlertInput, 'content' | 'variant'>,
+  ) => string;
+  info: (
+    content: ReactNode,
+    options?: Omit<IPushAlertInput, 'content' | 'variant'>,
+  ) => string;
 }
