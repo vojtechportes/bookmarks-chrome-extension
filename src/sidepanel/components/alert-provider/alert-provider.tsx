@@ -1,18 +1,16 @@
 import {
-  createContext,
   useCallback,
   useMemo,
   useState,
   type FC,
   type PropsWithChildren,
-} from "react";
-import { Alert } from "../alert/alert";
-import type { IAlertContextValue, IAlertItem, IPushAlertInput } from "./types";
-import { v4 as uuid } from "uuid";
-import classes from "./alert-provider.module.css";
-import clsx from "clsx";
-
-export const AlertContext = createContext<IAlertContextValue | null>(null);
+} from 'react';
+import { Alert } from '../alert/alert';
+import type { IAlertContextValue, IAlertItem, IPushAlertInput } from './types';
+import { v4 as uuid } from 'uuid';
+import classes from './alert-provider.module.css';
+import { clsx } from 'clsx';
+import { AlertContext } from './components/alert-context';
 
 export const AlertProvider: FC<PropsWithChildren> = ({ children }) => {
   const [alerts, setAlerts] = useState<IAlertItem[]>([]);
@@ -40,21 +38,21 @@ export const AlertProvider: FC<PropsWithChildren> = ({ children }) => {
     return id;
   }, []);
 
-  const success = useCallback<IAlertContextValue["success"]>(
+  const success = useCallback<IAlertContextValue['success']>(
     (content, options) =>
       pushAlert({
         ...options,
-        variant: "success",
+        variant: 'success',
         content,
       }),
     [pushAlert],
   );
 
-  const error = useCallback<IAlertContextValue["error"]>(
+  const error = useCallback<IAlertContextValue['error']>(
     (content, options) =>
       pushAlert({
         ...options,
-        variant: "error",
+        variant: 'error',
         content,
       }),
     [pushAlert],

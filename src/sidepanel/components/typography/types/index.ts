@@ -1,15 +1,21 @@
-import type { IDataTest } from "../../../types/data-test";
+import type { IDataTest } from '../../../types/data-test';
 
-export type TypographyComponent = "p" | "span" | "h1" | "h2" | "h3" | "h4" | "h5";
-
+export type TypographyComponent =
+  | 'p'
+  | 'span'
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5';
 
 export interface IBaseTypographyProps extends IDataTest {
   component?: TypographyComponent;
   as?: TypographyComponent;
   noMargin?: boolean;
-  textAlign?: React.CSSProperties["textAlign"];
+  textAlign?: React.CSSProperties['textAlign'];
   loading?: boolean;
-};
+}
 
 type TypographyPropsMap = {
   [K in TypographyComponent]: IBaseTypographyProps & {

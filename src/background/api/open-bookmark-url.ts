@@ -1,6 +1,6 @@
-import { INVALID_BOOKMARK_URL } from "../../shared/constants/error-messages";
-import { isBookmarkableUrl } from "../utils/is-bookmarkable-url.util";
-import { getActiveTab } from "./get-active-tab";
+import { INVALID_BOOKMARK_URL } from '../../shared/constants/error-messages';
+import { isBookmarkableUrl } from '../utils/is-bookmarkable-url.util';
+import { getActiveTab } from './get-active-tab';
 
 export async function openBookmarkUrl(
   url: string,

@@ -1,29 +1,30 @@
-import i18next from "i18next";
-import Backend from "i18next-http-backend";
-import LanguageDetector from "i18next-browser-languagedetector";
-import { FALLBACK_LANGUAGE, SUPPORTED_LANGUAGES } from "./constants";
-import { initReactI18next } from "react-i18next";
+import i18next from 'i18next';
+import Backend from 'i18next-http-backend';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import { FALLBACK_LANGUAGE, SUPPORTED_LANGUAGES } from './constants';
+import { initReactI18next } from 'react-i18next';
 
+// eslint-disable-next-line import/no-named-as-default-member
 i18next
   .use(Backend)
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    load: "languageOnly",
+    load: 'languageOnly',
     fallbackLng: FALLBACK_LANGUAGE,
     supportedLngs: SUPPORTED_LANGUAGES,
-    ns: ["common"],
-    defaultNS: "common",
+    ns: ['common'],
+    defaultNS: 'common',
     detection: {
-      order: ["navigator"],
+      order: ['navigator'],
     },
     backend: {
-      loadPath: "/locales/{{lng}}/{{ns}}.json",
+      loadPath: '/locales/{{lng}}/{{ns}}.json',
     },
     react: {
-      bindI18n: "languageChanged",
+      bindI18n: 'languageChanged',
       useSuspense: true,
     },
   });
 
-export default i18next
+export default i18next;

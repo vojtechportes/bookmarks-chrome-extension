@@ -1,20 +1,20 @@
-import clsx from "clsx";
-import type { FC, PropsWithChildren } from "react";
-import classes from "./panel.module.css";
-import type { IDataTest } from "../../types/data-test";
+import { clsx } from 'clsx';
+import type { FC, PropsWithChildren } from 'react';
+import classes from './panel.module.css';
+import type { IDataTest } from '../../types/data-test';
 
 export interface IPanelProps
   extends React.HTMLAttributes<HTMLDivElement>, IDataTest {
   fullHeight?: boolean;
   transparent?: boolean;
-  align?: "left" | "center" | "right";
+  align?: 'left' | 'center' | 'right';
 }
 
 export const Panel: FC<PropsWithChildren<IPanelProps>> = ({
   children,
   fullHeight,
   transparent,
-  align = "center",
+  align = 'center',
   className,
   ...rest
 }) => (

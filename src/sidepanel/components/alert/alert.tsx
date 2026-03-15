@@ -1,20 +1,20 @@
-import clsx from "clsx";
+import { clsx } from 'clsx';
 import {
   useCallback,
   useEffect,
   useState,
   type FC,
   type PropsWithChildren,
-} from "react";
-import classes from "./alert.module.css";
-import type { IDataTest } from "../../types/data-test";
-import { IconButton } from "../icon-button/icon-button";
-import { Typography } from "../typography/typography";
-import CloseIcon from "../icons/close-icon.svg?react";
-import { ANIMATION_DURATION_MS } from "./constants";
+} from 'react';
+import classes from './alert.module.css';
+import type { IDataTest } from '../../types/data-test';
+import { IconButton } from '../icon-button/icon-button';
+import { Typography } from '../typography/typography';
+import CloseIcon from '../icons/close-icon.svg?react';
+import { ANIMATION_DURATION_MS } from './constants';
 
 export interface IAlertProps extends IDataTest {
-  variant?: "success" | "error";
+  variant?: 'success' | 'error';
   onClose?: () => void;
   onDismissed?: () => void;
   autoDismiss?: boolean;
@@ -24,7 +24,7 @@ export interface IAlertProps extends IDataTest {
 }
 
 export const Alert: FC<PropsWithChildren<IAlertProps>> = ({
-  variant = "success",
+  variant = 'success',
   onClose,
   onDismissed,
   autoDismiss = false,

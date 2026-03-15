@@ -1,11 +1,11 @@
-import type { FC } from "react";
-import { useDarkMode } from "../../hooks/use-dark-mode";
-import { Typography } from "../typography/typography";
-import { Button, type IButtonProps } from "../button/button";
-import type { TypographyProps } from "../typography/types";
-import clsx from "clsx";
-import classes from "./not-found.module.css";
-import { Skeleton } from "../skeleton/skeleton";
+import type { FC } from 'react';
+import { useDarkMode } from '../../hooks/use-dark-mode';
+import { Typography } from '../typography/typography';
+import { Button, type IButtonProps } from '../button/button';
+import type { TypographyProps } from '../typography/types';
+import { clsx } from 'clsx';
+import classes from './not-found.module.css';
+import { Skeleton } from '../skeleton/skeleton';
 
 export interface INotFoundSlots {
   title?: TypographyProps;
@@ -14,6 +14,7 @@ export interface INotFoundSlots {
 
 export interface INotFoundProps {
   title: React.ReactNode;
+  alt: string;
   buttonTitle: React.ReactNode;
   loading?: boolean;
   slots?: INotFoundSlots;
@@ -21,6 +22,7 @@ export interface INotFoundProps {
 
 export const NotFound: FC<INotFoundProps> = ({
   title,
+  alt,
   buttonTitle,
   loading,
   slots,
@@ -45,8 +47,9 @@ export const NotFound: FC<INotFoundProps> = ({
           <Skeleton shape="circle" size="250px" />
         ) : (
           <img
-            src={isDarkMode ? "empty-dark-mode.png" : "empty.png"}
-            style={{ width: "100%", maxWidth: "420px", height: "auto" }}
+            src={isDarkMode ? 'empty-dark-mode.png' : 'empty.png'}
+            style={{ width: '100%', maxWidth: '420px', height: 'auto' }}
+            alt={alt}
           />
         )}
       </div>

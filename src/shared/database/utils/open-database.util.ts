@@ -3,7 +3,7 @@ import {
   DATABASE_VERSION,
   KEY_PATH,
   STORE_NAME,
-} from "../constants";
+} from '../constants';
 
 export const openDatabase = async (): Promise<IDBDatabase> =>
   await new Promise((resolve, reject) => {

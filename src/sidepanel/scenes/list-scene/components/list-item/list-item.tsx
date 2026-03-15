@@ -1,28 +1,28 @@
-import { useCallback, useMemo, type FC } from "react";
-import Highlighter from "react-highlight-words";
-import { Card } from "../../../../components/card/card";
-import { Title } from "../../../../components/card/components/title/title";
-import { Item } from "../../../../components/card/components/item/item";
-import type { BookmarkItem } from "../../../../../shared/types/bookmark-item";
-import clsx from "clsx";
-import classes from "./list-item.module.css";
-import { IconButton } from "../../../../components/icon-button/icon-button";
-import DotsIcon from "../../../../components/icons/dots-icon.svg?react";
-import DeleteIcon from "../../../../components/icons/delete-icon.svg?react";
-import PinIcon from "../../../../components/icons/pin-icon.svg?react";
-import UnpinIcon from "../../../../components/icons/unpin-icon.svg?react";
+import { useCallback, useMemo, type FC } from 'react';
+import Highlighter from 'react-highlight-words';
+import { Card } from '../../../../components/card/card';
+import { Title } from '../../../../components/card/components/title/title';
+import { Item } from '../../../../components/card/components/item/item';
+import type { BookmarkItem } from '../../../../../shared/types/bookmark-item';
+import { clsx } from 'clsx';
+import classes from './list-item.module.css';
+import { IconButton } from '../../../../components/icon-button/icon-button';
+import DotsIcon from '../../../../components/icons/dots-icon.svg?react';
+import DeleteIcon from '../../../../components/icons/delete-icon.svg?react';
+import PinIcon from '../../../../components/icons/pin-icon.svg?react';
+import UnpinIcon from '../../../../components/icons/unpin-icon.svg?react';
 import {
   DropdownMenu,
   type IDropdownMenuItem,
-} from "../../../../components/dropdown-menu/dropdown-menu";
-import { runtimeApi } from "../../../../api/runtime-api/runtime-api";
-import { useAssetUrl } from "./hooks/use-asset-url";
-import { Image } from "../../../../components/card/components/image/image";
-import type { ViewType } from "../../types";
-import { useAlert } from "../../../../components/alert-provider/hooks/use-alert";
-import { useTranslation } from "react-i18next";
-import { DATE_TIME_FORMAT } from "../../../../constants/date";
-import { format } from "date-fns";
+} from '../../../../components/dropdown-menu/dropdown-menu';
+import { runtimeApi } from '../../../../api/runtime-api/runtime-api';
+import { useAssetUrl } from './hooks/use-asset-url';
+import { Image } from '../../../../components/card/components/image/image';
+import type { ViewType } from '../../types';
+import { useAlert } from '../../../../components/alert-provider/hooks/use-alert';
+import { useTranslation } from 'react-i18next';
+import { DATE_TIME_FORMAT } from '../../../../constants/date';
+import { format } from 'date-fns';
 
 export interface IListItemProps extends BookmarkItem {
   viewType: ViewType;
@@ -40,7 +40,7 @@ export const ListItem: FC<IListItemProps> = ({
   pinned,
   addedAt,
   viewType,
-  searchValue = "",
+  searchValue = '',
 }) => {
   const { t } = useTranslation();
   const { success, error } = useAlert();
@@ -53,13 +53,13 @@ export const ListItem: FC<IListItemProps> = ({
   const dropdownItems = useMemo<IDropdownMenuItem[]>(
     () => [
       {
-        value: pinned ? "unpin" : "pin",
-        label: t(pinned ? "unpin" : "pin"),
+        value: pinned ? 'unpin' : 'pin',
+        label: t(pinned ? 'unpin' : 'pin'),
         icon: pinned ? <UnpinIcon /> : <PinIcon />,
       },
       {
-        value: "delete",
-        label: t("delete"),
+        value: 'delete',
+        label: t('delete'),
         icon: <DeleteIcon />,
       },
     ],
@@ -76,15 +76,15 @@ export const ListItem: FC<IListItemProps> = ({
 
   const handleDropdownItemClick = useCallback(
     async (value: string) => {
-      if (value === "pin") {
+      if (value === 'pin') {
         await runtimeApi.pinBookmark(id);
       }
 
-      if (value === "unpin") {
+      if (value === 'unpin') {
         await runtimeApi.unpinBookmark(id);
       }
 
-      if (value === "delete") {
+      if (value === 'delete') {
         const response = await runtimeApi.deleteBookmark(id);
 
         if (!response.ok) {
@@ -92,7 +92,7 @@ export const ListItem: FC<IListItemProps> = ({
           return;
         }
 
-        success(t("succeess-messages.bookmark-deleted"));
+        success(t('succeess-messages.bookmark-deleted'));
       }
     },
     [error, id, success, t],
@@ -100,7 +100,7 @@ export const ListItem: FC<IListItemProps> = ({
 
   const renderHighlightedText = useCallback(
     (value?: string) => {
-      const resolvedValue = value ?? "";
+      const resolvedValue = value ?? '';
 
       if (!searchWords.length) {
         return resolvedValue;
@@ -161,7 +161,7 @@ export const ListItem: FC<IListItemProps> = ({
       </div>
 
       <div>
-        {viewType === "tiles" && (
+        {viewType === 'tiles' && (
           <Item className={clsx(classes.firstItem)}>
             {renderHighlightedText(description ?? '')}
           </Item>
@@ -169,13 +169,13 @@ export const ListItem: FC<IListItemProps> = ({
       </div>
 
       <Item
-        className={clsx(viewType === "list" && classes.firstItem, classes.link)}
+        className={clsx(viewType === 'list' && classes.firstItem, classes.link)}
       >
         {renderHighlightedText(url)}
       </Item>
 
       <Item className={clsx(classes.date)}>
-        {addedAt ? format(new Date(addedAt), DATE_TIME_FORMAT) : "-"}
+        {addedAt ? format(new Date(addedAt), DATE_TIME_FORMAT) : '-'}
       </Item>
     </Card>
   );

@@ -1,5 +1,5 @@
-import type { StorageChange } from "./storage-change";
-import type { Unsubscribe } from "./unsubscribe";
+import type { StorageChange } from './storage-change';
+import type { Unsubscribe } from './unsubscribe';
 
 export interface IStorageApi {
   get<T>(key: string): Promise<T | undefined>;

@@ -1,8 +1,8 @@
-import { AspectRatio } from "radix-ui";
-import type { FC } from "react";
-import classes from "./image.module.css";
-import clsx from "clsx";
-import type { ViewType } from "../../../../scenes/list-scene/types";
+import { AspectRatio } from 'radix-ui';
+import type { FC } from 'react';
+import classes from './image.module.css';
+import { clsx } from 'clsx';
+import type { ViewType } from '../../../../scenes/list-scene/types';
 
 export interface IImageProps {
   src: string;
@@ -12,7 +12,7 @@ export interface IImageProps {
 }
 
 export const Image: FC<IImageProps> = ({ src, alt, className, viewType }) => {
-  if (viewType === "list") {
+  if (viewType === 'list') {
     return null;
   }
 

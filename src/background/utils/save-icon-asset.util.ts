@@ -1,13 +1,13 @@
-import { FAILED_TO_FETCH_ICON } from "../../shared/constants/error-messages";
-import { putAsset } from "../../shared/database/put-asset";
-import { compressImageBlob } from "./compress-image-blob.util";
+import { FAILED_TO_FETCH_ICON } from '../../shared/constants/error-messages';
+import { putAsset } from '../../shared/database/put-asset';
+import { compressImageBlob } from './compress-image-blob.util';
 
 export const saveIconAsset = async (
   bookmarkId: string,
   iconUrl: string,
 ): Promise<string | undefined> => {
   const response = await fetch(iconUrl, {
-    credentials: "include",
+    credentials: 'include',
   });
 
   if (!response.ok) {
@@ -23,12 +23,12 @@ export const saveIconAsset = async (
   const assetId = `${bookmarkId}-icon`;
 
   let blobToStore = originalBlob;
-  let mimeType = originalBlob.type || "image/png";
+  let mimeType = originalBlob.type || 'image/png';
 
-  if (!mimeType.includes("svg")) {
+  if (!mimeType.includes('svg')) {
     try {
       blobToStore = await compressImageBlob(originalBlob, 48, 0.9);
-      mimeType = blobToStore.type || "image/webp";
+      mimeType = blobToStore.type || 'image/webp';
     } catch {
       blobToStore = originalBlob;
       mimeType = originalBlob.type || mimeType;
@@ -37,7 +37,7 @@ export const saveIconAsset = async (
 
   await putAsset({
     id: assetId,
-    type: "favicon",
+    type: 'favicon',
     mimeType,
     blob: blobToStore,
     createdAt: new Date().toISOString(),

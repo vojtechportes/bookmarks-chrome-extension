@@ -1,6 +1,6 @@
-import type { IStorageApi } from "./types/storage-api";
-import type { StorageChange } from "./types/storage-change";
-import type { Unsubscribe } from "./types/unsubscribe";
+import type { IStorageApi } from './types/storage-api';
+import type { StorageChange } from './types/storage-change';
+import type { Unsubscribe } from './types/unsubscribe';
 
 export class BrowserStorageApi implements IStorageApi {
   private listeners = new Map<
@@ -52,7 +52,7 @@ export class BrowserStorageApi implements IStorageApi {
     const existing = this.listeners.get(key) ?? new Set();
 
     existing.add(wrappedCallback);
-    
+
     this.listeners.set(key, existing);
 
     return () => {

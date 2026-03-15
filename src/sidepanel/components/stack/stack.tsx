@@ -1,7 +1,7 @@
-import clsx from "clsx";
-import type { FC, PropsWithChildren } from "react";
-import classes from "./stack.module.css";
-import { normalizeSize } from "../../utils/normalize-size.util";
+import { clsx } from 'clsx';
+import type { FC, PropsWithChildren } from 'react';
+import classes from './stack.module.css';
+import { normalizeSize } from '../../utils/normalize-size.util';
 
 export interface IStackProps {
   gap: number | string | null;

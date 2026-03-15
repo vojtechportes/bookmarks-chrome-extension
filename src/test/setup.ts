@@ -1,12 +1,12 @@
-import "@testing-library/jest-dom";
-import { afterEach, vi } from "vitest";
-import { cleanup } from "@testing-library/react";
+import '@testing-library/jest-dom';
+import { afterEach, vi } from 'vitest';
+import { cleanup } from '@testing-library/react';
 
 afterEach(() => {
   cleanup();
 });
 
-vi.stubGlobal("chrome", {
+vi.stubGlobal('chrome', {
   runtime: {
     sendMessage: vi.fn(),
     onMessage: {

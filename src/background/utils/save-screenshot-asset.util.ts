@@ -1,12 +1,12 @@
-import { putAsset } from "../../shared/database/put-asset";
-import { compressImageBlob } from "./compress-image-blob.util";
-import { dataUrlToBlob } from "./data-url-to-blob.util";
+import { putAsset } from '../../shared/database/put-asset';
+import { compressImageBlob } from './compress-image-blob.util';
+import { dataUrlToBlob } from './data-url-to-blob.util';
 
 export const saveScreenshotAsset = async (
   bookmarkId: string,
 ): Promise<string | undefined> => {
   const dataUrl = await chrome.tabs.captureVisibleTab(undefined, {
-    format: "png",
+    format: 'png',
   });
 
   if (!dataUrl) {
@@ -22,11 +22,11 @@ export const saveScreenshotAsset = async (
   const assetId = `${bookmarkId}-screenshot`;
 
   let blobToStore = originalBlob;
-  let mimeType = originalBlob.type || "image/png";
+  let mimeType = originalBlob.type || 'image/png';
 
   try {
     blobToStore = await compressImageBlob(originalBlob, 600, 0.8);
-    mimeType = blobToStore.type || "image/webp";
+    mimeType = blobToStore.type || 'image/webp';
   } catch {
     blobToStore = originalBlob;
     mimeType = originalBlob.type || mimeType;
@@ -34,7 +34,7 @@ export const saveScreenshotAsset = async (
 
   await putAsset({
     id: assetId,
-    type: "screenshot",
+    type: 'screenshot',
     mimeType,
     blob: blobToStore,
     createdAt: new Date().toISOString(),

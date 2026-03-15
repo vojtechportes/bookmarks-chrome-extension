@@ -6,11 +6,11 @@ import {
   type FC,
   type PropsWithChildren,
   type ReactElement,
-} from "react";
-import type { IDataTest } from "../../types/data-test";
-import clsx from "clsx";
-import classes from "./card.module.css";
-import type { ListVariantType } from "../list/components/filters/components/view-type/view-type";
+} from 'react';
+import type { IDataTest } from '../../types/data-test';
+import { clsx } from 'clsx';
+import classes from './card.module.css';
+import type { ListVariantType } from '../list/components/filters/components/view-type/view-type';
 
 export interface ICardProps
   extends React.HTMLAttributes<HTMLDivElement>, IDataTest {
@@ -31,11 +31,11 @@ export const Card: FC<PropsWithChildren<ICardProps>> = ({
 }) => {
   const clonedElements = Children.map(children, (child) => {
     if (!isValidElement(child)) {
-      throw new Error("Only valid React elements are allowed.");
+      throw new Error('Only valid React elements are allowed.');
     }
 
     if (child.type === Fragment) {
-      throw new Error("Fragments are not supported");
+      throw new Error('Fragments are not supported');
     }
 
     return cloneElement(

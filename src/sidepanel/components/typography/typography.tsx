@@ -1,13 +1,13 @@
-import type { FC, PropsWithChildren } from "react";
-import type { TypographyProps } from "./types";
-import clsx from "clsx";
-import classes from "./typography.module.css";
-import sharedClasses from "../shared.module.css";
-import { Skeleton } from "../skeleton/skeleton";
+import type { FC, PropsWithChildren } from 'react';
+import type { TypographyProps } from './types';
+import { clsx } from 'clsx';
+import classes from './typography.module.css';
+import sharedClasses from '../shared.module.css';
+import { Skeleton } from '../skeleton/skeleton';
 
 export const Typography: FC<PropsWithChildren<TypographyProps>> = ({
   children,
-  component: Component = "p",
+  component: Component = 'p',
   as,
   noMargin,
   textAlign,

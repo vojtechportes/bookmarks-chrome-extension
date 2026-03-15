@@ -1,6 +1,6 @@
-import type { IStorageApi } from "./types/storage-api";
-import type { StorageChange } from "./types/storage-change";
-import type { Unsubscribe } from "./types/unsubscribe";
+import type { IStorageApi } from './types/storage-api';
+import type { StorageChange } from './types/storage-change';
+import type { Unsubscribe } from './types/unsubscribe';
 
 export class ChromeStorageApi implements IStorageApi {
   async get<T>(key: string): Promise<T | undefined> {
@@ -20,7 +20,7 @@ export class ChromeStorageApi implements IStorageApi {
       changes: Record<string, chrome.storage.StorageChange>,
       areaName: string,
     ) => {
-      if (areaName !== "local" || !changes[key]) {
+      if (areaName !== 'local' || !changes[key]) {
         return;
       }
 

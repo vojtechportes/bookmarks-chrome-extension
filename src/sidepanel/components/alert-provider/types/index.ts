@@ -1,15 +1,15 @@
-import type { ReactNode } from "react";
-import type { IAlertProps } from "../../alert/alert";
+import type { ReactNode } from 'react';
+import type { IAlertProps } from '../../alert/alert';
 
 export interface IAlertItem extends Omit<
   IAlertProps,
-  "children" | "onDismissed" | "onClose"
+  'children' | 'onDismissed' | 'onClose'
 > {
   id: string;
   content: ReactNode;
 }
 
-export interface IPushAlertInput extends Omit<IAlertItem, "id" | "content"> {
+export interface IPushAlertInput extends Omit<IAlertItem, 'id' | 'content'> {
   content: ReactNode;
 }
 
@@ -20,10 +20,10 @@ export interface IAlertContextValue {
   clearAlerts: () => void;
   success: (
     content: ReactNode,
-    options?: Omit<IPushAlertInput, "content" | "variant">,
+    options?: Omit<IPushAlertInput, 'content' | 'variant'>,
   ) => string;
   error: (
     content: ReactNode,
-    options?: Omit<IPushAlertInput, "content" | "variant">,
+    options?: Omit<IPushAlertInput, 'content' | 'variant'>,
   ) => string;
 }

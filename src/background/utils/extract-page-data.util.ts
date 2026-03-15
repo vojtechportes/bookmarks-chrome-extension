@@ -1,4 +1,4 @@
-import { FAILED_TO_EXTRACT_DATA } from "../../shared/constants/error-messages";
+import { FAILED_TO_EXTRACT_DATA } from '../../shared/constants/error-messages';
 
 export const extractPageData = async (
   tabId: number,
@@ -12,12 +12,12 @@ export const extractPageData = async (
     target: { tabId },
     func: () => {
       const normalizeWhitespace = (value: string): string =>
-        value.replace(/\s+/g, " ").trim();
+        value.replace(/\s+/g, ' ').trim();
 
       const getMetaContent = (selectors: string[]): string | undefined => {
         for (const selector of selectors) {
           const element = document.querySelector(selector);
-          const content = element?.getAttribute("content");
+          const content = element?.getAttribute('content');
 
           if (content && normalizeWhitespace(content)) {
             return normalizeWhitespace(content);
@@ -50,7 +50,7 @@ export const extractPageData = async (
         return undefined;
       };
 
-      const bodyText = normalizeWhitespace(document.body?.innerText || "");
+      const bodyText = normalizeWhitespace(document.body?.innerText || '');
       const textDescription =
         bodyText.length > 0 ? bodyText.slice(0, 160) : undefined;
 
@@ -62,7 +62,7 @@ export const extractPageData = async (
       ]);
 
       return {
-        title: document.title?.trim() || "",
+        title: document.title?.trim() || '',
         url: window.location.href,
         icon: getIconHref(),
         description: metaDescription || textDescription || null,
@@ -77,11 +77,11 @@ export const extractPageData = async (
   }
 
   return {
-    title: typeof result.title === "string" ? result.title : "",
-    url: typeof result.url === "string" ? result.url : "",
-    icon: typeof result.icon === "string" ? result.icon : undefined,
+    title: typeof result.title === 'string' ? result.title : '',
+    url: typeof result.url === 'string' ? result.url : '',
+    icon: typeof result.icon === 'string' ? result.icon : undefined,
     description:
-      typeof result.description === "string" && result.description.trim()
+      typeof result.description === 'string' && result.description.trim()
         ? result.description.trim()
         : null,
   };

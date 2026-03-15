@@ -1,17 +1,20 @@
-import { ToggleGroup } from "radix-ui";
-import toggleGroupClasses from "../../../../../toggle-group/toggle-group.module.css"
-import ListViewIcon from "../../../../../icons/list-view-icon.svg?react";
-import TileViewIcon from "../../../../../icons/tile-view-icon.svg?react";
-import type { FC } from "react";
+import { ToggleGroup } from 'radix-ui';
+import toggleGroupClasses from '../../../../../toggle-group/toggle-group.module.css';
+import ListViewIcon from '../../../../../icons/list-view-icon.svg?react';
+import TileViewIcon from '../../../../../icons/tile-view-icon.svg?react';
+import type { FC } from 'react';
 
-export type ListVariantType = "list" | "tiles";
+export type ListVariantType = 'list' | 'tiles';
 
 export interface IViewTypeProps {
-  variant?: ListVariantType
+  variant?: ListVariantType;
   onChange?: (value: ListVariantType) => void;
 }
 
-export const ViewType: FC<IViewTypeProps> = ({ variant = "tiles", onChange }) => {
+export const ViewType: FC<IViewTypeProps> = ({
+  variant = 'tiles',
+  onChange,
+}) => {
   return (
     <ToggleGroup.Root
       type="single"
