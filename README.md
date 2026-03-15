@@ -97,3 +97,6 @@ Scraping page content is done in oposite order. Instead page content and then de
 - User can delete all bookmarks.
 - User can pin bookmarks. If there are any pinned bookmarks, sorting happens in two stages. First pinned bookmarks are sorted, which stay on top and then the rest.
 
+## Known limitations
+
+Fetched favicons are not working well with darkmode / lightmode when icon was fetched for example in darkmode and then displayed in lightmode. I tried to address it at least for pages that include both darkmode and lightmoe icons in their source code at the same time, but it is still an issue.
