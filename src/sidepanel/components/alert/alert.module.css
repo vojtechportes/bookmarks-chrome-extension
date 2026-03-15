@@ -1,0 +1,125 @@
+@keyframes dismissAnimation {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: -110%;
+  }
+}
+
+.alert {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--space-size);
+
+  .content {
+    display: grid;
+    grid-template-columns: auto;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: calc(var(--space-size)) calc(var(--space-size) * 2);
+    border-radius: var(--space-size);
+    border: 1px solid transparent;
+
+    &.success {
+      background-color: color-mix(
+        in srgb,
+        var(--color-success-light) 70%,
+        var(--color-white) 30%
+      );
+      border-color: color-mix(
+        in srgb,
+        var(--color-success) 70%,
+        var(--color-white) 30%
+      );
+
+      @media (prefers-color-scheme: dark) {
+        background-color: var(--color-success-light);
+        border-color: var(--color-success);
+      }
+    }
+
+    &.error {
+      background-color: color-mix(
+        in srgb,
+        var(--color-error-light) 70%,
+        var(--color-white) 30%
+      );
+      border-color: color-mix(
+        in srgb,
+        var(--color-error) 70%,
+        var(--color-white) 30%
+      );
+
+      @media (prefers-color-scheme: dark) {
+        background-color: var(--color-error-light);
+        border-color: var(--color-error);
+      }
+    }
+
+    &.close-button {
+      margin: calc(var(--space-size) * -1) 0;
+    }
+
+    &.can-close {
+      grid-template-columns: auto 32px;
+    }
+  }
+
+  &.dismissible {
+    animation: dismissAnimation 0.5s ease-in;
+  }
+
+  .progress-bar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    transform-origin: left center;
+    transform: scaleX(1);
+    transition-property: transform;
+    transition-timing-function: linear;
+
+    &.active {
+      transform: scaleX(0);
+    }
+  }
+
+  &.error {
+    .progress-bar {
+      background-color: color-mix(
+        in srgb,
+        var(--color-error) 75%,
+        var(--color-black) 25%
+      );
+
+      @media (prefers-color-scheme: dark) {
+        background-color: color-mix(
+          in srgb,
+          var(--color-error) 65%,
+          var(--color-black) 35%
+        );
+      }
+    }
+  }
+
+  &.success {
+    .progress-bar {
+      background-color: color-mix(
+        in srgb,
+        var(--color-success) 75%,
+        var(--color-black) 25%
+      );
+
+      @media (prefers-color-scheme: dark) {
+        background-color: color-mix(
+          in srgb,
+          var(--color-success) 65%,
+          var(--color-black) 35%
+        );
+      }
+    }
+  }
+}

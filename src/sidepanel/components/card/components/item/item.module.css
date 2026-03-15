@@ -1,0 +1,8 @@
+.item {
+  padding: var(--space-size) calc(var(--space-size) * 3);
+  word-wrap: break-word;
+
+  &:last-child {
+    padding-bottom: calc(var(--space-size) * 3);
+  }
+}

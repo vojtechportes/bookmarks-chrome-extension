@@ -1,0 +1,5 @@
+.bookmark-button {
+  position: fixed;
+  bottom: var(--space-size);
+  right: var(--space-size);
+}

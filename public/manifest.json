@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Bookmarks",
+  "version": "1.0",
+  "description": "A simple bookmark manager designed for speed and simplicity",
+  "icons": {
+    "16": "favicon-16.png",
+    "48": "favicon-48.png",
+    "128": "favicon-128.png"
+  },
+  "permissions": [
+    "sidePanel",
+    "activeTab",
+    "tabs",
+    "storage",
+    "scripting",
+    "favicon",
+    "notifications",
+    "pageCapture"
+  ],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+  "side_panel": {
+    "default_path": "index.html"
+  }
+}

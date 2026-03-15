@@ -1,0 +1,63 @@
+.toggle-group {
+  display: inline-flex;
+  background-color: var(--color-primary);
+  border-radius: calc(var(--space-size) / 2);
+  box-shadow: 0 2px 10px var(--color-black);
+
+  button {
+    all: unset;
+  }
+
+  .item {
+    background-color: var(--color-white);
+    height: 35px;
+    width: 35px;
+    display: flex;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1px;
+    user-select: none;
+    cursor: pointer;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: color-mix(
+      in srgb,
+      var(--color-primary) 60%,
+      var(--color-white) 40%
+    );
+    }
+
+    &:first-child {
+      margin-left: 0;
+      border-top-left-radius: calc(var(--space-size) / 2);
+      border-bottom-left-radius: calc(var(--space-size) / 2);
+    }
+
+    &:last-child {
+      margin-left: 0;
+      border-top-right-radius: calc(var(--space-size) / 2);
+      border-bottom-right-radius: calc(var(--space-size) / 2);
+    }
+
+    &:hover {
+      background-color: var(--color-primary-light);
+    }
+
+    &[data-state="on"] {
+      background-color: var(--color-primary);
+
+      svg {
+        fill: var(--color-white);
+      }
+    }
+
+    svg {
+      fill: var(--color-text-primary);
+
+      @media (prefers-color-scheme: dark) {
+        fill: var(--color-white);
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+@keyframes pulsingAnimation {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.skeleton {
+  display: "block";
+  animation: pulsingAnimation 2s ease-in-out 0.5s infinite;
+  background-color: color-mix(in srgb, var(--color-white) 40%, transparent);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: color-mix(in srgb, var(--color-white) 10%, transparent);
+  }
+
+  &.circle {
+    border-radius: 50%;
+  }
+
+  &.rectangle {
+    border-radius: calc(var(--space-size) / 2);
+  }
+}

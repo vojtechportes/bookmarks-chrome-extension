@@ -1,0 +1,40 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--space-size) * 4);
+  border-radius: var(--space-size);
+  background-color: color-mix(
+    in srgb,
+    var(--color-primary) 20%,
+    var(--color-white) 70%
+  );
+  width: auto;
+
+  &.transparent {
+    background-color: transparent;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: color-mix(
+      in srgb,
+      var(--color-primary) 20%,
+      var(--color-black) 70%
+    );
+  }
+
+  &.left {
+    align-items: start;
+  }
+
+  &.center {
+    align-items: center;
+  }
+
+  &.right {
+    align-items: end;
+  }
+
+  &.full-height {
+    height: 100%;
+  }
+}

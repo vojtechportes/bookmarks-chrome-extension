@@ -1,0 +1,229 @@
+.btn-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(var(--space-size) * 6);
+  height: calc(var(--space-size) * 6);
+  border: 0;
+  border-radius: 50%;
+  box-shadow: var(--shadow-1);
+  transition: background-color 100ms linear;
+
+  svg {
+    width: calc(var(--space-size) * 3.75);
+    fill: var(--color-primary-contrast-text);
+  }
+
+  &:not(.disabled) {
+    cursor: pointer;
+  }
+
+  &.disabled {
+    opacity: 0.5;
+  }
+
+  &.primary {
+    &:not(.outlined, .transparent) {
+      background-color: var(--color-primary);
+    }
+
+    &.transparent {
+      background-color: transparent;
+    }
+
+    &:not(.disabled, .outlined, .transparent) {
+      &:hover {
+        background-color: var(--color-primary-light);
+      }
+
+      &:active {
+        background-color: var(--color-primary-dark);
+      }
+    }
+
+    &.outlined {
+      border: 1px solid;
+      border-color: var(--color-primary);
+
+      @media (prefers-color-scheme: dark) {
+        border-color: color-mix(
+          in srgb,
+          var(--color-primary-contrast-text) 80%,
+          var(--color-black) 20%
+        );
+      }
+
+      &:not(.transparent) {
+        background-color: var(--color-white);
+      }
+
+      &:hover {
+        &:not(.transparent) {
+          background-color: color-mix(
+            in srgb,
+            var(--color-primary-light) 20%,
+            var(--color-white) 80%
+          );
+        }
+
+        &.transparent {
+          background-color: color-mix(
+            in srgb,
+            var(--color-primary-light) 20%,
+            transparent 80%
+          );
+        }
+      }
+
+      &:active {
+        background-color: color-mix(
+          in srgb,
+          var(--color-primary-light) 30%,
+          var(--color-white) 70%
+        );
+
+        &.transparent {
+          background-color: color-mix(
+            in srgb,
+            var(--color-primary-light) 30%,
+            transparent 70%
+          );
+        }
+      }
+
+      svg {
+        fill: var(--color-text-primary);
+
+        @media (prefers-color-scheme: dark) {
+          fill: var(--color-primary-contrast-text);
+        }
+      }
+    }
+  }
+
+
+
+  &.secondary {
+    &:not(.outlined, .transparent) {
+      background-color: var(--color-secondary);
+    }
+
+    &.transparent {
+      background-color: transparent;
+    }
+
+    &:not(.disabled, .outlined, .transparent) {
+      &:hover {
+        background-color: var(--color-secondary-light);
+      }
+
+      &:active {
+        background-color: var(--color-secondary-dark);
+      }
+    }
+
+    &.outlined {
+      border: 1px solid;
+      border-color: var(--secondary-primary);
+
+      @media (prefers-color-scheme: dark) {
+        border-color: color-mix(
+          in srgb,
+          var(--color-secondary-contrast-text) 80%,
+          var(--color-black) 20%
+        );
+      }
+
+      &:not(.transparent) {
+        background-color: var(--color-white);
+      }
+
+      &:hover {
+        &:not(.transparent) {
+          background-color: color-mix(
+            in srgb,
+            var(--color-secondary-light) 20%,
+            var(--color-white) 80%
+          );
+        }
+
+        &.transparent {
+          background-color: color-mix(
+            in srgb,
+            var(--color-secondary-light) 20%,
+            transparent 80%
+          );
+        }
+      }
+
+      &:active {
+        background-color: color-mix(
+          in srgb,
+          var(--color-secondary-light) 30%,
+          var(--color-white) 70%
+        );
+
+        &.transparent {
+          background-color: color-mix(
+            in srgb,
+            var(--color-secondary-light) 30%,
+            transparent 70%
+          );
+        }
+      }
+
+      svg {
+        fill: var(--color-text-primary);
+
+        @media (prefers-color-scheme: dark) {
+          fill: var(--color-secondary-contrast-text);
+        }
+      }
+    }
+  }
+
+  &.faux {
+    background: transparent;
+    box-shadow: none;
+
+    svg {
+      fill: var(--color-text-primary);
+    }
+
+    &:not(.disabled) {
+      &:hover {
+        background-color: color-mix(
+          in srgb,
+          var(--color-black) 15%,
+          transparent
+        );
+      }
+
+      &:active {
+        background-color: color-mix(
+          in srgb,
+          var(--color-black) 30%,
+          transparent
+        );
+      }
+    }
+  }
+
+  &.medium {
+    width: calc(var(--space-size) * 4);
+    height: calc(var(--space-size) * 4);
+
+    svg {
+      width: calc(var(--space-size) * 2.5);
+    }
+  }
+
+  &.small {
+    width: calc(var(--space-size) * 3);
+    height: calc(var(--space-size) * 3);
+
+    svg {
+      width: calc(var(--space-size) * 2);
+    }
+  }
+}

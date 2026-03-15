@@ -1,0 +1,46 @@
+.card {
+  overflow: hidden;
+  min-width: 0;
+  border-radius: var(--space-size);
+  background-color: color-mix(
+    in srgb,
+    var(--color-white) 95%,
+    var(--color-black) 5%
+  );
+  border: 1px solid;
+  border-color: color-mix(
+    in srgb,
+    var(--color-white) 85%,
+    var(--color-black) 15%
+  );
+  box-shadow: var(--shadow-2);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: color-mix(
+      in srgb,
+      var(--color-black) 95%,
+      var(--color-white) 5%
+    );
+    border-color: color-mix(
+      in srgb,
+      var(--color-black) 85%,
+      var(--color-white) 15%
+    );
+  }
+
+  &.highlighted {
+    border-color: color-mix(
+      in srgb,
+      var(--color-success) 85%,
+      var(--color-white) 15%
+    );
+
+    @media (prefers-color-scheme: light) {
+      background: color-mix(in srgb, var(--color-success) 20%, var(--color-white) 80%);
+    }
+  }
+
+  &.clickable {
+    cursor: pointer;
+  }
+}

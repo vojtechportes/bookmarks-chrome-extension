@@ -1,0 +1,9 @@
+.container {
+  position: sticky;
+  top: var(--space-size);
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-size) / 2);
+  margin-bottom: var(--space-size);
+  z-index: 9999;
+}

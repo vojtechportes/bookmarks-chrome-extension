@@ -1,0 +1,13 @@
+.filters {
+  display: flex;
+  justify-content: space-between;
+  gap: calc(var(--space-size) * 2);
+  margin: var(--space-size) 0;
+  padding: var(--space-size) 0;
+
+  .container {
+    display: flex;
+    gap: var(--space-size);
+    align-items: center;
+  }
+}

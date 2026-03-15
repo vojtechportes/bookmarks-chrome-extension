@@ -1,0 +1,3 @@
+.image {
+  margin: calc(var(--space-size) * 3) 0;
+}

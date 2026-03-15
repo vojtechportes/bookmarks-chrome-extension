@@ -1,0 +1,39 @@
+{
+  "no-data": {
+    "title": "Nothing saved for later yet!",
+    "button": "Save to read later"
+  },
+  "error-messages": {
+    "BOOKMARK_NOT_FOUND": "Bookmark not found",
+    "FAILED_TO_EXTRACT_DATA": "Failed to save tab for later",
+    "FAILED_TO_GET_CANVAS_TEXT": "Failed to save tab for later",
+    "NO_ACTIVE_BOOKMARK_FOUND": "Failed to save tab for later",
+    "FAILED_TO_FETCH_ICON": "Failed to save tab for later",
+    "ACTIVE_TAB_ID_MISSING": "Failed to save tab for later",
+    "TAB_CANNOT_BE_BOOKMARKED": "This tab can't be saved",
+    "UNSUPPORTED_MESSAGE_TYPE": "Something went wrong :(",
+    "INVALID_BOOKMARK_URL": "Opening bookmarked tab failed"
+  },
+  "success-messages": {
+    "bookmark-added": "Tab added to your collection",
+    "bookmarks-deleted": "All bookmarked tabs were deleted",
+    "bookmark-deleted": "Tab deleted"
+  },
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "no-match": {
+    "title": "No saved tabs matched your search criteria",
+    "button-title": "Reset search"
+  },
+  "matched-records": "{{count}} saved tabs matched your search criteria",
+  "matched-records_one": "{{count}} saved tab matched your search criteria",
+  "matched-records_many": "{{count}} saved tabs matched your search criteria",
+  "type-to-search": "Type to search",
+  "bookmark": "Save to read later",
+  "newest-to-oldest": "Newest to oldest",
+  "oldest-to-newest": "Oldest to newest",
+  "pin": "Pin",
+  "unpin": "Unpin",
+  "delete": "Delete",
+  "delete-all": "Delete all"
+}

@@ -1,0 +1,93 @@
+:root {
+  --color-primary: #495475;
+  --color-primary-light: #6d7690;
+  --color-primary-dark: #333a51;
+  --color-primary-contrast-text: var(--color-white);
+  --color-secondary: #ffffff;
+  --color-secondary-light: #ececec;
+  --color-secondary-dark: #b9b9b9;
+  --color-secondary-contrast-text: var(--color-white);
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-success: #2e7d32;
+  --color-success-light: #4caf50;
+  --color-error: #d32f2f;
+  --color-error-light: #ef5350;
+  --color-warning: #ed6c02;
+  --color-warning-light: #ff9800;
+  --color-text-primary: color-mix(in srgb, var(--color-black) 87%, transparent);
+  --color-text-secondary: color-mix(
+    in srgb,
+    var(--color-black) 60%,
+    transparent
+  );
+
+  --shadow-1:
+    0px 6px 6px -3px rgba(0, 0, 0, 0.2), 0px 10px 14px 1px rgba(0, 0, 0, 0.14),
+    0px 4px 18px 3px rgba(0, 0, 0, 0.12);
+
+  --shadow-2:
+    0px 10px 13px -6px rgba(0, 0, 0, 0.2),
+    0px 20px 31px 3px rgba(0, 0, 0, 0.14), 0px 8px 38px 7px rgba(0, 0, 0, 0.12);
+
+  --font-size: 1rem;
+  --line-height: 1.1;
+
+  --space-size: 8px;
+
+  --font-family: "Roboto", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary: #2a2d36;
+    --color-primary-light: #4c4f5a;
+    --color-primary-dark: #1d2027;
+    --color-primary-contrast-text: var(--color-white);
+
+    --color-secondary: #121212;
+    --color-secondary-light: #2b2b2b;
+    --color-secondary-dark: #0c0c0c;
+    --color-secondary-contrast-text: var(--color-white);
+
+    --color-white: #ffffff;
+    --color-black: #000000;
+
+    --color-success: #4b864f;
+    --color-success-light: #81c784;
+
+    --color-error: #ce4543;
+    --color-error-light: #e57373;
+
+    --color-warning: #bb5400;
+    --color-warning-light: #db8402;
+
+    --color-text-primary: color-mix(
+      in srgb,
+      var(--color-white) 85%,
+      transparent
+    );
+    --color-text-secondary: color-mix(
+      in srgb,
+      var(--color-white) 50%,
+      transparent
+    );
+  }
+}
+
+body {
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+  font-family: var(--font-family);
+  height: 100%;
+  background: var(--color-primary-dark);
+}
+
+:root {
+  body[data-scroll-locked][data-scroll-locked] {
+    overflow: auto !important;
+  }
+  body[data-scroll-locked] {
+    margin-right: 0 !important;
+  }
+}

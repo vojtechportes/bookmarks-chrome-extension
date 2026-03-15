@@ -1,0 +1,28 @@
+.title {
+  padding: calc(var(--space-size) * 3);
+  border-bottom: 1px solid;
+  border-color: color-mix(
+    in srgb,
+    var(--color-white) 80%,
+    var(--color-black) 20%
+  );
+  word-wrap: break-word;
+
+
+  @media (prefers-color-scheme: dark) {
+    border-color: color-mix(
+      in srgb,
+      var(--color-white) 20%,
+      var(--color-black) 80%
+    );
+  }
+
+  .typography {
+    padding-top: 2px;
+    font-weight: 700;
+  }
+
+  &.list {
+    padding: calc(var(--space-size) * 1.5) calc(var(--space-size) * 3);
+  }
+}
