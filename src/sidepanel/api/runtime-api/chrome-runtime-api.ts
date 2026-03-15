@@ -1,5 +1,6 @@
 import type { DelteteAllBookmarksResponse } from './types/delete-all-bookmarks-response';
 import type { DeleteBookmarkResponse } from './types/delete-bookmark-response';
+import type { OpenBookmarkResponse } from './types/open-bookmark-response';
 import type { PinBookmarkResponse } from './types/pin-bookmark-response';
 import type { IRuntimeApi } from './types/runtime-api';
 import type { SetActiveTabResponse } from './types/set-active-tab-response';
@@ -38,7 +39,7 @@ export class ChromeRuntimeApi implements IRuntimeApi {
       payload: { id },
     });
 
-    return response as UnpinBookmarkResponse;
+    return response as DeleteBookmarkResponse;
   }
 
   async deleteAllBookmarks(): Promise<DelteteAllBookmarksResponse> {
@@ -47,5 +48,14 @@ export class ChromeRuntimeApi implements IRuntimeApi {
     });
 
     return response;
+  }
+
+  async openBookmark(url: string): Promise<OpenBookmarkResponse> {
+    const response = await chrome.runtime.sendMessage({
+      type: 'OPEN_BOOKMARK',
+      payload: { url },
+    });
+
+    return response as OpenBookmarkResponse;
   }
 }

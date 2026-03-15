@@ -4,6 +4,8 @@ export interface BookmarkItem {
   url: string;
   icon?: string;
   iconAssetId?: string;
+  lightIconAssetId?: string;
+  darkIconAssetId?: string;
   screenshotAssetId?: string;
   description: string | null;
   addedAt: string;

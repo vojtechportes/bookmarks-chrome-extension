@@ -4,6 +4,8 @@ import type { BookmarkItem } from '../../../shared/types/bookmark-item';
 import { List } from '../../components/list/list';
 import NewestToOldestIcon from '../../components/icons/newest-to-oldest-icon.svg?react';
 import OldestToNewestIcon from '../../components/icons/oldest-to-newest-icon.svg?react';
+import TitleAscIcon from '../../components/icons/title-asc-icon.svg?react';
+import TitleDescIcon from '../../components/icons/title-desc-icon.svg?react';
 import DeleteIcon from '../../components/icons/delete-icon.svg?react';
 import { ListItem } from './components/list-item/list-item';
 import {
@@ -11,7 +13,6 @@ import {
   BOOKMARKS_VIEW_TYPE_STORAGE_KEY,
 } from '../../../shared/constants/storage';
 import { useStorage } from '../../hooks/use-storage';
-import type { SortOrder, ViewType } from './types';
 import { sortData } from './utils/sort-data.util';
 import { useTranslation } from 'react-i18next';
 import { runtimeApi } from '../../api/runtime-api/runtime-api';
@@ -21,20 +22,20 @@ import { clsx } from 'clsx';
 import classes from './list-scene.module.css';
 import { Dialog } from '../../components/dialog/dialog';
 import { useAlert } from '../../components/alert-provider/hooks/use-alert';
+import type { SortOrder } from './types/sort-order';
+import type { ViewType } from './types/view-type';
+import type { SearchableBookmark } from './types/searchable-bookmark';
+import { BOOKMARK_ALREADY_EXISTS } from '../../../shared/constants/error-messages';
 
 export interface IListSceneProps {
   data: BookmarkItem[];
 }
 
-type SearchableBookmark = BookmarkItem & {
-  id: string;
-};
-
 export const ListScene: FC<IListSceneProps> = ({ data }) => {
   const { t } = useTranslation();
   const [deleteAllModalOpen, setDeleteAllModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const { success, error } = useAlert();
+  const { success, error, info } = useAlert();
 
   const viewTypeStorage = useStorage<ViewType>(
     BOOKMARKS_VIEW_TYPE_STORAGE_KEY,
@@ -54,19 +55,24 @@ export const ListScene: FC<IListSceneProps> = ({ data }) => {
       return;
     }
 
-    success(t('succeess-messages.bookmarks-deleted'));
+    success(t('success-messages.bookmarks-deleted'));
   }, [error, success, t]);
 
   const handleBookmarkTab = useCallback(async () => {
     const response = await runtimeApi.saveActiveTab();
 
     if (!response.ok) {
+      if (response.error === BOOKMARK_ALREADY_EXISTS) {
+        info(t(`info-messages.${response.error}`));
+        return;
+      }
+
       error(t(`error-messages.${response.error}`));
       return;
     }
 
     success(t('success-messages.bookmark-added'));
-  }, [error, success, t]);
+  }, [error, info, success, t]);
 
   const handleViewTypeChange = useCallback(
     (value?: ViewType) => {
@@ -88,7 +94,7 @@ export const ListScene: FC<IListSceneProps> = ({ data }) => {
   const miniSearch = useMemo(() => {
     const instance = new MiniSearch<SearchableBookmark>({
       idField: 'id',
-      fields: ['title', 'description', 'url'],
+      fields: ['title', 'url'],
       storeFields: ['id'],
       searchOptions: {
         prefix: true,
@@ -166,6 +172,16 @@ export const ListScene: FC<IListSceneProps> = ({ data }) => {
               value: 'oldest-to-newest',
               label: t('oldest-to-newest'),
               icon: <OldestToNewestIcon />,
+            },
+            {
+              value: 'title-asc',
+              label: t('title-asc'),
+              icon: <TitleAscIcon />,
+            },
+            {
+              value: 'title-desc',
+              label: t('title-desc'),
+              icon: <TitleDescIcon />,
             },
           ],
           value: sortOrderStorage.value,

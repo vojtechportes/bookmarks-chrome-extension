@@ -51,6 +51,7 @@ export const List: FC<PropsWithChildren<IListProps>> = ({
           <Panel fullHeight align="center">
             <NotFound
               title={t('no-match.title')}
+              alt={t('no-match.title')}
               buttonTitle={t('no-match.button-title')}
               slots={{
                 button: {

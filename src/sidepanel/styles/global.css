@@ -15,6 +15,8 @@
   --color-error-light: #ef5350;
   --color-warning: #ed6c02;
   --color-warning-light: #ff9800;
+  --color-info: #0288d1;
+  --color-info-light: #03a9f4;
   --color-text-primary: color-mix(in srgb, var(--color-black) 87%, transparent);
   --color-text-secondary: color-mix(
     in srgb,
@@ -35,7 +37,7 @@
 
   --space-size: 8px;
 
-  --font-family: "Roboto", sans-serif;
+  --font-family: 'Roboto', sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -53,14 +55,17 @@
     --color-white: #ffffff;
     --color-black: #000000;
 
-    --color-success: #4b864f;
-    --color-success-light: #81c784;
+    --color-success: #3b683e;
+    --color-success-light: #6da770;
 
-    --color-error: #ce4543;
-    --color-error-light: #e57373;
+    --color-error: #ad3c3a;
+    --color-error-light: #ca6565;
 
     --color-warning: #bb5400;
     --color-warning-light: #db8402;
+
+    --color-info: #015e91;
+    --color-info-light: #038ccc;
 
     --color-text-primary: color-mix(
       in srgb,

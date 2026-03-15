@@ -14,7 +14,7 @@ import CloseIcon from '../icons/close-icon.svg?react';
 import { ANIMATION_DURATION_MS } from './constants';
 
 export interface IAlertProps extends IDataTest {
-  variant?: 'success' | 'error';
+  variant?: 'success' | 'error' | 'warning' | 'info';
   onClose?: () => void;
   onDismissed?: () => void;
   autoDismiss?: boolean;

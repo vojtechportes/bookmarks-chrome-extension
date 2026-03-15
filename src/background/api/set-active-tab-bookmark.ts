@@ -1,5 +1,6 @@
 import {
   ACTIVE_TAB_ID_MISSING,
+  BOOKMARK_ALREADY_EXISTS,
   TAB_CANNOT_BE_BOOKMARKED,
 } from '../../shared/constants/error-messages';
 import type { BookmarkItem } from '../../shared/types/bookmark-item';
@@ -30,17 +31,37 @@ export const saveActiveTabBookmark = async (): Promise<BookmarkItem> => {
   const existingBookmark = bookmarks.find((item) => item.url === pageData.url);
 
   if (existingBookmark) {
-    return existingBookmark;
+    throw new Error(BOOKMARK_ALREADY_EXISTS);
   }
 
   const bookmarkId = crypto.randomUUID();
   const resolvedIconUrl = getIconUrl(activeTab, pageData.icon);
+  const resolvedDarkIconUrl = getIconUrl(activeTab, pageData.iconDark);
+  const resolvedLightIconUrl = getIconUrl(activeTab, pageData.iconLight);
 
   let iconAssetId: string | undefined;
+  let darkIconAssetId: string | undefined;
+  let lightIconAssetId: string | undefined;
 
   if (resolvedIconUrl) {
     try {
       iconAssetId = await saveIconAsset(bookmarkId, resolvedIconUrl);
+    } catch (error) {
+      console.warn('[bookmark-extension] failed to persist icon asset', error);
+    }
+  }
+
+  if (resolvedDarkIconUrl) {
+    try {
+      darkIconAssetId = await saveIconAsset(bookmarkId, resolvedDarkIconUrl);
+    } catch (error) {
+      console.warn('[bookmark-extension] failed to persist icon asset', error);
+    }
+  }
+
+  if (resolvedLightIconUrl) {
+    try {
+      lightIconAssetId = await saveIconAsset(bookmarkId, resolvedLightIconUrl);
     } catch (error) {
       console.warn('[bookmark-extension] failed to persist icon asset', error);
     }
@@ -63,6 +84,8 @@ export const saveActiveTabBookmark = async (): Promise<BookmarkItem> => {
     url: pageData.url,
     icon: resolvedIconUrl,
     iconAssetId,
+    lightIconAssetId,
+    darkIconAssetId,
     screenshotAssetId,
     description: pageData.description,
     addedAt: new Date().toISOString(),

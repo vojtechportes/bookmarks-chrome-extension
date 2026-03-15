@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import type { IAlertContextValue } from '../types';
-import { AlertContext } from '../alert-provider';
+import { AlertContext } from '../components/alert-context';
 
 export const useAlert = (): IAlertContextValue => {
   const context = useContext(AlertContext);

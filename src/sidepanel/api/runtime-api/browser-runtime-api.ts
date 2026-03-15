@@ -10,6 +10,7 @@ import type { UnpinBookmarkResponse } from './types/unpin-bookmark-response';
 import { BOOKMARK_NOT_FOUND } from '../../../shared/constants/error-messages';
 import type { DelteteAllBookmarksResponse } from './types/delete-all-bookmarks-response';
 import type { DeleteBookmarkResponse } from './types/delete-bookmark-response';
+import type { OpenBookmarkResponse } from './types/open-bookmark-response';
 
 export class BrowserRuntimeApi implements IRuntimeApi {
   async saveActiveTab(): Promise<SetActiveTabResponse> {
@@ -110,6 +111,17 @@ export class BrowserRuntimeApi implements IRuntimeApi {
     console.warn('[dev] DELETE_ALL_BOOKMARKS called outside extension context');
 
     await storageApi.set(BOOKMARKS_STORAGE_KEY, []);
+
+    return {
+      ok: true,
+      data: undefined,
+    };
+  }
+
+  async openBookmark(url: string): Promise<OpenBookmarkResponse> {
+    console.warn('[dev] OPEN_BOOKMARK called outside extension context');
+
+    window.open(url, '_blank')?.focus();
 
     return {
       ok: true,

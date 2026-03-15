@@ -13,7 +13,7 @@ createRoot(document.getElementById('root')!).render(
     <Suspense
       fallback={
         <Panel>
-          <NotFound title="" buttonTitle="" loading />
+          <NotFound title="" buttonTitle="" alt="" loading />
         </Panel>
       }
     >

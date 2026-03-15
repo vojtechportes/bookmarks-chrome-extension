@@ -14,6 +14,9 @@
     var(--color-black) 15%
   );
   box-shadow: var(--shadow-2);
+  transition:
+    background-color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out;
 
   @media (prefers-color-scheme: dark) {
     background-color: color-mix(
@@ -36,11 +39,59 @@
     );
 
     @media (prefers-color-scheme: light) {
-      background: color-mix(in srgb, var(--color-success) 20%, var(--color-white) 80%);
+      background-color: color-mix(
+        in srgb,
+        var(--color-success) 20%,
+        var(--color-white) 80%
+      );
     }
   }
 
   &.clickable {
     cursor: pointer;
+
+    &:hover {
+      border-color: color-mix(
+        in srgb,
+        var(--color-white) 55%,
+        var(--color-black) 45%
+      );
+
+      background-color: color-mix(
+        in srgb,
+        var(--color-white) 85%,
+        var(--color-black) 15%
+      );
+
+      @media (prefers-color-scheme: dark) {
+        background: color-mix(
+          in srgb,
+          var(--color-black) 90%,
+          var(--color-white) 10%
+        );
+      }
+
+      &.highlighted {
+        border-color: color-mix(
+          in srgb,
+          var(--color-success) 80%,
+          var(--color-black) 20%
+        );
+
+        background-color: color-mix(
+          in srgb,
+          var(--color-success) 10%,
+          var(--color-white) 90%
+        );
+
+        @media (prefers-color-scheme: dark) {
+          background: color-mix(
+            in srgb,
+            var(--color-black) 90%,
+            var(--color-success) 10%
+          );
+        }
+      }
+    }
   }
 }
