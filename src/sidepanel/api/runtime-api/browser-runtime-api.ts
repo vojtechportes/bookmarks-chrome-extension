@@ -1,19 +1,19 @@
-import { activeTabResponseMock } from "../../../__mocks__/active-tab-response.mock";
-import type { BookmarkItem } from "../../../shared/types/bookmark-item";
-import { BOOKMARKS_STORAGE_KEY } from "../../../shared/constants/storage";
-import { storageApi } from "../storage-api/storage-api";
-import type { PinBookmarkResponse } from "./types/pin-bookmark-response";
-import type { IRuntimeApi } from "./types/runtime-api";
-import type { SetActiveTabResponse } from "./types/set-active-tab-response";
-import { v4 as uuid } from "uuid";
-import type { UnpinBookmarkResponse } from "./types/unpin-bookmark-response";
-import { BOOKMARK_NOT_FOUND } from "../../../shared/constants/error-messages";
-import type { DelteteAllBookmarksResponse } from "./types/delete-all-bookmarks-response";
-import type { DeleteBookmarkResponse } from "./types/delete-bookmark-response";
+import { activeTabResponseMock } from '../../../__mocks__/active-tab-response.mock';
+import type { BookmarkItem } from '../../../shared/types/bookmark-item';
+import { BOOKMARKS_STORAGE_KEY } from '../../../shared/constants/storage';
+import { storageApi } from '../storage-api/storage-api';
+import type { PinBookmarkResponse } from './types/pin-bookmark-response';
+import type { IRuntimeApi } from './types/runtime-api';
+import type { SetActiveTabResponse } from './types/set-active-tab-response';
+import { v4 as uuid } from 'uuid';
+import type { UnpinBookmarkResponse } from './types/unpin-bookmark-response';
+import { BOOKMARK_NOT_FOUND } from '../../../shared/constants/error-messages';
+import type { DelteteAllBookmarksResponse } from './types/delete-all-bookmarks-response';
+import type { DeleteBookmarkResponse } from './types/delete-bookmark-response';
 
 export class BrowserRuntimeApi implements IRuntimeApi {
   async saveActiveTab(): Promise<SetActiveTabResponse> {
-    console.warn("[dev] SAVE_ACTIVE_TAB called outside extension context");
+    console.warn('[dev] SAVE_ACTIVE_TAB called outside extension context');
 
     const id = uuid();
     const response = activeTabResponseMock(id);
@@ -28,7 +28,7 @@ export class BrowserRuntimeApi implements IRuntimeApi {
   }
 
   async pinBookmark(id: string): Promise<PinBookmarkResponse> {
-    console.warn("[dev] PIN_BOOKMARK called outside extension context");
+    console.warn('[dev] PIN_BOOKMARK called outside extension context');
 
     const data =
       (await storageApi.get<BookmarkItem[]>(BOOKMARKS_STORAGE_KEY)) ?? [];
@@ -55,7 +55,7 @@ export class BrowserRuntimeApi implements IRuntimeApi {
   }
 
   async unpinBookmark(id: string): Promise<UnpinBookmarkResponse> {
-    console.warn("[dev] UNPIN_BOOKMARK called outside extension context");
+    console.warn('[dev] UNPIN_BOOKMARK called outside extension context');
 
     const data =
       (await storageApi.get<BookmarkItem[]>(BOOKMARKS_STORAGE_KEY)) ?? [];
@@ -82,7 +82,7 @@ export class BrowserRuntimeApi implements IRuntimeApi {
   }
 
   async deleteBookmark(id: string): Promise<DeleteBookmarkResponse> {
-    console.warn("[dev] DELETE_BOOKMARK called outside extension context");
+    console.warn('[dev] DELETE_BOOKMARK called outside extension context');
 
     const data =
       (await storageApi.get<BookmarkItem[]>(BOOKMARKS_STORAGE_KEY)) ?? [];
@@ -107,7 +107,7 @@ export class BrowserRuntimeApi implements IRuntimeApi {
   }
 
   async deleteAllBookmarks(): Promise<DelteteAllBookmarksResponse> {
-    console.warn("[dev] DELETE_ALL_BOOKMARKS called outside extension context");
+    console.warn('[dev] DELETE_ALL_BOOKMARKS called outside extension context');
 
     await storageApi.set(BOOKMARKS_STORAGE_KEY, []);
 

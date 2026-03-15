@@ -1,8 +1,8 @@
-import { DropdownMenu as DropdownMenuBase } from "radix-ui";
-import type { FC, PropsWithChildren } from "react";
-import dropdownMenuClasses from "./dropdown-menu.module.css";
-import clsx from "clsx";
-import type React from "react";
+import { DropdownMenu as DropdownMenuBase } from 'radix-ui';
+import type { FC, PropsWithChildren } from 'react';
+import dropdownMenuClasses from './dropdown-menu.module.css';
+import { clsx } from 'clsx';
+import type React from 'react';
 
 export interface IDropdownMenuItem {
   value: string;

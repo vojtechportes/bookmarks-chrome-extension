@@ -1,26 +1,26 @@
-import { useCallback, useMemo, useState, type FC } from "react";
-import MiniSearch from "minisearch";
-import type { BookmarkItem } from "../../../shared/types/bookmark-item";
-import { List } from "../../components/list/list";
-import NewestToOldestIcon from "../../components/icons/newest-to-oldest-icon.svg?react";
-import OldestToNewestIcon from "../../components/icons/oldest-to-newest-icon.svg?react";
-import DeleteIcon from "../../components/icons/delete-icon.svg?react";
-import { ListItem } from "./components/list-item/list-item";
+import { useCallback, useMemo, useState, type FC } from 'react';
+import MiniSearch from 'minisearch';
+import type { BookmarkItem } from '../../../shared/types/bookmark-item';
+import { List } from '../../components/list/list';
+import NewestToOldestIcon from '../../components/icons/newest-to-oldest-icon.svg?react';
+import OldestToNewestIcon from '../../components/icons/oldest-to-newest-icon.svg?react';
+import DeleteIcon from '../../components/icons/delete-icon.svg?react';
+import { ListItem } from './components/list-item/list-item';
 import {
   BOOKMARKS_SORT_ORDER_STORAGE_KEY,
   BOOKMARKS_VIEW_TYPE_STORAGE_KEY,
-} from "../../../shared/constants/storage";
-import { useStorage } from "../../hooks/use-storage";
-import type { SortOrder, ViewType } from "./types";
-import { sortData } from "./utils/sort-data.util";
-import { useTranslation } from "react-i18next";
-import { runtimeApi } from "../../api/runtime-api/runtime-api";
-import { IconButton } from "../../components/icon-button/icon-button";
-import BookmarkIcon from "../../components/icons/bookmark-icon.svg?react";
-import clsx from "clsx";
-import classes from "./list-scene.module.css";
-import { Dialog } from "../../components/dialog/dialog";
-import { useAlert } from "../../components/alert-provider/hooks/use-alert";
+} from '../../../shared/constants/storage';
+import { useStorage } from '../../hooks/use-storage';
+import type { SortOrder, ViewType } from './types';
+import { sortData } from './utils/sort-data.util';
+import { useTranslation } from 'react-i18next';
+import { runtimeApi } from '../../api/runtime-api/runtime-api';
+import { IconButton } from '../../components/icon-button/icon-button';
+import BookmarkIcon from '../../components/icons/bookmark-icon.svg?react';
+import { clsx } from 'clsx';
+import classes from './list-scene.module.css';
+import { Dialog } from '../../components/dialog/dialog';
+import { useAlert } from '../../components/alert-provider/hooks/use-alert';
 
 export interface IListSceneProps {
   data: BookmarkItem[];
@@ -33,17 +33,17 @@ type SearchableBookmark = BookmarkItem & {
 export const ListScene: FC<IListSceneProps> = ({ data }) => {
   const { t } = useTranslation();
   const [deleteAllModalOpen, setDeleteAllModalOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const { success, error } = useAlert();
 
   const viewTypeStorage = useStorage<ViewType>(
     BOOKMARKS_VIEW_TYPE_STORAGE_KEY,
-    "tiles",
+    'tiles',
   );
 
   const sortOrderStorage = useStorage<SortOrder>(
     BOOKMARKS_SORT_ORDER_STORAGE_KEY,
-    "newest-to-oldest",
+    'newest-to-oldest',
   );
 
   const handleDeleteAllBookmarks = useCallback(async () => {
@@ -54,7 +54,7 @@ export const ListScene: FC<IListSceneProps> = ({ data }) => {
       return;
     }
 
-    success(t("succeess-messages.bookmarks-deleted"));
+    success(t('succeess-messages.bookmarks-deleted'));
   }, [error, success, t]);
 
   const handleBookmarkTab = useCallback(async () => {
@@ -65,7 +65,7 @@ export const ListScene: FC<IListSceneProps> = ({ data }) => {
       return;
     }
 
-    success(t("success-messages.bookmark-added"));
+    success(t('success-messages.bookmark-added'));
   }, [error, success, t]);
 
   const handleViewTypeChange = useCallback(
@@ -87,9 +87,9 @@ export const ListScene: FC<IListSceneProps> = ({ data }) => {
 
   const miniSearch = useMemo(() => {
     const instance = new MiniSearch<SearchableBookmark>({
-      idField: "id",
-      fields: ["title", "description", "url"],
-      storeFields: ["id"],
+      idField: 'id',
+      fields: ['title', 'description', 'url'],
+      storeFields: ['id'],
       searchOptions: {
         prefix: true,
         fuzzy: 0.2,
@@ -128,8 +128,8 @@ export const ListScene: FC<IListSceneProps> = ({ data }) => {
   return (
     <>
       <Dialog
-        title={t("delete-all-modal.title")}
-        description={t("delete-all-modal.description")}
+        title={t('delete-all-modal.title')}
+        description={t('delete-all-modal.description')}
         open={deleteAllModalOpen}
         onCancel={() => setDeleteAllModalOpen(false)}
         onConfirm={handleDeleteAllBookmarks}
@@ -138,7 +138,7 @@ export const ListScene: FC<IListSceneProps> = ({ data }) => {
       <IconButton
         variant="primary"
         onClick={handleBookmarkTab}
-        title={t("bookmark")}
+        title={t('bookmark')}
         className={clsx(classes.bookmarkButton)}
         size="large"
       >
@@ -158,13 +158,13 @@ export const ListScene: FC<IListSceneProps> = ({ data }) => {
         sortProps={{
           items: [
             {
-              value: "newest-to-oldest",
-              label: t("newest-to-oldest"),
+              value: 'newest-to-oldest',
+              label: t('newest-to-oldest'),
               icon: <NewestToOldestIcon />,
             },
             {
-              value: "oldest-to-newest",
-              label: t("oldest-to-newest"),
+              value: 'oldest-to-newest',
+              label: t('oldest-to-newest'),
               icon: <OldestToNewestIcon />,
             },
           ],
@@ -174,8 +174,8 @@ export const ListScene: FC<IListSceneProps> = ({ data }) => {
         optionsProps={{
           items: [
             {
-              value: "delete-all",
-              label: t("delete-all"),
+              value: 'delete-all',
+              label: t('delete-all'),
               icon: <DeleteIcon />,
             },
           ],

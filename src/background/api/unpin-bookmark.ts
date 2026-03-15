@@ -1,5 +1,5 @@
-import { BOOKMARK_NOT_FOUND } from "../../shared/constants/error-messages";
-import { updateBookmarks } from "../utils/update-bookmarks.util";
+import { BOOKMARK_NOT_FOUND } from '../../shared/constants/error-messages';
+import { updateBookmarks } from '../utils/update-bookmarks.util';
 
 export const unpinBookmark = async (id: string) =>
   updateBookmarks((bookmarks) => {
@@ -10,6 +10,6 @@ export const unpinBookmark = async (id: string) =>
     }
 
     return bookmarks.map((item) =>
-      item.id === id ? { ...item, pinned: false } : item
+      item.id === id ? { ...item, pinned: false } : item,
     );
   });

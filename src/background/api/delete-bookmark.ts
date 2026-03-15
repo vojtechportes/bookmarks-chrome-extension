@@ -1,5 +1,5 @@
-import { BOOKMARK_NOT_FOUND } from "../../shared/constants/error-messages";
-import { updateBookmarks } from "../utils/update-bookmarks.util";
+import { BOOKMARK_NOT_FOUND } from '../../shared/constants/error-messages';
+import { updateBookmarks } from '../utils/update-bookmarks.util';
 
 export const deleteBookmark = async (id: string): Promise<void> =>
   updateBookmarks((bookmarks) => {

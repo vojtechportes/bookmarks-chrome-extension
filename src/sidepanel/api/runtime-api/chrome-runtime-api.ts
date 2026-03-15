@@ -1,14 +1,14 @@
-import type { DelteteAllBookmarksResponse } from "./types/delete-all-bookmarks-response";
-import type { DeleteBookmarkResponse } from "./types/delete-bookmark-response";
-import type { PinBookmarkResponse } from "./types/pin-bookmark-response";
-import type { IRuntimeApi } from "./types/runtime-api";
-import type { SetActiveTabResponse } from "./types/set-active-tab-response";
-import type { UnpinBookmarkResponse } from "./types/unpin-bookmark-response";
+import type { DelteteAllBookmarksResponse } from './types/delete-all-bookmarks-response';
+import type { DeleteBookmarkResponse } from './types/delete-bookmark-response';
+import type { PinBookmarkResponse } from './types/pin-bookmark-response';
+import type { IRuntimeApi } from './types/runtime-api';
+import type { SetActiveTabResponse } from './types/set-active-tab-response';
+import type { UnpinBookmarkResponse } from './types/unpin-bookmark-response';
 
 export class ChromeRuntimeApi implements IRuntimeApi {
   async saveActiveTab(): Promise<SetActiveTabResponse> {
     const response = await chrome.runtime.sendMessage({
-      type: "SAVE_ACTIVE_TAB",
+      type: 'SAVE_ACTIVE_TAB',
     });
 
     return response as SetActiveTabResponse;
@@ -16,7 +16,7 @@ export class ChromeRuntimeApi implements IRuntimeApi {
 
   async pinBookmark(id: string): Promise<PinBookmarkResponse> {
     const response = await chrome.runtime.sendMessage({
-      type: "PIN_BOOKMARK",
+      type: 'PIN_BOOKMARK',
       payload: { id },
     });
 
@@ -25,7 +25,7 @@ export class ChromeRuntimeApi implements IRuntimeApi {
 
   async unpinBookmark(id: string): Promise<UnpinBookmarkResponse> {
     const response = await chrome.runtime.sendMessage({
-      type: "UNPIN_BOOKMARK",
+      type: 'UNPIN_BOOKMARK',
       payload: { id },
     });
 
@@ -34,7 +34,7 @@ export class ChromeRuntimeApi implements IRuntimeApi {
 
   async deleteBookmark(id: string): Promise<DeleteBookmarkResponse> {
     const response = await chrome.runtime.sendMessage({
-      type: "DELETE_BOOKMARK",
+      type: 'DELETE_BOOKMARK',
       payload: { id },
     });
 
@@ -43,7 +43,7 @@ export class ChromeRuntimeApi implements IRuntimeApi {
 
   async deleteAllBookmarks(): Promise<DelteteAllBookmarksResponse> {
     const response = await chrome.runtime.sendMessage({
-      type: "DELETE_ALL_BOOKMARKS",
+      type: 'DELETE_ALL_BOOKMARKS',
     });
 
     return response;

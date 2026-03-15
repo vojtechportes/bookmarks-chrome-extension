@@ -1,23 +1,23 @@
-import { type FC, type PropsWithChildren } from "react";
-import type { IDataTest } from "../../types/data-test";
-import classes from "./icon-button.module.css";
-import clsx from "clsx";
-import type React from "react";
-import { Skeleton } from "../skeleton/skeleton";
+import { type FC, type PropsWithChildren } from 'react';
+import type { IDataTest } from '../../types/data-test';
+import classes from './icon-button.module.css';
+import { clsx } from 'clsx';
+import type React from 'react';
+import { Skeleton } from '../skeleton/skeleton';
 
 export interface IIconButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>, IDataTest {
-  size?: "small" | "medium" | "large";
-  variant?: "primary" | "secondary" | "faux";
-  apperance?: "normal" | "outlined";
+  size?: 'small' | 'medium' | 'large';
+  variant?: 'primary' | 'secondary' | 'faux';
+  apperance?: 'normal' | 'outlined';
   transparent?: boolean;
   loading?: boolean;
 }
 
 export const IconButton: FC<PropsWithChildren<IIconButtonProps>> = ({
-  size = "large",
-  variant = "primary",
-  apperance = "normal",
+  size = 'large',
+  variant = 'primary',
+  apperance = 'normal',
   transparent,
   disabled,
   loading,

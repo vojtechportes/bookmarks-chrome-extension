@@ -4,15 +4,15 @@ import {
   type ChangeEvent,
   type FC,
   type PropsWithChildren,
-} from "react";
-import { DropdownMenu as DropdownMenuBase } from "radix-ui";
-import dropdownMenuClasses from "../../../../../../../dropdown-menu/dropdown-menu.module.css";
-import classes from "./search-dropdown.module.css";
-import clsx from "clsx";
-import { useDebouncedCallback } from "use-debounce";
-import { IconButton } from "../../../../../../../icon-button/icon-button";
-import CloseIcon from "../../../../../../../icons/close-icon.svg?react";
-import { useTranslation } from "react-i18next";
+} from 'react';
+import { DropdownMenu as DropdownMenuBase } from 'radix-ui';
+import dropdownMenuClasses from '../../../../../../../dropdown-menu/dropdown-menu.module.css';
+import classes from './search-dropdown.module.css';
+import { clsx } from 'clsx';
+import { useDebouncedCallback } from 'use-debounce';
+import { IconButton } from '../../../../../../../icon-button/icon-button';
+import CloseIcon from '../../../../../../../icons/close-icon.svg?react';
+import { useTranslation } from 'react-i18next';
 
 export interface ISearchDropdownProps {
   value: string;
@@ -38,12 +38,12 @@ export const SearchDropdown: FC<PropsWithChildren<ISearchDropdownProps>> = ({
       onChange(nextValue);
       debouncedOnChange(nextValue);
     },
-    [debouncedOnChange],
+    [debouncedOnChange, onChange],
   );
 
   const handleReset = useCallback(() => {
     debouncedOnChange.cancel();
-    onChange("");
+    onChange('');
     setOpen(false);
   }, [debouncedOnChange, onChange]);
 
@@ -60,7 +60,7 @@ export const SearchDropdown: FC<PropsWithChildren<ISearchDropdownProps>> = ({
             <input
               type="text"
               name="search"
-              placeholder={t("type-to-search")}
+              placeholder={t('type-to-search')}
               value={value}
               onChange={handleChange}
               autoComplete="off"

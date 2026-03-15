@@ -1,13 +1,13 @@
-import type { FC, PropsWithChildren } from "react";
-import classes from "./filters.module.css";
-import clsx from "clsx";
-import { Sort, type SortProps } from "./components/sort/sort";
-import { Options, type OptionsProps } from "./components/options/options";
+import type { FC, PropsWithChildren } from 'react';
+import classes from './filters.module.css';
+import { clsx } from 'clsx';
+import { Sort, type SortProps } from './components/sort/sort';
+import { Options, type OptionsProps } from './components/options/options';
 import {
   ViewType,
   type IViewTypeProps,
-} from "./components/view-type/view-type";
-import { Search, type ISearchProps } from "./components/search/search";
+} from './components/view-type/view-type';
+import { Search, type ISearchProps } from './components/search/search';
 
 export interface IFiltersProps extends React.HTMLAttributes<HTMLDivElement> {
   loading?: boolean;
@@ -19,13 +19,11 @@ export interface IFiltersProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const Filters: FC<PropsWithChildren<IFiltersProps>> = ({
-  loading,
-  viewTypeProps = { variant: "tiles" },
+  viewTypeProps = { variant: 'tiles' },
   sortProps,
   searchProps,
   optionsProps,
   className,
-  children,
   ...rest
 }) => (
   <div className={clsx(className)}>

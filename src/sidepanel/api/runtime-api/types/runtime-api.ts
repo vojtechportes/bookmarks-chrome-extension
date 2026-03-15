@@ -1,7 +1,7 @@
-import type { DelteteAllBookmarksResponse } from "./delete-all-bookmarks-response";
-import type { PinBookmarkResponse } from "./pin-bookmark-response";
-import type { SetActiveTabResponse } from "./set-active-tab-response";
-import type { UnpinBookmarkResponse } from "./unpin-bookmark-response";
+import type { DelteteAllBookmarksResponse } from './delete-all-bookmarks-response';
+import type { PinBookmarkResponse } from './pin-bookmark-response';
+import type { SetActiveTabResponse } from './set-active-tab-response';
+import type { UnpinBookmarkResponse } from './unpin-bookmark-response';
 
 export interface IRuntimeApi {
   saveActiveTab(): Promise<SetActiveTabResponse>;

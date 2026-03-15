@@ -1,4 +1,4 @@
-import { NO_ACTIVE_BOOKMARK_FOUND } from "../../shared/constants/error-messages";
+import { NO_ACTIVE_BOOKMARK_FOUND } from '../../shared/constants/error-messages';
 
 export const getActiveTab = async (): Promise<chrome.tabs.Tab> => {
   const tabs = await chrome.tabs.query({

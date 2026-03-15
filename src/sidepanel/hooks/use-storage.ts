@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { storageApi } from "../api/storage-api/storage-api";
+import { useEffect, useState } from 'react';
+import { storageApi } from '../api/storage-api/storage-api';
 
 export function useStorage<T>(key: string, defaultValue: T) {
   const [value, setValue] = useState<T>(defaultValue);

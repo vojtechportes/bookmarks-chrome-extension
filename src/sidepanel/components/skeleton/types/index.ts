@@ -1,17 +1,17 @@
 interface IBaseSkeletonProps {
-  shape?: "rectangle" | "circle";
+  shape?: 'rectangle' | 'circle';
   className?: string;
 }
 
 interface ICircleSkeletonProps extends IBaseSkeletonProps {
-  shape: "circle";
+  shape: 'circle';
   size?: number | string | null;
   width?: never;
   height?: never;
 }
 
 interface IRectangleSkeletonProps extends IBaseSkeletonProps {
-  shape?: "rectangle";
+  shape?: 'rectangle';
   width?: number | string | null;
   height?: number | string | null;
   size?: never;

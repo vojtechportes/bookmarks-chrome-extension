@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { getAsset } from "../../../../../../shared/database/get-asset";
+import { useEffect, useState } from 'react';
+import { getAsset } from '../../../../../../shared/database/get-asset';
 
 export const useAssetUrl = (assetId?: string, defaultAssetUrl?: string) => {
   const [assetUrl, setAssetUrl] = useState<string | undefined>(defaultAssetUrl);

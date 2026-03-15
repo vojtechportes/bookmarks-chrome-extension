@@ -1,9 +1,9 @@
-import { STORE_NAME } from "./constants";
-import { openDatabase } from "./utils/open-database.util";
+import { STORE_NAME } from './constants';
+import { openDatabase } from './utils/open-database.util';
 
 export const putAsset = async (asset: {
   id: string;
-  type: "favicon" | "screenshot";
+  type: 'favicon' | 'screenshot';
   mimeType: string;
   blob: Blob;
   createdAt: string;
@@ -12,7 +12,7 @@ export const putAsset = async (asset: {
 
   try {
     await new Promise<void>((resolve, reject) => {
-      const transaction = database.transaction(STORE_NAME, "readwrite");
+      const transaction = database.transaction(STORE_NAME, 'readwrite');
       const store = transaction.objectStore(STORE_NAME);
 
       store.put(asset);

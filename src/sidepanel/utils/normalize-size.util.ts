@@ -5,7 +5,7 @@ export const normalizeSize = (
     return undefined;
   }
 
-  if (typeof value === "number") {
+  if (typeof value === 'number') {
     return `${value}px`;
   }
 
