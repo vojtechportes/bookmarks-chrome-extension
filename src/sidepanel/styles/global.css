@@ -38,6 +38,11 @@
   --space-size: 8px;
 
   --font-family: 'Roboto', sans-serif;
+
+  --z-index-backdrop: 50;
+  --z-index-dialog: 100;
+  --z-index-alert: 500;
+  --z-index-floating-button: 1000;
 }
 
 @media (prefers-color-scheme: dark) {

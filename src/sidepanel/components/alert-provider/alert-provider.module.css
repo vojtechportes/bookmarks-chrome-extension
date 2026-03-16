@@ -5,5 +5,5 @@
   flex-direction: column;
   gap: calc(var(--space-size) / 2);
   margin-bottom: var(--space-size);
-  z-index: 9999;
+  z-index: var(--z-index-alert);
 }
