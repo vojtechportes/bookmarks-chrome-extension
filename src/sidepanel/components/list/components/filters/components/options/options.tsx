@@ -6,13 +6,18 @@ import {
   type IDropdownMenuProps,
 } from '../../../../../dropdown-menu/dropdown-menu';
 
-export type OptionsProps = Omit<IDropdownMenuProps, 'trigger'>;
+export interface IOptionsProps extends Omit<IDropdownMenuProps, 'trigger'> {
+  loading?: boolean;
+}
 
-export const Options: FC<PropsWithChildren<OptionsProps>> = (props) => (
+export const Options: FC<PropsWithChildren<IOptionsProps>> = ({
+  loading,
+  ...rest
+}) => (
   <DropdownMenu
-    {...props}
+    {...rest}
     trigger={
-      <IconButton size="medium">
+      <IconButton size="medium" loading={loading}>
         <DotsIcon />
       </IconButton>
     }

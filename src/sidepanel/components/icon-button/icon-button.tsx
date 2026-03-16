@@ -4,7 +4,11 @@ import classes from './icon-button.module.css';
 import { clsx } from 'clsx';
 import type React from 'react';
 import { Skeleton } from '../skeleton/skeleton';
+import type { ICircleSkeletonProps } from '../skeleton/types';
 
+export interface IIconButtonSlots {
+  skeleton?: Omit<ICircleSkeletonProps, 'shape'>;
+}
 export interface IIconButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>, IDataTest {
   size?: 'small' | 'medium' | 'large';
@@ -12,6 +16,7 @@ export interface IIconButtonProps
   apperance?: 'normal' | 'outlined';
   transparent?: boolean;
   loading?: boolean;
+  slots?: IIconButtonSlots;
 }
 
 export const IconButton: FC<PropsWithChildren<IIconButtonProps>> = ({
@@ -23,6 +28,7 @@ export const IconButton: FC<PropsWithChildren<IIconButtonProps>> = ({
   loading,
   children,
   className,
+  slots,
   ...rest
 }) => (
   <button
@@ -39,6 +45,10 @@ export const IconButton: FC<PropsWithChildren<IIconButtonProps>> = ({
     disabled={disabled}
     {...rest}
   >
-    {loading ? <Skeleton size="100%" shape="circle" /> : children}
+    {loading ? (
+      <Skeleton size="100%" shape="circle" {...slots?.skeleton} />
+    ) : (
+      children
+    )}
   </button>
 );

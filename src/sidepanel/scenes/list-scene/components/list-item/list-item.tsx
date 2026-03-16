@@ -25,10 +25,13 @@ import { format } from 'date-fns';
 import type { ViewType } from '../../types/view-type';
 import { useIconUrl } from './hooks/use-icon-url';
 import { useHandleDropdownItemClick } from './hooks/use-handle-dropdown-item-click';
+import { useDarkMode } from '../../../../hooks/use-dark-mode';
+import { UNSUPPORTED_MESSAGE_TYPE } from '../../../../../shared/constants/error-messages';
 
 export interface IListItemProps extends BookmarkItem {
   viewType: ViewType;
   searchValue?: string;
+  loading?: boolean;
 }
 
 export const ListItem: FC<IListItemProps> = ({
@@ -44,9 +47,11 @@ export const ListItem: FC<IListItemProps> = ({
   addedAt,
   viewType,
   searchValue = '',
+  loading,
 }) => {
   const { t } = useTranslation();
   const { error } = useAlert();
+  const isDark = useDarkMode();
   const { assetUrl: screenshotAssetUrl } = useAssetUrl(screenshotAssetId);
   const { iconUrl } = useIconUrl(
     iconAssetId,
@@ -54,7 +59,8 @@ export const ListItem: FC<IListItemProps> = ({
     lightIconAssetId,
   );
 
-  const { handleDropdownItemClick, isLoading } = useHandleDropdownItemClick(id);
+  const { handleDropdownItemClick, isLoading: isActionResultLoading } =
+    useHandleDropdownItemClick(id);
 
   const dropdownItems = useMemo<IDropdownMenuItem[]>(
     () => [
@@ -82,16 +88,20 @@ export const ListItem: FC<IListItemProps> = ({
 
   const handleOpenBookmark = useCallback(
     async (event: React.MouseEvent) => {
-      const element = event.target as HTMLElement;
+      try {
+        const element = event.target as HTMLElement;
 
-      if (element.closest('button, [role="menuitem"], [role="menu"]')) {
-        return;
-      }
+        if (element.closest('button, [role="menuitem"], [role="menu"]')) {
+          return;
+        }
 
-      const response = await runtimeApi.openBookmark(url);
+        const response = await runtimeApi.openBookmark(url);
 
-      if (!response.ok) {
-        error(t(`error-messages.${response.error}`));
+        if (!response.ok) {
+          error(t(`error-messages.${response.error}`));
+        }
+      } catch {
+        error(t(`error-messages.${UNSUPPORTED_MESSAGE_TYPE}`));
       }
     },
     [url, error, t],
@@ -124,6 +134,7 @@ export const ListItem: FC<IListItemProps> = ({
       viewType={viewType}
       clickable
       onClick={handleOpenBookmark}
+      loading={loading}
     >
       <Title
         viewType={viewType}
@@ -131,7 +142,7 @@ export const ListItem: FC<IListItemProps> = ({
         endAdornment={
           <div className={clsx(classes.endAdornment)}>
             <div className={clsx(classes.icon)}>
-              {iconUrl && <img src={iconUrl} alt={title} />}
+              {iconUrl && !loading && <img src={iconUrl} alt={title} />}
             </div>
 
             <DropdownMenu
@@ -142,7 +153,13 @@ export const ListItem: FC<IListItemProps> = ({
                   size="small"
                   apperance="outlined"
                   transparent
-                  loading={isLoading}
+                  loading={isActionResultLoading || loading}
+                  slots={{
+                    skeleton: {
+                      variant: isDark ? 'light' : 'dark',
+                    },
+                  }}
+                  className={classes.noShadow}
                 >
                   <DotsIcon />
                 </IconButton>
@@ -157,27 +174,31 @@ export const ListItem: FC<IListItemProps> = ({
       <div>
         {screenshotAssetUrl && (
           <Image
-            src={screenshotAssetUrl}
+            src={screenshotAssetUrl ?? ''}
             alt={title}
             className={clsx(classes.image)}
             viewType={viewType}
+            loading={loading}
           />
         )}
       </div>
 
       <div>
         {viewType === 'tiles' && (
-          <Item className={clsx(classes.firstItem)}>{description}</Item>
+          <Item className={clsx(classes.firstItem)} loading={loading}>
+            {description}
+          </Item>
         )}
       </div>
 
       <Item
         className={clsx(viewType === 'list' && classes.firstItem, classes.link)}
+        loading={loading}
       >
         {renderHighlightedText(url)}
       </Item>
 
-      <Item className={clsx(classes.date)}>
+      <Item className={clsx(classes.date)} loading={loading}>
         {addedAt ? format(new Date(addedAt), DATE_TIME_FORMAT) : '-'}
       </Item>
     </Card>

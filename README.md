@@ -169,7 +169,7 @@ Fetched favicons do not always work well across dark mode and light mode. For ex
 
 ## Testing
 
-The project uses `vitest` and `@testing-library`. I wrote a few tests, but the overall coverage is still poor due to the time constraints of building the app within four days.
+The project uses `vitest` and `@testing-library`. The coverage is not perfect, but most important parts are tested.
 
 ## CI/CD
 

@@ -3,12 +3,18 @@ import { type FC, type PropsWithChildren } from 'react';
 import classes from './button.module.css';
 import type { IDataTest } from '../../types/data-test';
 import { Skeleton } from '../skeleton/skeleton';
+import type { IRectangleSkeletonProps } from '../skeleton/types';
+
+export interface IButtonSlots {
+  skeleton?: Omit<IRectangleSkeletonProps, 'shape'>;
+}
 
 export interface IButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>, IDataTest {
   variant?: 'primary' | 'secondary' | 'faux';
   loading?: boolean;
   icon?: React.ReactNode;
+  slots?: IButtonSlots;
 }
 
 export const Button: FC<PropsWithChildren<IButtonProps>> = ({
@@ -17,6 +23,7 @@ export const Button: FC<PropsWithChildren<IButtonProps>> = ({
   disabled,
   icon,
   className,
+  slots,
   children,
   ...rest
 }) => (
@@ -32,7 +39,7 @@ export const Button: FC<PropsWithChildren<IButtonProps>> = ({
     {...rest}
   >
     {loading ? (
-      <Skeleton />
+      <Skeleton {...slots?.skeleton} />
     ) : (
       <>
         {icon && <div className={clsx(classes.iconContainer)}>{icon}</div>}

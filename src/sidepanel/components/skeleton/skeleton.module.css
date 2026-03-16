@@ -13,7 +13,7 @@
 }
 
 .skeleton {
-  display: "block";
+  display: 'block';
   animation: pulsingAnimation 2s ease-in-out 0.5s infinite;
   background-color: color-mix(in srgb, var(--color-white) 40%, transparent);
 
@@ -21,11 +21,19 @@
     background-color: color-mix(in srgb, var(--color-white) 10%, transparent);
   }
 
-  &.circle {
+  &.dark {
+    background-color: color-mix(in srgb, var(--color-black) 30%, transparent);
+
+    @media (prefers-color-scheme: dark) {
+      background-color: color-mix(in srgb, var(--color-black) 8%, transparent);
+    }
+  }
+
+  &.circle:not(.no-rounded-corners) {
     border-radius: 50%;
   }
 
-  &.rectangle {
+  &.rectangle:not(.no-rounded-corners) {
     border-radius: calc(var(--space-size) / 2);
   }
 }

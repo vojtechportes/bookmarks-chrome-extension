@@ -53,6 +53,7 @@ export const Card: FC<PropsWithChildren<ICardProps>> = ({
         classes.card,
         highlighted && classes.highlighted,
         clickable && classes.clickable,
+        loading && classes.loading,
         className,
       )}
       {...rest}

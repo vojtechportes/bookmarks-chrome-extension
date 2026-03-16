@@ -6,13 +6,18 @@ import {
   type IDropdownMenuProps,
 } from '../../../../../dropdown-menu/dropdown-menu';
 
-export type SortProps = Omit<IDropdownMenuProps, 'trigger'>;
+export interface ISortProps extends Omit<IDropdownMenuProps, 'trigger'> {
+  loading?: boolean;
+}
 
-export const Sort: FC<PropsWithChildren<SortProps>> = (props) => (
+export const Sort: FC<PropsWithChildren<ISortProps>> = ({
+  loading,
+  ...rest
+}) => (
   <DropdownMenu
-    {...props}
+    {...rest}
     trigger={
-      <IconButton size="medium">
+      <IconButton size="medium" loading={loading}>
         <SortIcon />
       </IconButton>
     }

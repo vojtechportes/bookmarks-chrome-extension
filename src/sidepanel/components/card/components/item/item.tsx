@@ -3,6 +3,7 @@ import type { IDataTest } from '../../../../types/data-test';
 import { clsx } from 'clsx';
 import classes from './item.module.css';
 import { Typography } from '../../../typography/typography';
+import { useDarkMode } from '../../../../hooks/use-dark-mode';
 
 export interface IItemProps
   extends React.HTMLAttributes<HTMLDivElement>, IDataTest {
@@ -18,10 +19,16 @@ export const Item: FC<PropsWithChildren<IItemProps>> = ({
   startAdornment,
   endAdornment,
 }) => {
+  const isDark = useDarkMode();
+
   return (
     <div className={clsx(classes.item, className)}>
       {startAdornment}
-      <Typography loading={loading} noMargin>
+      <Typography
+        loading={loading}
+        slots={{ skeleton: { variant: isDark ? 'light' : 'dark' } }}
+        noMargin
+      >
         {children}
       </Typography>
       {endAdornment}

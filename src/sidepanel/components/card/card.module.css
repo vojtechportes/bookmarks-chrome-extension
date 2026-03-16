@@ -41,13 +41,13 @@
     @media (prefers-color-scheme: light) {
       background-color: color-mix(
         in srgb,
-        var(--color-success) 20%,
+        var(--color-warning) 20%,
         var(--color-white) 80%
       );
     }
   }
 
-  &.clickable {
+  &.clickable:not(.loading) {
     cursor: pointer;
 
     &:hover {
@@ -64,7 +64,7 @@
       );
 
       @media (prefers-color-scheme: dark) {
-        background: color-mix(
+        background-color: color-mix(
           in srgb,
           var(--color-black) 90%,
           var(--color-white) 10%
@@ -74,24 +74,34 @@
       &.highlighted {
         border-color: color-mix(
           in srgb,
-          var(--color-success) 80%,
-          var(--color-black) 20%
+          var(--color-warning) 70%,
+          var(--color-white) 30%
         );
 
         background-color: color-mix(
           in srgb,
-          var(--color-success) 10%,
-          var(--color-white) 90%
+          var(--color-warning) 30%,
+          var(--color-white) 70%
         );
 
         @media (prefers-color-scheme: dark) {
-          background: color-mix(
+          border-color: color-mix(
             in srgb,
-            var(--color-black) 90%,
-            var(--color-success) 10%
+            var(--color-success) 70%,
+            var(--color-white) 30%
+          );
+
+          background-color: color-mix(
+            in srgb,
+            var(--color-black) 80%,
+            var(--color-success) 20%
           );
         }
       }
     }
+  }
+
+  &.loading {
+    pointer-events: none;
   }
 }

@@ -55,7 +55,7 @@ export const ListScene: FC<IListSceneProps> = ({ data }) => {
         title={t('bookmark')}
         className={clsx(classes.bookmarkButton)}
         size="large"
-        loading={isSaving}
+        loading={isSaving || isDeleting}
       >
         <BookmarkIcon />
       </IconButton>
@@ -93,6 +93,7 @@ export const ListScene: FC<IListSceneProps> = ({ data }) => {
             {...item}
             searchValue={searchValue}
             viewType={viewTypeStorage.value}
+            loading={isDeleting}
           />
         ))}
       </List>
