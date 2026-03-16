@@ -23,7 +23,8 @@ import { useTranslation } from 'react-i18next';
 import { DATE_TIME_FORMAT } from '../../../../constants/date';
 import { format } from 'date-fns';
 import type { ViewType } from '../../types/view-type';
-import { useDarkMode } from '../../../../hooks/use-dark-mode';
+import { useIconUrl } from './hooks/use-icon-url';
+import { useHandleDropdownItemClick } from './hooks/use-handle-dropdown-item-click';
 
 export interface IListItemProps extends BookmarkItem {
   viewType: ViewType;
@@ -35,7 +36,6 @@ export const ListItem: FC<IListItemProps> = ({
   title,
   description,
   url,
-  icon,
   iconAssetId,
   darkIconAssetId,
   lightIconAssetId,
@@ -46,23 +46,15 @@ export const ListItem: FC<IListItemProps> = ({
   searchValue = '',
 }) => {
   const { t } = useTranslation();
-  const { success, error } = useAlert();
-  const { assetUrl: iconAssetUrl } = useAssetUrl(iconAssetId, icon);
-  const { assetUrl: darkIconAssetUrl } = useAssetUrl(darkIconAssetId, icon);
-  const { assetUrl: lightIconAssetUrl } = useAssetUrl(lightIconAssetId, icon);
-  const { assetUrl: screenshotAssetUrl } = useAssetUrl(
-    screenshotAssetId,
-    undefined,
+  const { error } = useAlert();
+  const { assetUrl: screenshotAssetUrl } = useAssetUrl(screenshotAssetId);
+  const { iconUrl } = useIconUrl(
+    iconAssetId,
+    darkIconAssetId,
+    lightIconAssetId,
   );
-  const isDarkMode = useDarkMode();
 
-  const resolvedIconUrl = useMemo(() => {
-    if (isDarkMode) {
-      return darkIconAssetUrl ?? lightIconAssetUrl ?? iconAssetUrl;
-    }
-
-    return lightIconAssetUrl ?? iconAssetUrl;
-  }, [darkIconAssetUrl, iconAssetUrl, isDarkMode, lightIconAssetUrl]);
+  const { handleDropdownItemClick, isLoading } = useHandleDropdownItemClick(id);
 
   const dropdownItems = useMemo<IDropdownMenuItem[]>(
     () => [
@@ -87,30 +79,6 @@ export const ListItem: FC<IListItemProps> = ({
       .map((item) => item.trim())
       .filter(Boolean);
   }, [searchValue]);
-
-  const handleDropdownItemClick = useCallback(
-    async (value: string) => {
-      if (value === 'pin') {
-        await runtimeApi.pinBookmark(id);
-      }
-
-      if (value === 'unpin') {
-        await runtimeApi.unpinBookmark(id);
-      }
-
-      if (value === 'delete') {
-        const response = await runtimeApi.deleteBookmark(id);
-
-        if (!response.ok) {
-          error(t(`error-messages.${response.error}`));
-          return;
-        }
-
-        success(t('succeess-messages.bookmark-deleted'));
-      }
-    },
-    [error, id, success, t],
-  );
 
   const handleOpenBookmark = useCallback(
     async (event: React.MouseEvent) => {
@@ -163,14 +131,19 @@ export const ListItem: FC<IListItemProps> = ({
         endAdornment={
           <div className={clsx(classes.endAdornment)}>
             <div className={clsx(classes.icon)}>
-              {resolvedIconUrl && <img src={resolvedIconUrl} alt={title} />}
+              {iconUrl && <img src={iconUrl} alt={title} />}
             </div>
 
             <DropdownMenu
               items={dropdownItems}
               onChange={handleDropdownItemClick}
               trigger={
-                <IconButton size="small" apperance="outlined" transparent>
+                <IconButton
+                  size="small"
+                  apperance="outlined"
+                  transparent
+                  loading={isLoading}
+                >
                   <DotsIcon />
                 </IconButton>
               }

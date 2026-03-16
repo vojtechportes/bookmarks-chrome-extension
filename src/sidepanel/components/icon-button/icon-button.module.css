@@ -8,6 +8,7 @@
   border-radius: 50%;
   box-shadow: var(--shadow-1);
   transition: background-color 100ms linear;
+  padding: calc(var(--space-size) / 2);
 
   svg {
     width: calc(var(--space-size) * 3.75);
@@ -19,7 +20,8 @@
   }
 
   &.disabled {
-    opacity: 0.5;
+    filter: grayscale(0.5) brightness(1.25);
+    pointer-events: none;
   }
 
   &.primary {

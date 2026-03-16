@@ -33,6 +33,7 @@ export const IconButton: FC<PropsWithChildren<IIconButtonProps>> = ({
       classes[apperance],
       transparent && classes.transparent,
       (disabled || loading) && classes.disabled,
+      loading && classes.loading,
       className,
     )}
     disabled={disabled}
