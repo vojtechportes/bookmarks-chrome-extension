@@ -47,7 +47,7 @@ To load the extension in Chrome:
 3. Click `Load unpacked`
 4. Select the `dist` folder from this repository
 
-Alternatively, you can download the extension source code from `TODO`.
+Alternatively, you can download the extension source code from `[the repository releases section](https://github.com/vojtechportes/bookmarks-chrome-extension/releases/)`.
 
 ## Repository structure
 
@@ -151,3 +151,30 @@ Fetched favicons do not always work well across dark mode and light mode. For ex
 ## Testing
 
 The project uses `vitest` and `@testing-library`. I wrote a few tests, but the overall coverage is still poor due to the time constraints of building the app within four days.
+
+## CI/CD
+
+### CI
+
+Triggers on pull requests to `main`.
+
+Runs and verifies:
+
+- npm ci
+- npm run lint
+- npm run test
+- npm run build
+
+### Release Chrome Extension
+
+Triggers when tag matching pattern `v*` is pushed into the repository.
+
+Runs:
+
+- npm ci
+- npm run build
+
+Verifies build output.
+Creates a zip file containing build output.
+Creates a release and attaches the zip file.
+
