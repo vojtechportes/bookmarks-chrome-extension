@@ -6,7 +6,7 @@ import { deleteBookmark } from '../api/delete-bookmark';
 import { getBookmarks } from '../api/get-bookmarks';
 import { openBookmarkUrl } from '../api/open-bookmark-url';
 import { pinBookmark } from '../api/pin-bookmark';
-import { saveActiveTabBookmark } from '../api/set-active-tab-bookmark';
+import { saveActiveTabBookmark } from '../api/save-active-tab-bookmark';
 import { unpinBookmark } from '../api/unpin-bookmark';
 
 export async function handleMessage(
