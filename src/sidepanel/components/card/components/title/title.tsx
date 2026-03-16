@@ -4,6 +4,7 @@ import { Typography } from '../../../typography/typography';
 import classes from './title.module.css';
 import { clsx } from 'clsx';
 import type { ListVariantType } from '../../../list/components/filters/components/view-type/view-type';
+import { useDarkMode } from '../../../../hooks/use-dark-mode';
 
 export interface ITitleProps
   extends React.HTMLAttributes<HTMLDivElement>, IDataTest {
@@ -21,15 +22,24 @@ export const Title: FC<PropsWithChildren<ITitleProps>> = ({
   viewType,
   children,
   ...rest
-}) => (
-  <div
-    className={clsx(classes.title, viewType && classes[viewType], className)}
-    {...rest}
-  >
-    {startAdornment}
-    <Typography className={clsx(classes.typography)} loading={loading} noMargin>
-      {children}
-    </Typography>
-    {endAdornment}
-  </div>
-);
+}) => {
+  const isDark = useDarkMode();
+
+  return (
+    <div
+      className={clsx(classes.title, viewType && classes[viewType], className)}
+      {...rest}
+    >
+      {startAdornment}
+      <Typography
+        className={clsx(classes.typography)}
+        loading={loading}
+        slots={{ skeleton: { variant: isDark ? 'light' : 'dark' } }}
+        noMargin
+      >
+        {children}
+      </Typography>
+      {endAdornment}
+    </div>
+  );
+};

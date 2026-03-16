@@ -12,6 +12,7 @@ export const Typography: FC<PropsWithChildren<TypographyProps>> = ({
   noMargin,
   textAlign,
   loading,
+  slots,
   className,
   ...rest
 }) => (
@@ -31,7 +32,8 @@ export const Typography: FC<PropsWithChildren<TypographyProps>> = ({
       <Skeleton
         width="200px"
         height={null}
-        className={clsx(classes.skeleton)}
+        {...slots?.skeleton}
+        className={clsx(classes.skeleton, slots?.skeleton?.className)}
       />
     ) : (
       children

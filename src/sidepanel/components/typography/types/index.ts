@@ -1,4 +1,5 @@
 import type { IDataTest } from '../../../types/data-test';
+import type { IRectangleSkeletonProps } from '../../skeleton/types';
 
 export type TypographyComponent =
   | 'p'
@@ -9,12 +10,17 @@ export type TypographyComponent =
   | 'h4'
   | 'h5';
 
+export interface IBaseTypographySlots {
+  skeleton?: Omit<IRectangleSkeletonProps, 'shape'>;
+}
+
 export interface IBaseTypographyProps extends IDataTest {
   component?: TypographyComponent;
   as?: TypographyComponent;
   noMargin?: boolean;
   textAlign?: React.CSSProperties['textAlign'];
   loading?: boolean;
+  slots?: IBaseTypographySlots;
 }
 
 type TypographyPropsMap = {

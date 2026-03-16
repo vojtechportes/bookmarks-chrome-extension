@@ -23,11 +23,15 @@ import { useTranslation } from 'react-i18next';
 import { DATE_TIME_FORMAT } from '../../../../constants/date';
 import { format } from 'date-fns';
 import type { ViewType } from '../../types/view-type';
+import { useIconUrl } from './hooks/use-icon-url';
+import { useHandleDropdownItemClick } from './hooks/use-handle-dropdown-item-click';
 import { useDarkMode } from '../../../../hooks/use-dark-mode';
+import { UNSUPPORTED_MESSAGE_TYPE } from '../../../../../shared/constants/error-messages';
 
 export interface IListItemProps extends BookmarkItem {
   viewType: ViewType;
   searchValue?: string;
+  loading?: boolean;
 }
 
 export const ListItem: FC<IListItemProps> = ({
@@ -35,7 +39,6 @@ export const ListItem: FC<IListItemProps> = ({
   title,
   description,
   url,
-  icon,
   iconAssetId,
   darkIconAssetId,
   lightIconAssetId,
@@ -44,25 +47,20 @@ export const ListItem: FC<IListItemProps> = ({
   addedAt,
   viewType,
   searchValue = '',
+  loading,
 }) => {
   const { t } = useTranslation();
-  const { success, error } = useAlert();
-  const { assetUrl: iconAssetUrl } = useAssetUrl(iconAssetId, icon);
-  const { assetUrl: darkIconAssetUrl } = useAssetUrl(darkIconAssetId, icon);
-  const { assetUrl: lightIconAssetUrl } = useAssetUrl(lightIconAssetId, icon);
-  const { assetUrl: screenshotAssetUrl } = useAssetUrl(
-    screenshotAssetId,
-    undefined,
+  const { error } = useAlert();
+  const isDark = useDarkMode();
+  const { assetUrl: screenshotAssetUrl } = useAssetUrl(screenshotAssetId);
+  const { iconUrl } = useIconUrl(
+    iconAssetId,
+    darkIconAssetId,
+    lightIconAssetId,
   );
-  const isDarkMode = useDarkMode();
 
-  const resolvedIconUrl = useMemo(() => {
-    if (isDarkMode) {
-      return darkIconAssetUrl ?? lightIconAssetUrl ?? iconAssetUrl;
-    }
-
-    return lightIconAssetUrl ?? iconAssetUrl;
-  }, [darkIconAssetUrl, iconAssetUrl, isDarkMode, lightIconAssetUrl]);
+  const { handleDropdownItemClick, isLoading: isActionResultLoading } =
+    useHandleDropdownItemClick(id);
 
   const dropdownItems = useMemo<IDropdownMenuItem[]>(
     () => [
@@ -88,42 +86,22 @@ export const ListItem: FC<IListItemProps> = ({
       .filter(Boolean);
   }, [searchValue]);
 
-  const handleDropdownItemClick = useCallback(
-    async (value: string) => {
-      if (value === 'pin') {
-        await runtimeApi.pinBookmark(id);
-      }
+  const handleOpenBookmark = useCallback(
+    async (event: React.MouseEvent) => {
+      try {
+        const element = event.target as HTMLElement;
 
-      if (value === 'unpin') {
-        await runtimeApi.unpinBookmark(id);
-      }
-
-      if (value === 'delete') {
-        const response = await runtimeApi.deleteBookmark(id);
-
-        if (!response.ok) {
-          error(t(`error-messages.${response.error}`));
+        if (element.closest('button, [role="menuitem"], [role="menu"]')) {
           return;
         }
 
-        success(t('succeess-messages.bookmark-deleted'));
-      }
-    },
-    [error, id, success, t],
-  );
+        const response = await runtimeApi.openBookmark(url);
 
-  const handleOpenBookmark = useCallback(
-    async (event: React.MouseEvent) => {
-      const element = event.target as HTMLElement;
-
-      if (element.closest('button, [role="menuitem"], [role="menu"]')) {
-        return;
-      }
-
-      const response = await runtimeApi.openBookmark(url);
-
-      if (!response.ok) {
-        error(t(`error-messages.${response.error}`));
+        if (!response.ok) {
+          error(t(`error-messages.${response.error}`));
+        }
+      } catch {
+        error(t(`error-messages.${UNSUPPORTED_MESSAGE_TYPE}`));
       }
     },
     [url, error, t],
@@ -156,6 +134,7 @@ export const ListItem: FC<IListItemProps> = ({
       viewType={viewType}
       clickable
       onClick={handleOpenBookmark}
+      loading={loading}
     >
       <Title
         viewType={viewType}
@@ -163,14 +142,25 @@ export const ListItem: FC<IListItemProps> = ({
         endAdornment={
           <div className={clsx(classes.endAdornment)}>
             <div className={clsx(classes.icon)}>
-              {resolvedIconUrl && <img src={resolvedIconUrl} alt={title} />}
+              {iconUrl && !loading && <img src={iconUrl} alt={title} />}
             </div>
 
             <DropdownMenu
               items={dropdownItems}
               onChange={handleDropdownItemClick}
               trigger={
-                <IconButton size="small" apperance="outlined" transparent>
+                <IconButton
+                  size="small"
+                  apperance="outlined"
+                  transparent
+                  loading={isActionResultLoading || loading}
+                  slots={{
+                    skeleton: {
+                      variant: isDark ? 'light' : 'dark',
+                    },
+                  }}
+                  className={classes.noShadow}
+                >
                   <DotsIcon />
                 </IconButton>
               }
@@ -184,27 +174,31 @@ export const ListItem: FC<IListItemProps> = ({
       <div>
         {screenshotAssetUrl && (
           <Image
-            src={screenshotAssetUrl}
+            src={screenshotAssetUrl ?? ''}
             alt={title}
             className={clsx(classes.image)}
             viewType={viewType}
+            loading={loading}
           />
         )}
       </div>
 
       <div>
         {viewType === 'tiles' && (
-          <Item className={clsx(classes.firstItem)}>{description}</Item>
+          <Item className={clsx(classes.firstItem)} loading={loading}>
+            {description}
+          </Item>
         )}
       </div>
 
       <Item
         className={clsx(viewType === 'list' && classes.firstItem, classes.link)}
+        loading={loading}
       >
         {renderHighlightedText(url)}
       </Item>
 
-      <Item className={clsx(classes.date)}>
+      <Item className={clsx(classes.date)} loading={loading}>
         {addedAt ? format(new Date(addedAt), DATE_TIME_FORMAT) : '-'}
       </Item>
     </Card>

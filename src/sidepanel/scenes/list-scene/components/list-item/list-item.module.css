@@ -68,3 +68,7 @@
   color: inherit;
   border-radius: 2px; 
 }
+
+.no-shadow {
+  box-shadow: none;
+}

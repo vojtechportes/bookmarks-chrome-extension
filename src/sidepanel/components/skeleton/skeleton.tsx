@@ -9,6 +9,8 @@ export const Skeleton: FC<ISkeletonProps> = ({
   size = 50,
   width = '100%',
   height = 20,
+  variant = 'light',
+  roundedCorners = true,
   className,
 }) => {
   const styles = useMemo((): React.CSSProperties => {
@@ -27,7 +29,13 @@ export const Skeleton: FC<ISkeletonProps> = ({
 
   return (
     <div
-      className={clsx(classes.skeleton, classes[shape], className)}
+      className={clsx(
+        classes.skeleton,
+        classes[shape],
+        classes[variant],
+        !roundedCorners && classes.noRoundedCorners,
+        className,
+      )}
       style={styles}
     />
   );

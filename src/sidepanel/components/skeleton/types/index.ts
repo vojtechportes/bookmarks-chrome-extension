@@ -1,16 +1,18 @@
 interface IBaseSkeletonProps {
   shape?: 'rectangle' | 'circle';
+  variant?: 'light' | 'dark';
+  roundedCorners?: boolean;
   className?: string;
 }
 
-interface ICircleSkeletonProps extends IBaseSkeletonProps {
+export interface ICircleSkeletonProps extends IBaseSkeletonProps {
   shape: 'circle';
   size?: number | string | null;
   width?: never;
   height?: never;
 }
 
-interface IRectangleSkeletonProps extends IBaseSkeletonProps {
+export interface IRectangleSkeletonProps extends IBaseSkeletonProps {
   shape?: 'rectangle';
   width?: number | string | null;
   height?: number | string | null;

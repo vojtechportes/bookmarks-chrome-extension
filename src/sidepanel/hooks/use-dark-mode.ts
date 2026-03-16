@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getIsDark } from '../utils/get-is-dark.util';
 
-export function useDarkMode(): boolean {
+export const useDarkMode = () => {
   const [isDark, setIsDark] = useState(() => getIsDark());
 
   useEffect(() => {
@@ -21,4 +21,4 @@ export function useDarkMode(): boolean {
   }, []);
 
   return isDark;
-}
+};

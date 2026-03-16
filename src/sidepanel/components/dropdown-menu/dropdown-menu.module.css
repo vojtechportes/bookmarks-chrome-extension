@@ -4,6 +4,7 @@
   border-radius: var(--space-size);
   padding: var(--space-size);
   box-shadow: var(--shadow-2);
+  z-index: var(--z-index-backdrop);
 
   @media (prefers-color-scheme: dark) {
     background-color: color-mix(

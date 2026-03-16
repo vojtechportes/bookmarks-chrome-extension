@@ -7,11 +7,12 @@ export interface ISearchProps {
   value: string;
   onChange: (value: string) => void;
   numberMatches?: number;
+  loading?: boolean;
 }
 
-export const Search: FC<ISearchProps> = ({ value, onChange }) => (
+export const Search: FC<ISearchProps> = ({ value, onChange, loading }) => (
   <SearchDropdown value={value} onChange={onChange}>
-    <IconButton size="medium">
+    <IconButton size="medium" loading={loading}>
       <SearchIcon />
     </IconButton>
   </SearchDropdown>

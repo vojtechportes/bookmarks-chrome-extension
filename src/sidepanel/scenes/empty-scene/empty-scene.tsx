@@ -1,11 +1,10 @@
-import { useCallback, type FC } from 'react';
+import { type FC } from 'react';
 import { Panel } from '../../components/panel/panel';
 import { NotFound } from '../../components/not-found/not-found';
 import { useTranslation } from 'react-i18next';
 import { Stack } from '../../components/stack/stack';
 import BookmarkIcon from '../../components/icons/bookmark-icon.svg?react';
-import { runtimeApi } from '../../api/runtime-api/runtime-api';
-import { useAlert } from '../../components/alert-provider/hooks/use-alert';
+import { useHandleBookmarkTab } from '../../hooks/use-handle-bookmark-tab';
 
 export interface IEmptySceneProps {
   loading?: boolean;
@@ -13,18 +12,7 @@ export interface IEmptySceneProps {
 
 export const EmptyScene: FC<IEmptySceneProps> = ({ loading }) => {
   const { t } = useTranslation();
-  const { error, success } = useAlert();
-
-  const handleClick = useCallback(async () => {
-    const response = await runtimeApi.saveActiveTab();
-
-    if (!response.ok) {
-      error(t(`error-messages.${response.error}`));
-      return;
-    }
-
-    success(t('success-messages.bookmark-added'));
-  }, [success, error, t]);
+  const { handleBookmarkTab, isSaving } = useHandleBookmarkTab();
 
   return (
     <Stack gap={8}>
@@ -35,8 +23,9 @@ export const EmptyScene: FC<IEmptySceneProps> = ({ loading }) => {
           buttonTitle={t('no-data.button')}
           slots={{
             button: {
-              onClick: handleClick,
+              onClick: handleBookmarkTab,
               icon: <BookmarkIcon />,
+              loading: isSaving,
             },
           }}
           loading={loading}
