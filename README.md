@@ -1,4 +1,4 @@
-# Bookmarks
+# Bookmarks Chrome Extension
 
 A simple **bookmark manager** designed for speed and simplicity.
 
@@ -26,10 +26,32 @@ npm i
 - `npm run test`
 - `npm run test:run`
 - `npm run test:coverage`
+- `npm run format`
+- `npm run format:check`
+- `npm run format:stage`
+
+## Running the extension in Chrome
+
+Build the extension first
+
+```
+npm run build
+```
+
+This will generate production files in the `dist` folder.
+
+To load the extension in Chrome:
+
+1. Open chrome://extensions
+2. Enable `Developer mode` in upper right corner
+3. Click `Load unpacked`
+4. Select the `dist` folder from this repository
+
+Alternatively, you can download the extension source code from `TODO`.
 
 ## Repository structure
 
-Repository is structured into following folders
+Repository is structured into following folders:
 
 ```
 /src
@@ -40,13 +62,13 @@ Repository is structured into following folders
   /test
 ```
 
-- `background` contains `service-worker.ts`, chrome api related functions and utility functions.
-- `shared` contains shared constants, types and database related functions.
-- `sidepanel` then contains react application itself
+- `background` contains `service-worker.ts`, `Chrome API` related functions, and background utilities.
+- `shared` contains shared constants, types and database-related functions.
+- `sidepanel` then contains React application.
 
 ## Data storage
 
-Bookmarks are stored locally in the browser using `chrome.storage.local`. Each bookmark is saved as an object in following structure:
+Bookmarks are stored locally in the browser using `chrome.storage.local`. Each bookmark is saved with the following structure:
 
 ```
 id: string;
@@ -54,42 +76,67 @@ title: string;
 url: string;
 icon?: string;
 iconAssetId?: string;
+darkIconAssetId?: string;
+lightIconAssetId?: string;
 screenshotAssetId?: string;
 description: string;
 addedAt: string;
 pinned?: boolean;
 ```
 
-All bookmarks are stored under single storage key. Additions, deletions, pinning and unpinning are done through a service worker.
-All these operations are functional both in browser extension context and outside, meaning the app works in a browser tab as well, outside of sidePanel, though with limited functionality which is sufficient for development purposes.
+All bookmark metadata is stored under a single storage key. UI preferences like sorting and view type are stored separately.
 
-Information about `sorting` and `view type` are stored under separate storage key.
+Assets, specifically favicons and screenshots are stored in `IndexedDB` to avoid filling the `chrome.storage.local` quota with large image data.
 
-Assets, specifically icons and screenshots are stored separately in `IndexedDb` to avoid filling storage quota.
+Assets are downscaled and compressed before storage, except for SVG files.
 
-All assets are downscaled and compressed with exception of svg files.
+## Library choices
 
-## Library choices and architectonical decissions
+This app uses `vite` as its build tool.
 
-This app is using minimum dependencies to keep the extension small. It is not using any UI library or styling library aside what vite is providing out of the box. Therefore css modules are used for styling and radix-ui for some more complex components. Though it is using only skeletons of few components from radix-ui, not styles.
+It intentionally keeps dependencies to a minimum to keep the extension lightweight. It does not use a UI framework or styling library, so styling is done with `CSS Modules` (which comes out of the box with `vite`). `radix-ui` is used only for a small number of more complex unstyled primitives.
 
-All shared components are API-agnostic and do not handle data fetching or persistence.
+For search, `minisearch` is used because it is performant, supports indexing and ranking, and works well for fuzzy search.
 
-When it comes to sorting and searching, information about sort direction and view type is stored using `chrome.storage` api. Search and sorting are performed in the React app because they are UI concerns, not storage concerns. The service worker is responsible for storing and updating bookmark data, while the UI handles how that data is displayed, filtered, and ordered for the user.
+The extension is also prepared for internationalization and uses `i18next` and `react-i18next` within the React UI, with all copy stored in translation files.
 
-In general, the service worker in this extension owns data storage and mutation, while the React app owns client-side presentation logic such as searching, and sorting. Performing these operations client-side keeps the architecture simpler and the interaction more responsive.
+## Architecture
 
-For search, `minisearch` is used as it is performant, indexes and ranks searched data and handles well things like fuzzy search.
+![Diagram](https://github.com/vojtechportes/bookmarks-chrome-extension/blob/main/diagram.png)
 
-The extension is also prepared for internacionalization and is using `i18next` and `react-i18next` within the React UI with all copy located in translation files.
+This extension uses a **Manifest V3 service worker** as the backend layer and a **React side panel** as the UI layer.
 
-To make the app functioning both in extension context and in a browser tab, runtime api and storage api have both chrome api functions and classes and browser api functions and classes. This way, the app can be developed and tested in a browser more efficiently providing the same functionality as chrome api.
+The **side panel** is responsible for rendering bookmarks, search, sorting, view preferences, and user interactions like bookmarking the current tab, opening a bookmark, pinning, unpinning, deleting items, and deleting all items.
+
+Bookmark metadata and user preferences are stored in `chrome.storage.local` and accessed through a `storageApi` abstraction. In the React UI this is used via the `useStorage` hook, which also subscribes to storage changes so the UI automatically updates when bookmark data changes.
+
+Operations that require privileged extension APIs (such as accessing the active tab, capturing screenshots, or modifying bookmarks) are executed through a `runtimeApi` abstraction, which communicates with the background service worker using `chrome.runtime.sendMessage()`.
+
+Overall:
+
+- `runtimeApi` is used to perform operations handled by the background layer
+- `storageApi` is used to read and write stored data and observe storage updates
+
+The **service worker** is the main orchestration layer. The side panel communicates with it through `chrome.runtime.sendMessage()`. Inside the worker, `handleMessage()` routes messages to dedicated bookmark actions.
+
+When saving a bookmark, the worker first resolves the **active tab**, checks whether the URL is bookmarkable, or whether the bookmark is not already saved and then uses `chrome.scripting.executeScript()` to extract page metadata like title, URL, description, and favicon from the page DOM. It also captures a screenshot of the current tab.
+
+The extension uses **two storage layers**:
+
+- `chrome.storage.local` stores bookmark metadata and UI preferences.
+- `IndexedDB` stores binary assets such as favicons and screenshots.
+
+This split keeps bookmark synchronization and UI updates simple while avoiding filling extension storage entries with large image data. In the side panel, asset are loaded from `IndexedDB` and converted into object URLs and then displayed.
+
+For local browser development outside the extension environment, the project includes **browser fallbacks** for runtime and storage APIs, allowing the UI to run with mocked runtime actions and `localStorage` without requiring the full Chrome extension context.
 
 ## Intentional deviation from assignment brief
 
-Sorting is not done via toggle but via dropdown list. I found it quite unintuitive to toggle between four sorting states using toggle and dropdown with sorting options is serving better purpose in my opinion.
+Sorting is implemented through a dropdown instead of a toggle. I found toggling between four sorting states less intuitive, while a dropdown makes the available options clearer and easier to use.
 
-Scraping page content is done in oposite order. Instead page content and then description, it is description and then page content as sraping page content isn't always helpful without actually summarizing what the page is about which would require some sort of heuristic or prompt api, which I don't find very suitable for extension like this considering hardware requirements.
+Scraping page content for bookmark descriptions is also done in the opposite order from the original brief. The extension first prefers the page description and only then falls back to page content.
+
+Raw page content intends to be noisy and not very useful without additional summarization. Eventhough Chrome now provides Prompt API that could potentially summarize page content, it requires significant system resources (RAM/VRAM), which makes it unsuitable for a lightweight browser extension intended to run reliably on most machines. For this reason the extension avoids AI-based summarization and relies on page metadata instead. If it would be up to me, I would skip the raw page content intentionally and go with no description at all in case meta description is not available, but I am keeping it as the brief asked for it. 
 
 ### Additional functionality
 
@@ -99,4 +146,8 @@ Scraping page content is done in oposite order. Instead page content and then de
 
 ## Known limitations
 
-Fetched favicons are not working well with darkmode / lightmode when icon was fetched for example in darkmode and then displayed in lightmode. I tried to address it at least for pages that include both darkmode and lightmoe icons in their source code at the same time, but it is still an issue.
+Fetched favicons do not always work well across dark mode and light mode. For example, an icon fetched in dark mode may not display well in light mode. I tried to improve this for pages that expose both light and dark icon variants in their source code, but it is still an issue.
+
+## Testing
+
+The project uses `vitest` and `@testing-library`. I wrote a few tests, but the overall coverage is still poor due to the time constraints of building the app within four days.

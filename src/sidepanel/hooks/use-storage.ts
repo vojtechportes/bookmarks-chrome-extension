@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import { storageApi } from '../api/storage-api/storage-api';
 
-export function useStorage<T>(key: string, defaultValue: T) {
+export const useStorage = <T>(key: string, defaultValue: T) => {
   const [value, setValue] = useState<T>(defaultValue);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    /**
+     * Prevents updating React state if the async storage read
+     * finishes after the component has been unmounted.
+     */
     let isMounted = true;
 
     const loadValue = async () => {
@@ -50,4 +54,4 @@ export function useStorage<T>(key: string, defaultValue: T) {
   };
 
   return { value, setValue: updateValue, loading };
-}
+};
