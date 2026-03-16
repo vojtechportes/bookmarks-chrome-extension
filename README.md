@@ -128,7 +128,7 @@ The **side panel** is responsible for rendering bookmarks, search, sorting, view
 
 Bookmark metadata and user preferences are stored in `chrome.storage.local` and accessed through a `storageApi` abstraction. In the React UI this is used via the `useStorage` hook, which also subscribes to storage changes so the UI automatically updates when bookmark data changes.
 
-Operations that require privileged extension APIs (such as accessing the active tab, capturing screenshots, or modifying bookmarks) are executed through a `runtimeApi` abstraction, which communicates with the background service worker using `chrome.runtime.sendMessage()`.
+Operations that require privileged extension APIs (accessing the active tab, capturing screenshots, or modifying bookmarks etc.) are executed through a `runtimeApi` abstraction, which communicates with the background service worker using `chrome.runtime.sendMessage()`.
 
 Overall:
 
