@@ -8,6 +8,11 @@ import { resolve } from 'node:path';
 
 export default defineConfig({
   plugins: [react(), babel({ presets: [reactCompilerPreset()] }), svgr()],
+  server: {
+    watch: {
+      ignored: ['**/coverage/**'],
+    },
+  },
   publicDir: 'public',
   build: {
     outDir: 'dist',
@@ -46,6 +51,8 @@ export default defineConfig({
         'src/main.tsx',
         'src/**/index.ts',
         'src/**/*.mock.*',
+        'src/**/contants/*.ts',
+        'src/**/types/*.ts',
       ],
     },
   },
