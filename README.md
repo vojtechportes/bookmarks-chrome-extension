@@ -186,7 +186,7 @@ Runs and verifies:
 
 ### Release Chrome Extension
 
-Triggers when tag matching pattern `v*` is pushed into the repository.
+Triggers when tag matching pattern `v*` is pushed into `main` branch.
 
 Runs:
 
