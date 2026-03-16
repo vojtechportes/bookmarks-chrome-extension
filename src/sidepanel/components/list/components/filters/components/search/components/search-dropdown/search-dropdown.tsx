@@ -64,6 +64,16 @@ export const SearchDropdown: FC<PropsWithChildren<ISearchDropdownProps>> = ({
               value={value}
               onChange={handleChange}
               autoComplete="off"
+              /**
+               * Intentionally disabled no-autofocus rule since
+               * in this case, the input is in dropdown menu and
+               * which is a form of dialog and should be therefore
+               * focused automatically.
+               *
+               * https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/dialog/
+               */
+              /* eslint-disable-next-line jsx-a11y/no-autofocus */
+              autoFocus
               className={clsx(classes.input)}
             />
 
