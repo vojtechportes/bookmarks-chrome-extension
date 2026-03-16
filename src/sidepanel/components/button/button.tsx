@@ -6,7 +6,7 @@ import { Skeleton } from '../skeleton/skeleton';
 
 export interface IButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>, IDataTest {
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'faux';
   loading?: boolean;
   icon?: React.ReactNode;
 }
