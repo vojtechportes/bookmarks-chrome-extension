@@ -194,9 +194,7 @@ export const ListItem: FC<IListItemProps> = ({
 
       <div>
         {viewType === 'tiles' && (
-          <Item className={clsx(classes.firstItem)}>
-            {renderHighlightedText(description ?? '')}
-          </Item>
+          <Item className={clsx(classes.firstItem)}>{description}</Item>
         )}
       </div>
 

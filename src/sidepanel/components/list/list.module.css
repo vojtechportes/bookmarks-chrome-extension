@@ -5,9 +5,9 @@
 }
 
 .number-matches {
-  text-align: center;
-  color: var(--color-text-primary);
   margin: 0 0 calc(var(--space-size) * 3);
+  text-align: center;
+  color: var(--color-primary-contrast-text);
 }
 
 .list {

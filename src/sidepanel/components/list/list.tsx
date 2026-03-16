@@ -2,16 +2,16 @@ import type { FC, PropsWithChildren } from 'react';
 import type { IDataTest } from '../../types/data-test';
 import { clsx } from 'clsx';
 import classes from './list.module.css';
-
 import type React from 'react';
 import { Filters } from './components/filters/filters';
 import type { IDropdownMenuProps } from '../dropdown-menu/dropdown-menu';
 import type { IViewTypeProps } from './components/filters/components/view-type/view-type';
 import type { ISearchProps } from './components/filters/components/search/search';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { NotFound } from '../not-found/not-found';
 import { Stack } from '../stack/stack';
 import { Panel } from '../panel/panel';
+import { ResetSearch } from './components/reset-search/reset-search';
 
 export interface IListProps
   extends React.HTMLAttributes<HTMLDivElement>, IDataTest {
@@ -65,7 +65,13 @@ export const List: FC<PropsWithChildren<IListProps>> = ({
         <>
           {searchProps.value !== '' && (
             <div className={clsx(classes.numberMatches)}>
-              {t('matched-records', { count: numberMatches })}
+              <Trans
+                i18nKey="matched-records"
+                count={numberMatches}
+                components={[
+                  <ResetSearch onClick={() => searchProps.onChange('')} />,
+                ]}
+              />
             </div>
           )}
 
