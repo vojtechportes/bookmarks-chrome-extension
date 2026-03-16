@@ -47,7 +47,7 @@ To load the extension in Chrome:
 3. Click `Load unpacked`
 4. Select the `dist` folder from this repository
 
-Alternatively, you can download the extension source code from `[the repository releases section](https://github.com/vojtechportes/bookmarks-chrome-extension/releases/)`.
+Alternatively, you can download the extension source code from [the repository releases section](https://github.com/vojtechportes/bookmarks-chrome-extension/releases/).
 
 ## Repository structure
 
