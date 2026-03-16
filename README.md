@@ -161,6 +161,7 @@ Raw page content intends to be noisy and not very useful without additional summ
 - User can switch between two different views, where one is more condensed.
 - User can delete all bookmarks.
 - User can pin bookmarks. If there are any pinned bookmarks, sorting happens in two stages. First pinned bookmarks are sorted, which stay on top and then the rest.
+- Searched text is highlighted (though when original searched text is fuzzy, the match might not be fully displayed)
 
 ## Known limitations
 
