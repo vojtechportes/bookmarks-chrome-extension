@@ -174,6 +174,8 @@ Runs:
 - npm ci
 - npm run build
 
+Additional steps:
+
 - Verifies build output.
 - Creates a zip file containing build output.
 - Creates a release and attaches the zip file.
