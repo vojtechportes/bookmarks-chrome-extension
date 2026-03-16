@@ -11,6 +11,14 @@ This extension supports both dark mode and light mode, card and list data views,
 - `node` version `^22.13.0`
 - `npm` version `^10.0.0`
 
+### Optional VSCode extensions
+
+- CSS Nesting Syntax Highlighting
+- CSS Variable Autocomplete
+- CSS Modules
+- CSS Modules Syntax Highlighter
+- Prettier
+
 ## Installation
 
 ```
@@ -29,6 +37,16 @@ npm i
 - `npm run format`
 - `npm run format:check`
 - `npm run format:stage`
+
+## Precommit hooks
+
+Precommit hooks are run via Husky and runs following commands:
+
+```
+npm run lint
+npm run test
+npm run format:stage
+```
 
 ## Running the extension in Chrome
 
