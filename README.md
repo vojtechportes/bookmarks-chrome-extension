@@ -232,4 +232,5 @@ Given more time, I would focus on:
 
 - implementing pagination and lazy loading for large datasets  
 - exploring more advanced search strategies
+- syncing bookmarks and assets state for example through appDataFolder in google drive for logged in user and comparing data between cloud storage and local IndexedDB. That would require different strategy when it comes to deletion (soft delete instead of hard delete) and more informaction about bookmark metadata like updatedDate.
 
