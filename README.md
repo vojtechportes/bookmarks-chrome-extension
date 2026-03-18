@@ -123,7 +123,7 @@ To communicate with `IndexedDb`, `idb` package is used.
 
 ## Architecture
 
-![Diagram](https://github.com/vojtechportes/bookmarks-chrome-extension/blob/main/diagram.png)
+![Diagram](https://github.com/vojtechportes/bookmarks-chrome-extension/blob/main/app-diagram.png)
 
 This extension uses a **Manifest V3 service worker** as the backend layer and a **React side panel** as the UI layer.
 
