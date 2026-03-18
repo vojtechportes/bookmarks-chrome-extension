@@ -206,3 +206,20 @@ Additional steps:
 - Creates a zip file containing build output.
 - Creates a release and attaches the zip file.
 
+## Post-mortem
+
+Initially, bookmarks were stored in `chrome.storage.local` via the background layer. After further consideration, I realized this approach was not ideal, as it required mutating the entire dataset on each update.
+
+I migrated bookmark metadata to `IndexedDB`, using a dedicated store. This provides a more scalable and flexible solution, especially for future features such as pagination, partial updates, and richer querying. As part of this change, sorting was moved from the client to the database layer.
+
+Search remains implemented on the client using `minisearch`, as it currently provides better flexibility and relevance than what would be practical to achieve directly in IndexedDB.
+
+Additionally, I introduced bookmark renaming as a small usability improvement.
+
+### Potential improvements
+
+Given more time, I would focus on:
+
+- implementing pagination and lazy loading for large datasets  
+- exploring more advanced search strategies
+
