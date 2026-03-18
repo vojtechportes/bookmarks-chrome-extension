@@ -6,17 +6,24 @@ export const useSynchronizeBookmarks = (reload: () => Promise<void>) => {
   const reloadRef = useRef(reload);
 
   useEffect(() => {
-    reload();
     reloadRef.current = reload;
   }, [reload]);
 
   useEffect(() => {
+    void reload();
+  }, [reload]);
+
+  useEffect(() => {
+    const triggerReload = () => {
+      void reloadRef.current();
+    };
+
     const handleBroadcastMessage = (event: MessageEvent) => {
       if (event.data?.type !== BROADCAST_EVENT_NAME) {
         return;
       }
 
-      reload();
+      triggerReload();
     };
 
     const handleRuntimeMessage = (message: unknown): undefined => {
@@ -26,7 +33,7 @@ export const useSynchronizeBookmarks = (reload: () => Promise<void>) => {
         'type' in message &&
         message.type === 'BOOKMARKS_INVALIDATE'
       ) {
-        reload();
+        triggerReload();
       }
 
       return undefined;
