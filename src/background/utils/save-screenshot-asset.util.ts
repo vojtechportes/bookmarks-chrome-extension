@@ -1,4 +1,4 @@
-import { putAsset } from '../../shared/database/put-asset';
+import { addAsset } from '../../shared/database/api/assets/add-asset';
 import { compressImageBlob } from './compress-image-blob.util';
 import { dataUrlToBlob } from './data-url-to-blob.util';
 
@@ -32,7 +32,7 @@ export const saveScreenshotAsset = async (
     mimeType = originalBlob.type || mimeType;
   }
 
-  await putAsset({
+  await addAsset({
     id: assetId,
     type: 'screenshot',
     mimeType,

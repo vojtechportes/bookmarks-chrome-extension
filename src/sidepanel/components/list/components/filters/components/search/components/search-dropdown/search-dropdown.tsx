@@ -7,12 +7,10 @@ import {
 } from 'react';
 import { DropdownMenu as DropdownMenuBase } from 'radix-ui';
 import dropdownMenuClasses from '../../../../../../../dropdown-menu/dropdown-menu.module.css';
-import classes from './search-dropdown.module.css';
 import { clsx } from 'clsx';
 import { useDebouncedCallback } from 'use-debounce';
-import { IconButton } from '../../../../../../../icon-button/icon-button';
-import CloseIcon from '../../../../../../../icons/close-icon.svg?react';
 import { useTranslation } from 'react-i18next';
+import { Input } from '../../../../../../../input/input';
 
 export interface ISearchDropdownProps {
   value: string;
@@ -56,38 +54,24 @@ export const SearchDropdown: FC<PropsWithChildren<ISearchDropdownProps>> = ({
           className={clsx(dropdownMenuClasses.dropdownMenuContent)}
           sideOffset={5}
         >
-          <div className={clsx(classes.inputContainer)}>
-            <input
-              type="text"
-              name="search"
-              placeholder={t('type-to-search')}
-              value={value}
-              onChange={handleChange}
-              autoComplete="off"
-              /**
-               * Intentionally disabled no-autofocus rule since
-               * in this case, the input is in dropdown menu and
-               * which is a form of dialog and should be therefore
-               * focused automatically.
-               *
-               * https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/dialog/
-               */
-              /* eslint-disable-next-line jsx-a11y/no-autofocus */
-              autoFocus
-              className={clsx(classes.input)}
-            />
-
-            {value.length > 0 && (
-              <IconButton
-                size="medium"
-                variant="faux"
-                className={clsx(classes.clearButton)}
-                onClick={handleReset}
-              >
-                <CloseIcon />
-              </IconButton>
-            )}
-          </div>
+          <Input
+            name="search"
+            placeholder={t('type-to-search')}
+            value={value}
+            onChange={handleChange}
+            onClear={handleReset}
+            clearable
+            /**
+             * Intentionally disabled no-autofocus rule since
+             * in this case, the input is in dropdown menu and
+             * which is a form of dialog and should be therefore
+             * focused automatically.
+             *
+             * https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/dialog/
+             */
+            /* eslint-disable-next-line jsx-a11y/no-autofocus */
+            autoFocus
+          />
         </DropdownMenuBase.Content>
       </DropdownMenuBase.Portal>
     </DropdownMenuBase.Root>

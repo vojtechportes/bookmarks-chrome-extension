@@ -1,5 +1,5 @@
 import { FAILED_TO_FETCH_ICON } from '../../shared/constants/error-messages';
-import { putAsset } from '../../shared/database/put-asset';
+import { addAsset } from '../../shared/database/api/assets/add-asset';
 import { compressImageBlob } from './compress-image-blob.util';
 
 export const saveIconAsset = async (
@@ -35,7 +35,7 @@ export const saveIconAsset = async (
     }
   }
 
-  await putAsset({
+  await addAsset({
     id: assetId,
     type: 'favicon',
     mimeType,

@@ -12,7 +12,8 @@
     "ACTIVE_TAB_ID_MISSING": "Failed to save tab for later",
     "TAB_CANNOT_BE_BOOKMARKED": "This tab can't be saved",
     "UNSUPPORTED_MESSAGE_TYPE": "Something went wrong :(",
-    "INVALID_BOOKMARK_URL": "Opening bookmarked tab failed"
+    "INVALID_BOOKMARK_URL": "Opening bookmarked tab failed",
+    "renaming-bookmark-failed": "Renaming bookmark failed"
   },
   "info-messages": {
     "BOOKMARK_ALREADY_EXISTS": "Bookmark already exsts"
@@ -20,7 +21,8 @@
   "success-messages": {
     "bookmark-added": "Tab added to your collection",
     "bookmarks-deleted": "All bookmarked tabs were deleted",
-    "bookmark-deleted": "Tab deleted"
+    "bookmark-deleted": "Tab deleted",
+    "bookmark-renamed": "Bookmarked renamed"
   },
   "cancel": "Cancel",
   "confirm": "Confirm",
@@ -40,9 +42,17 @@
   "pin": "Pin",
   "unpin": "Unpin",
   "delete": "Delete",
+  "rename": "Rename",
   "delete-all": "Delete all",
   "delete-all-modal": {
     "title": "Delete all bookmarks?",
     "description": "This action is irreversible. Are you sure you want to proceed?"
+  },
+  "rename-dialog": {
+    "title": "Rename bookmarked tab",
+    "fields": {
+      "title": "Title:"
+    },
+    "title-cant-be-empty": "Title can't be empty"
   }
 }

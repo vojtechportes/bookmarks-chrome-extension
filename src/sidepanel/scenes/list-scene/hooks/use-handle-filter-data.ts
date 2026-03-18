@@ -8,10 +8,9 @@ import type { SortOrder } from '../types/sort-order';
 import type { ViewType } from '../types/view-type';
 import MiniSearch from 'minisearch';
 import type { SearchableBookmark } from '../types/searchable-bookmark';
-import type { BookmarkItem } from '../../../../shared/types/bookmark-item';
-import { sortData } from '../utils/sort-data.util';
+import type { IBookmarkItem } from '../../../../shared/types/bookmark-item';
 
-export const useHandleFilterData = (data: BookmarkItem[]) => {
+export const useHandleFilterData = (data: IBookmarkItem[]) => {
   const [searchValue, setSearchValue] = useState('');
 
   const viewTypeStorage = useStorage<ViewType>(
@@ -21,7 +20,7 @@ export const useHandleFilterData = (data: BookmarkItem[]) => {
 
   const sortOrderStorage = useStorage<SortOrder>(
     BOOKMARKS_SORT_ORDER_STORAGE_KEY,
-    'newest-to-oldest',
+    'addedAt-desc',
   );
 
   const handleViewTypeChange = useCallback(
@@ -61,7 +60,7 @@ export const useHandleFilterData = (data: BookmarkItem[]) => {
   const filteredData = useMemo(() => {
     const normalizedQuery = searchValue.trim();
 
-    if (!normalizedQuery) {
+    if (normalizedQuery.length === 0) {
       return data;
     }
 
@@ -69,19 +68,11 @@ export const useHandleFilterData = (data: BookmarkItem[]) => {
 
     return results
       .map((result) => bookmarkMap.get(result.id))
-      .filter((item): item is BookmarkItem => Boolean(item));
+      .filter((item): item is IBookmarkItem => Boolean(item));
   }, [bookmarkMap, data, miniSearch, searchValue]);
 
-  const sortedData = useMemo(() => {
-    if (sortOrderStorage.loading) {
-      return filteredData;
-    }
-
-    return sortData(filteredData, sortOrderStorage.value);
-  }, [filteredData, sortOrderStorage.loading, sortOrderStorage.value]);
-
   return {
-    data: sortedData,
+    data: filteredData,
     viewTypeStorage,
     sortOrderStorage,
     handleViewTypeChange,

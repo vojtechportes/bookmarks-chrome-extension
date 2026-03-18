@@ -1,0 +1,30 @@
+.input-container {
+  position: relative;
+
+  .input {
+    all: unset;
+    margin: var(--space-size);
+    border: 1px solid;
+    border-color: var(--color-primary-light);
+    border-radius: var(--space-size);
+    padding: calc(var(--space-size) * 1.25) calc(var(--space-size) * 6)
+      calc(var(--space-size) * 1.25) calc(var(--space-size) * 2);
+    background-color: var(--color-white);
+    color: var(--color-text-primary);
+
+    @media (prefers-color-scheme: dark) {
+      background-color: transparent;
+    }
+
+    &::placeholder {
+      color: var(--color-text-secondary);
+    }
+  }
+
+  .clear-button {
+    position: absolute;
+    right: calc(var(--space-size) * 1.5);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

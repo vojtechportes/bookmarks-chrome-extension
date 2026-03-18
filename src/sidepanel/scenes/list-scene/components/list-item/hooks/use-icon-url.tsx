@@ -17,8 +17,8 @@ export const useIconUrl = (
       return darkIconAssetUrl ?? lightIconAssetUrl ?? iconAssetUrl;
     }
 
-    return lightIconAssetUrl ?? iconAssetUrl;
-  }, [darkIconAssetUrl, iconAssetUrl, isDarkMode, lightIconAssetUrl]);
+    return lightIconAssetUrl ?? darkIconAssetUrl ?? iconAssetUrl;
+  }, [darkIconAssetUrl, lightIconAssetUrl, iconAssetUrl, isDarkMode]);
 
   return { iconUrl };
 };

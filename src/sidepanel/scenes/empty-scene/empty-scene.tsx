@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Stack } from '../../components/stack/stack';
 import BookmarkIcon from '../../components/icons/bookmark-icon.svg?react';
 import { useHandleBookmarkTab } from '../../hooks/use-handle-bookmark-tab';
+import { useBookmarksContext } from '../../components/bookmarks-provider/hooks/use-bookmarks-context';
 
 export interface IEmptySceneProps {
   loading?: boolean;
@@ -12,7 +13,9 @@ export interface IEmptySceneProps {
 
 export const EmptyScene: FC<IEmptySceneProps> = ({ loading }) => {
   const { t } = useTranslation();
-  const { handleBookmarkTab, isSaving } = useHandleBookmarkTab();
+  const { reloadHasBookmarks } = useBookmarksContext();
+  const { handleBookmarkTab, isSaving } =
+    useHandleBookmarkTab(reloadHasBookmarks);
 
   return (
     <Stack gap={8}>

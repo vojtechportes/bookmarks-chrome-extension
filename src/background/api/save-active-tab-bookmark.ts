@@ -1,19 +1,17 @@
 import {
   ACTIVE_TAB_ID_MISSING,
-  BOOKMARK_ALREADY_EXISTS,
   TAB_CANNOT_BE_BOOKMARKED,
 } from '../../shared/constants/error-messages';
-import type { BookmarkItem } from '../../shared/types/bookmark-item';
+import type { IBookmarkItem } from '../../shared/types/bookmark-item';
 import { extractPageData } from '../utils/extract-page-data.util';
 import { getActiveTab } from './get-active-tab';
-import { getBookmarks } from './get-bookmarks';
 import { getIconUrl } from '../utils/get-icon-url.util';
 import { isBookmarkableUrl } from '../utils/is-bookmarkable-url.util';
 import { saveIconAsset } from '../utils/save-icon-asset.util';
 import { saveScreenshotAsset } from '../utils/save-screenshot-asset.util';
-import { setBookmarks } from './set-bookmarks';
+import { addBookmark } from '../../shared/database/api/bookmarks/add-bookmark';
 
-export const saveActiveTabBookmark = async (): Promise<BookmarkItem> => {
+export const saveActiveTabBookmark = async (): Promise<IBookmarkItem> => {
   const activeTab = await getActiveTab();
 
   if (!activeTab.id) {
@@ -25,14 +23,6 @@ export const saveActiveTabBookmark = async (): Promise<BookmarkItem> => {
   }
 
   const pageData = await extractPageData(activeTab.id);
-
-  const bookmarks = await getBookmarks();
-
-  const existingBookmark = bookmarks.find((item) => item.url === pageData.url);
-
-  if (existingBookmark) {
-    throw new Error(BOOKMARK_ALREADY_EXISTS);
-  }
 
   const bookmarkId = crypto.randomUUID();
   const resolvedIconUrl = getIconUrl(activeTab, pageData.icon);
@@ -78,7 +68,7 @@ export const saveActiveTabBookmark = async (): Promise<BookmarkItem> => {
     );
   }
 
-  const bookmark: BookmarkItem = {
+  const bookmark: IBookmarkItem = {
     id: bookmarkId,
     title: pageData.title || activeTab.title || pageData.url,
     url: pageData.url,
@@ -92,9 +82,7 @@ export const saveActiveTabBookmark = async (): Promise<BookmarkItem> => {
     pinned: false,
   };
 
-  const nextBookmarks = [bookmark, ...bookmarks];
-
-  await setBookmarks(nextBookmarks);
+  await addBookmark(bookmark);
 
   return bookmark;
 };

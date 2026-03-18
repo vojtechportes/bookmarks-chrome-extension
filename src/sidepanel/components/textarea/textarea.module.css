@@ -1,0 +1,22 @@
+.textarea {
+  all: unset;
+  margin: var(--space-size);
+  border: 1px solid;
+  border-color: var(--color-primary-light);
+  border-radius: var(--space-size);
+  padding: calc(var(--space-size) * 1.25) calc(var(--space-size) * 6)
+    calc(var(--space-size) * 1.25) calc(var(--space-size) * 2);
+  background-color: var(--color-white);
+  color: var(--color-text-primary);
+  margin: 0;
+  font-size: var(--font-size);
+  font-family: var(--font-family);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: transparent;
+  }
+
+  &::placeholder {
+    color: var(--color-text-secondary);
+  }
+}

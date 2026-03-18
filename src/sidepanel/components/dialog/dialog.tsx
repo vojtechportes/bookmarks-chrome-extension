@@ -1,10 +1,14 @@
-import { type FC } from 'react';
+import { type FC, type PropsWithChildren } from 'react';
 import classes from './dialog.module.css';
 import { clsx } from 'clsx';
 import { Typography } from '../typography/typography';
-import { Button } from '../button/button';
+import { Button, type IButtonProps } from '../button/button';
 import { useTranslation } from 'react-i18next';
 
+export interface IDialogSlots {
+  confirmButton?: IButtonProps;
+  cancelButton?: IButtonProps;
+}
 export interface IDialogProps {
   open?: boolean;
   title: React.ReactNode;
@@ -13,9 +17,10 @@ export interface IDialogProps {
   cancelLabel?: React.ReactNode;
   onConfirm?: () => void;
   onCancel?: () => void;
+  slots?: IDialogSlots;
 }
 
-export const Dialog: FC<IDialogProps> = ({
+export const Dialog: FC<PropsWithChildren<IDialogProps>> = ({
   open = false,
   title,
   description,
@@ -23,6 +28,8 @@ export const Dialog: FC<IDialogProps> = ({
   cancelLabel,
   onCancel,
   onConfirm,
+  slots,
+  children,
 }) => {
   const { t } = useTranslation();
 
@@ -54,9 +61,22 @@ export const Dialog: FC<IDialogProps> = ({
           </>
         )}
 
+        {children && (
+          <>
+            {children}
+            <div className={clsx(classes.divider)} />
+          </>
+        )}
+
         <div className={clsx(classes.actions)}>
-          <Button onClick={onConfirm}>{confirmLabel ?? t('confirm')}</Button>
-          <Button onClick={onCancel} variant="secondary">
+          <Button onClick={onConfirm} {...slots?.confirmButton}>
+            {confirmLabel ?? t('confirm')}
+          </Button>
+          <Button
+            onClick={onCancel}
+            variant="secondary"
+            {...slots?.cancelButton}
+          >
             {cancelLabel ?? t('cancel')}
           </Button>
         </div>

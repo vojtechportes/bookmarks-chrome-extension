@@ -2,7 +2,7 @@
 
 A simple **bookmark manager** designed for speed and simplicity.
 
-This extension supports both dark mode and light mode, card and list data views, full text search, sorting and pinning.
+This extension supports both dark mode and light mode, card and list data views, full text search, sorting and pinning and renaming.
 
 ![Application screens](https://github.com/vojtechportes/bookmarks-chrome-extension/blob/main/app-screens.png)
 
@@ -81,12 +81,12 @@ Repository is structured into following folders:
 ```
 
 - `background` contains `service-worker.ts`, `Chrome API` related functions, and background utilities.
-- `shared` contains shared constants, types and database-related functions.
+- `shared` contains shared constants, types and database-related and functions.
 - `sidepanel` then contains React application.
 
 ## Data storage
 
-Bookmarks are stored locally in the browser using `chrome.storage.local`. Each bookmark is saved with the following structure:
+Bookmarks are stored in `IndexedDB`. Each bookmark is saved with the following structure:
 
 ```
 id: string;
@@ -102,11 +102,11 @@ addedAt: string;
 pinned?: boolean;
 ```
 
-All bookmark metadata is stored under a single storage key. UI preferences like sorting and view type are stored separately.
-
-Assets, specifically favicons and screenshots are stored in `IndexedDB` to avoid filling the `chrome.storage.local` quota with large image data.
+Assets, specifically favicons and screenshots are stored in `IndexedDB`.
 
 Assets are downscaled and compressed before storage, except for SVG files.
+
+Preferences, sorting and view type are stored in `chrome.local.storage`.
 
 ## Library choices
 
@@ -118,6 +118,8 @@ For search, `minisearch` is used because it is performant, supports indexing and
 
 The extension is also prepared for internationalization and uses `i18next` and `react-i18next` within the React UI, with all copy stored in translation files.
 
+To communicate with `IndexedDb`, `idb` package is used.
+
 ## Architecture
 
 ![Diagram](https://github.com/vojtechportes/bookmarks-chrome-extension/blob/main/diagram.png)
@@ -126,27 +128,30 @@ This extension uses a **Manifest V3 service worker** as the backend layer and a 
 
 The **side panel** is responsible for rendering bookmarks, search, sorting, view preferences, and user interactions like bookmarking the current tab, opening a bookmark, pinning, unpinning, deleting items, and deleting all items.
 
-Bookmark metadata and user preferences are stored in `chrome.storage.local` and accessed through a `storageApi` abstraction. In the React UI this is used via the `useStorage` hook, which also subscribes to storage changes so the UI automatically updates when bookmark data changes.
+Bookmark metadata and downscaled assets are stored in `IndexedDb` in two separate tables.
 
-Operations that require privileged extension APIs (accessing the active tab, capturing screenshots, or modifying bookmarks etc.) are executed through a `runtimeApi` abstraction, which communicates with the background service worker using `chrome.runtime.sendMessage()`.
+User preferences are stored in `chrome.storage.local` and accessed through a `storageApi` abstraction. In the React UI this is used via the `useStorage` hook, which also subscribes to storage changes so the UI automatically updates stored data changes.
+
+Operations that require privileged extension APIs (accessing the active tab, capturing screenshots, or opening new tab) are executed through a `runtimeApi` abstraction, which communicates with the background service worker using `chrome.runtime.sendMessage()`.
+
+`IndexedDB` is accessed through a shared database API. Sorting is performed at the database layer, while search is handled in the React UI. State changes are synchronized through messaging between the React UI and the background layer, with `BroadcastChannel` serving as a fallback for non-extension or out-of-context environments.
 
 Overall:
 
-- `runtimeApi` is used to perform operations handled by the background layer
+- `runtimeApi` is used to perform operations handled by the background layer and to observe changes.
 - `storageApi` is used to read and write stored data and observe storage updates
+- shared 
 
 The **service worker** is the main orchestration layer. The side panel communicates with it through `chrome.runtime.sendMessage()`. Inside the worker, `handleMessage()` routes messages to dedicated bookmark actions.
 
-When saving a bookmark, the worker first resolves the **active tab**, checks whether the URL is bookmarkable, or whether the bookmark is not already saved and then uses `chrome.scripting.executeScript()` to extract page metadata like title, URL, description, and favicon from the page DOM. It also captures a screenshot of the current tab.
+When saving a bookmark, the worker first resolves the **active tab**, checks whether the URL is bookmarkable, or whether the bookmark is not already saved and then uses `chrome.scripting.executeScript()` to extract page metadata like title, URL, description, and favicon from the page DOM. It also captures a screenshot of the current tab. Data is then saved to `IndexedDb`. If unsuccesfull, exception is thrown and communicated to user.
 
 The extension uses **two storage layers**:
 
-- `chrome.storage.local` stores bookmark metadata and UI preferences.
-- `IndexedDB` stores binary assets such as favicons and screenshots.
+- `chrome.storage.local` stores UI preferences.
+- `IndexedDB` stores bookmarks metadata and binary assets like favicons and screenshots.
 
-This split keeps bookmark synchronization and UI updates simple while avoiding filling extension storage entries with large image data. In the side panel, asset are loaded from `IndexedDB` and converted into object URLs and then displayed.
-
-For local browser development outside the extension environment, the project includes **browser fallbacks** for runtime and storage APIs, allowing the UI to run with mocked runtime actions and `localStorage` without requiring the full Chrome extension context.
+For local browser development outside the extension environment, the project includes **browser fallbacks** for runtime and storage APIs.
 
 ## Intentional deviation from assignment brief
 
@@ -162,6 +167,7 @@ Raw page content intends to be noisy and not very useful without additional summ
 - User can delete all bookmarks.
 - User can pin bookmarks. If there are any pinned bookmarks, sorting happens in two stages. First pinned bookmarks are sorted, which stay on top and then the rest.
 - Searched text is highlighted (though when original searched text is fuzzy, the match might not be fully displayed)
+- User can rename bookmarks
 
 ## Known limitations
 

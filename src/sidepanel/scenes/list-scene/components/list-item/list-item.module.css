@@ -31,6 +31,7 @@
     var(--color-white) 80%,
     var(--color-black) 20%
   );
+
   @media (prefers-color-scheme: dark) {
     border-color: color-mix(
       in srgb,
@@ -64,11 +65,20 @@
 }
 
 .highlight {
-  background-color: color-mix(in srgb, var(--color-warning-light) 80%, transparent 20%);
+  background-color: color-mix(
+    in srgb,
+    var(--color-warning-light) 80%,
+    transparent 20%
+  );
   color: inherit;
-  border-radius: 2px; 
+  border-radius: 2px;
 }
 
 .no-shadow {
   box-shadow: none;
+}
+
+.iconButtonContainer {
+  padding: 4px;
+  margin: -4px;
 }
