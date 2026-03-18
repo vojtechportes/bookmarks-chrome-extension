@@ -25,6 +25,8 @@ export const initBookmarksSync = () => {
 chrome.runtime.onInstalled.addListener(() => {
   console.log('[bookmark-extension] service worker installed');
 
+  console.log(chrome.identity.getAuthToken());
+
   if (chrome.sidePanel?.setPanelBehavior) {
     chrome.sidePanel
       .setPanelBehavior({ openPanelOnActionClick: true })

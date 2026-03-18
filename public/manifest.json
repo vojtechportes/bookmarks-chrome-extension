@@ -16,14 +16,20 @@
     "scripting",
     "favicon",
     "notifications",
-    "pageCapture"
+    "pageCapture",
+    "identity",
+    "identity.email"
   ],
-  "host_permissions": ["<all_urls>"],
+  "host_permissions": ["<all_urls>", "https://www.googleapis.com/*"],
   "background": {
     "service_worker": "service-worker.js",
     "type": "module"
   },
   "side_panel": {
     "default_path": "index.html"
+  },
+  "oauth2": {
+    "client_id": "{EXTENSION_OAUTH_CLIENT_ID}.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/drive.appdata"]
   }
 }
