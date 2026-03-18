@@ -125,6 +125,16 @@ To communicate with `IndexedDb`, `idb` package is used.
 
 ![Diagram](https://github.com/vojtechportes/bookmarks-chrome-extension/blob/main/app-diagram.png)
 
+### Architecture overview
+
+- UI: React side panel
+- Background: Manifest V3 service worker
+- Persistence: IndexedDB (bookmarks + assets)
+- Preferences: chrome.storage.local
+- Sync: runtime messaging (with BroadcastChannel fallback)
+
+### Architecture in detail
+
 This extension uses a **Manifest V3 service worker** as the backend layer and a **React side panel** as the UI layer.
 
 The **side panel** is responsible for rendering bookmarks, search, sorting, view preferences, and user interactions like bookmarking the current tab, opening a bookmark, pinning, unpinning, deleting items, and deleting all items.
