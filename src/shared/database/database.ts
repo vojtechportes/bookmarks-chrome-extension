@@ -18,9 +18,9 @@ export const getDatabase = (): Promise<IDBPDatabase<BookmarksDbSchema>> => {
       DATABASE_NAME,
       DATABASE_VERSION,
       {
-        upgrade(db) {
-          if (!db.objectStoreNames.contains(BOOKMARKS_STORE)) {
-            const bookmarksStore = db.createObjectStore(BOOKMARKS_STORE, {
+        upgrade(database) {
+          if (!database.objectStoreNames.contains(BOOKMARKS_STORE)) {
+            const bookmarksStore = database.createObjectStore(BOOKMARKS_STORE, {
               keyPath: BOOKMARKS_KEY_PATH,
             });
 
@@ -29,8 +29,8 @@ export const getDatabase = (): Promise<IDBPDatabase<BookmarksDbSchema>> => {
             });
           }
 
-          if (!db.objectStoreNames.contains(ASSETS_STORE)) {
-            db.createObjectStore(ASSETS_STORE, {
+          if (!database.objectStoreNames.contains(ASSETS_STORE)) {
+            database.createObjectStore(ASSETS_STORE, {
               keyPath: ASSETS_KEY_PATH,
             });
           }

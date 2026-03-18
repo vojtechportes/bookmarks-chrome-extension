@@ -5,7 +5,7 @@ import { getDatabase } from '../../database';
 export const getBookmarkByUrl = async (
   url: string,
 ): Promise<IBookmarkItem | undefined> => {
-  const db = await getDatabase();
+  const database = await getDatabase();
 
-  return db.getFromIndex(BOOKMARKS_STORE, BOOKMARK_URL_INDEX, url);
+  return database.getFromIndex(BOOKMARKS_STORE, BOOKMARK_URL_INDEX, url);
 };

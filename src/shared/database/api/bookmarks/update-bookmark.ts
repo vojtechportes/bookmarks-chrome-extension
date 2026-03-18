@@ -7,8 +7,8 @@ export const updateBookmark = async (
   bookmarkId: string,
   updater: (bookmark: IBookmarkItem) => IBookmarkItem,
 ): Promise<IBookmarkItem> => {
-  const db = await getDatabase();
-  const transaction = db.transaction(BOOKMARKS_STORE, 'readwrite');
+  const database = await getDatabase();
+  const transaction = database.transaction(BOOKMARKS_STORE, 'readwrite');
 
   try {
     const store = transaction.objectStore(BOOKMARKS_STORE);
