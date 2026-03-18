@@ -1,19 +1,14 @@
 import { type FC } from 'react';
-import { useStorage } from '../hooks/use-storage';
-import { BOOKMARKS_STORAGE_KEY } from '../../shared/constants/storage';
 import { EmptyScene } from '../scenes/empty-scene/empty-scene';
-import type { BookmarkItem } from '../../shared/types/bookmark-item';
 import { ListScene } from '../scenes/list-scene/list-scene';
+import { useBookmarksContext } from '../components/bookmarks-provider/hooks/use-bookmarks-context';
 
 export const App: FC = () => {
-  const { loading, value } = useStorage<BookmarkItem[]>(
-    BOOKMARKS_STORAGE_KEY,
-    [],
-  );
+  const { hasBookmarks, isLoadingHasBookmarks } = useBookmarksContext();
 
-  if (value && value.length > 0) {
-    return <ListScene data={value} />;
+  if (hasBookmarks) {
+    return <ListScene />;
   }
 
-  return <EmptyScene loading={loading} />;
+  return <EmptyScene loading={isLoadingHasBookmarks} />;
 };

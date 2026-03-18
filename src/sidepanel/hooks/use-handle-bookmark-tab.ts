@@ -7,7 +7,7 @@ import {
   UNSUPPORTED_MESSAGE_TYPE,
 } from '../../shared/constants/error-messages';
 
-export const useHandleBookmarkTab = () => {
+export const useHandleBookmarkTab = (reload: () => Promise<void>) => {
   const { t } = useTranslation();
 
   const { success, error, info } = useAlert();
@@ -18,6 +18,7 @@ export const useHandleBookmarkTab = () => {
       setIsSaving(true);
 
       const response = await runtimeApi.saveActiveTab();
+      await reload();
 
       if (!response.ok) {
         if (response.error === BOOKMARK_ALREADY_EXISTS) {
@@ -29,13 +30,14 @@ export const useHandleBookmarkTab = () => {
         return;
       }
 
+      runtimeApi.notifyBookmarksChanged();
       success(t('success-messages.bookmark-added'));
     } catch {
       error(t(`error-messages.${UNSUPPORTED_MESSAGE_TYPE}`));
     } finally {
       setIsSaving(false);
     }
-  }, [error, info, success, t]);
+  }, [error, info, reload, success, t]);
 
   return { handleBookmarkTab, isSaving };
 };

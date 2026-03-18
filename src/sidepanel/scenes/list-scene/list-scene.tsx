@@ -1,5 +1,4 @@
 import { useMemo, useState, type FC } from 'react';
-import type { BookmarkItem } from '../../../shared/types/bookmark-item';
 import { List } from '../../components/list/list';
 import DeleteIcon from '../../components/icons/delete-icon.svg?react';
 import { ListItem } from './components/list-item/list-item';
@@ -14,17 +13,23 @@ import { useHandleBookmarkTab } from '../../hooks/use-handle-bookmark-tab';
 import { useHandleFilterData } from './hooks/use-handle-filter-data';
 import { useSortItems } from './hooks/use-sort-items';
 import { useHandleDeleteAllBookmarks } from './hooks/use-handle-delete-all-bookmarks';
+import { useGetBookmarks } from '../../hooks/use-get-bookmarks';
+import { useSortOptions } from './hooks/use-sort-options';
 
-export interface IListSceneProps {
-  data: BookmarkItem[];
-}
-
-export const ListScene: FC<IListSceneProps> = ({ data }) => {
+export const ListScene: FC = () => {
   const { t } = useTranslation();
   const [deleteAllModalOpen, setDeleteAllModalOpen] = useState(false);
-  const { handleBookmarkTab, isSaving } = useHandleBookmarkTab();
   const { handleDeleteAllBookmarks, isDeleting } =
     useHandleDeleteAllBookmarks();
+
+  const { sortBy, direction } = useSortOptions();
+
+  const { bookmarks, reload: reloadBookmarks } = useGetBookmarks({
+    sortBy,
+    direction,
+  });
+
+  const { handleBookmarkTab, isSaving } = useHandleBookmarkTab(reloadBookmarks);
 
   const {
     data: filteredData,
@@ -33,7 +38,7 @@ export const ListScene: FC<IListSceneProps> = ({ data }) => {
     searchValue,
     sortOrderStorage,
     viewTypeStorage,
-  } = useHandleFilterData(data);
+  } = useHandleFilterData(bookmarks);
 
   const { sortItems } = useSortItems();
 
@@ -90,10 +95,11 @@ export const ListScene: FC<IListSceneProps> = ({ data }) => {
         {filteredData.map((item) => (
           <ListItem
             key={item.id}
-            {...item}
+            data={item}
             searchValue={searchValue}
             viewType={viewTypeStorage.value}
             loading={isDeleting}
+            reload={reloadBookmarks}
           />
         ))}
       </List>

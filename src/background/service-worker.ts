@@ -4,6 +4,24 @@ import type { BookmarkMessage } from '../shared/types/bookmark-message';
 import type { BookmarkResponse } from '../shared/types/bookmark-response';
 import { handleMessage } from './utils/handle-message.util';
 
+const BOOKMARKS_SYNC_PORT = 'bookmarks-sync';
+
+const ports = new Set<chrome.runtime.Port>();
+
+export const initBookmarksSync = () => {
+  chrome.runtime.onConnect.addListener((port) => {
+    if (port.name !== BOOKMARKS_SYNC_PORT) {
+      return;
+    }
+
+    ports.add(port);
+
+    port.onDisconnect.addListener(() => {
+      ports.delete(port);
+    });
+  });
+};
+
 chrome.runtime.onInstalled.addListener(() => {
   console.log('[bookmark-extension] service worker installed');
 

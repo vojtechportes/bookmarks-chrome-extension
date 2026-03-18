@@ -1,5 +1,5 @@
 export type SortOrder =
-  | 'newest-to-oldest'
-  | 'oldest-to-newest'
+  | 'addedAt-asc'
+  | 'addedAt-desc'
   | 'title-asc'
   | 'title-desc';

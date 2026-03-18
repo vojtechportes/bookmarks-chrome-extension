@@ -1,9 +1,9 @@
-import type { BookmarkItem } from '../shared/types/bookmark-item';
+import type { IBookmarkItem } from '../shared/types/bookmark-item';
 import type { SuccessResponse } from '../shared/types/success-response';
 
 export const activeTabResponseMock = (
   id?: string,
-): SuccessResponse<BookmarkItem> => ({
+): SuccessResponse<IBookmarkItem> => ({
   ok: true,
   data: {
     id: id ?? 'xxxx-xxxx-xxxx-xxxx-xxxx',

@@ -1,35 +1,40 @@
-import { useEffect, useState } from 'react';
-import { getAsset } from '../../../../../../shared/database/get-asset';
+import { useEffect, useMemo } from 'react';
+import { useGetAsset } from '../../../../../hooks/use-get-asset';
 
-export const useAssetUrl = (assetId?: string, defaultAssetUrl?: string) => {
-  const [assetUrl, setAssetUrl] = useState<string | undefined>(defaultAssetUrl);
+export interface IUseAssetUrlResult {
+  assetUrl: string | undefined;
+  isLoading: boolean;
+  error: Error | null;
+  reload: () => Promise<void>;
+}
+
+export const useAssetUrl = (
+  assetId?: string,
+  defaultAssetUrl?: string,
+): IUseAssetUrlResult => {
+  const { asset, isLoading, error, reload } = useGetAsset(assetId);
+  const blob = asset?.blob;
+
+  const objectUrl = useMemo(() => {
+    if (!blob) {
+      return undefined;
+    }
+
+    return URL.createObjectURL(blob);
+  }, [blob]);
 
   useEffect(() => {
-    let objectUrl: string | undefined;
-
-    const loadAsset = async () => {
-      if (!assetId) {
-        return;
-      }
-
-      const blob = await getAsset(assetId);
-
-      if (!blob) {
-        return;
-      }
-
-      objectUrl = URL.createObjectURL(blob);
-      setAssetUrl(objectUrl);
-    };
-
-    void loadAsset();
-
     return () => {
       if (objectUrl) {
         URL.revokeObjectURL(objectUrl);
       }
     };
-  }, [assetId]);
+  }, [objectUrl]);
 
-  return { assetUrl, setAssetUrl };
+  return {
+    assetUrl: objectUrl ?? defaultAssetUrl,
+    isLoading,
+    error,
+    reload,
+  };
 };

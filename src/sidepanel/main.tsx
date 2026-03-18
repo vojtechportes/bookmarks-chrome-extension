@@ -7,6 +7,7 @@ import './i18n';
 import { NotFound } from './components/not-found/not-found';
 import { Panel } from './components/panel/panel';
 import { AlertProvider } from './components/alert-provider/alert-provider';
+import { BookmarksProvider } from './components/bookmarks-provider/bookmarks-provider';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -17,9 +18,11 @@ createRoot(document.getElementById('root')!).render(
         </Panel>
       }
     >
-      <AlertProvider>
-        <App />
-      </AlertProvider>
+      <BookmarksProvider>
+        <AlertProvider>
+          <App />
+        </AlertProvider>
+      </BookmarksProvider>
     </Suspense>
   </StrictMode>,
 );

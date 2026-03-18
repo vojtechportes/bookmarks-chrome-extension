@@ -15,6 +15,7 @@ export interface IDropdownMenuProps {
   onChange: (value: string) => void;
   value?: string;
   items: IDropdownMenuItem[];
+  sideOffset?: number;
 }
 
 export const DropdownMenu: FC<PropsWithChildren<IDropdownMenuProps>> = ({
@@ -22,6 +23,7 @@ export const DropdownMenu: FC<PropsWithChildren<IDropdownMenuProps>> = ({
   onChange,
   value,
   items,
+  sideOffset,
 }) => (
   <DropdownMenuBase.Root modal={false}>
     <DropdownMenuBase.Trigger asChild>{trigger}</DropdownMenuBase.Trigger>
@@ -29,7 +31,7 @@ export const DropdownMenu: FC<PropsWithChildren<IDropdownMenuProps>> = ({
     <DropdownMenuBase.Portal>
       <DropdownMenuBase.Content
         className={clsx(dropdownMenuClasses.dropdownMenuContent)}
-        sideOffset={5}
+        sideOffset={sideOffset ?? 5}
       >
         {items.map((item) => (
           <DropdownMenuBase.Item

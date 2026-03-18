@@ -1,0 +1,87 @@
+import { useCallback, useMemo, useState, type FC } from 'react';
+import { Dialog } from '../../../../components/dialog/dialog';
+import { useTranslation } from 'react-i18next';
+import { Textarea } from '../../../../components/textarea/textarea';
+import type { IBookmarkItem } from '../../../../../shared/types/bookmark-item';
+import { clsx } from 'clsx';
+import classes from './rename-dialog.module.css';
+import { Typography } from '../../../../components/typography/typography';
+import { useHandleRenameBookmark } from './hooks/use-handle-rename-bookmark';
+
+export interface IRenameDialogProps {
+  open: boolean;
+  onCancel: () => void;
+  data: IBookmarkItem;
+  reload: () => Promise<void>;
+}
+
+export const RenameDialog: FC<IRenameDialogProps> = ({
+  open,
+  onCancel,
+  data,
+  reload,
+}) => {
+  const { t } = useTranslation();
+  const [titleValue, setTitleValue] = useState(data.title);
+
+  const hasError = useMemo(() => titleValue.length === 0, [titleValue.length]);
+
+  const canConfirm = useMemo(
+    () => !hasError && titleValue.trim() !== data.title,
+    [data.title, hasError, titleValue],
+  );
+
+  const { handleRenameBookmark, isRenaming } = useHandleRenameBookmark(
+    reload,
+    onCancel,
+  );
+
+  const handleConfirm = useCallback(() => {
+    handleRenameBookmark({ id: data.id, title: titleValue });
+  }, [data.id, handleRenameBookmark, titleValue]);
+
+  return (
+    <Dialog
+      open={open}
+      title={t('rename-dialog.title')}
+      onConfirm={handleConfirm}
+      onCancel={onCancel}
+      slots={{
+        confirmButton: {
+          disabled: !canConfirm || isRenaming,
+        },
+        cancelButton: {
+          disabled: isRenaming,
+        },
+      }}
+    >
+      <div className={clsx(classes.content)}>
+        <label htmlFor="title">{t('rename-dialog.fields.title')}</label>
+
+        <Textarea
+          name="title"
+          onChange={(event) => setTitleValue(event.target.value)}
+          rows={4}
+          /**
+           * Intentionally disabled no-autofocus rule since
+           * in this case, the input is in dropdown menu and
+           * which is a form of dialog and should be therefore
+           * focused automatically.
+           *
+           * https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/dialog/
+           */
+          /* eslint-disable-next-line jsx-a11y/no-autofocus */
+          autoFocus
+        >
+          {titleValue}
+        </Textarea>
+
+        {hasError && (
+          <Typography className={clsx(classes.error)} noMargin>
+            {t('rename-dialog.title-cant-be-empty')}
+          </Typography>
+        )}
+      </div>
+    </Dialog>
+  );
+};

@@ -1,44 +1,74 @@
 import { useTranslation } from 'react-i18next';
+import {
+  useCallback,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from 'react';
 import { useAlert } from '../../../../../components/alert-provider/hooks/use-alert';
-import { useCallback, useState } from 'react';
-import { runtimeApi } from '../../../../../api/runtime-api/runtime-api';
 import { UNSUPPORTED_MESSAGE_TYPE } from '../../../../../../shared/constants/error-messages';
+import { pinBookmark } from '../../../../../../shared/database/api/bookmarks/pin-bookmark';
+import { unpinBookmark } from '../../../../../../shared/database/api/bookmarks/unpin-bookmark';
+import { deleteBookmark } from '../../../../../../shared/database/api/bookmarks/delete-bookmark';
+import { useBookmarksContext } from '../../../../../components/bookmarks-provider/hooks/use-bookmarks-context';
+import { runtimeApi } from '../../../../../api/runtime-api/runtime-api';
 
-export const useHandleDropdownItemClick = (id: string) => {
+export const useHandleDropdownItemClick = (
+  id: string,
+  setIsRenameModalOpen: Dispatch<SetStateAction<boolean>>,
+) => {
   const { t } = useTranslation();
+  const { reloadHasBookmarks } = useBookmarksContext();
   const { success, error } = useAlert();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDropdownItemClick = useCallback(
-    async (value: string) => {
+    async (value: string, reload: () => Promise<void>) => {
       try {
         setIsLoading(true);
 
         if (value === 'pin') {
-          await runtimeApi.pinBookmark(id);
+          await pinBookmark(id);
+          await reload();
+
+          runtimeApi.notifyBookmarksChanged();
+          return;
         }
 
         if (value === 'unpin') {
-          await runtimeApi.unpinBookmark(id);
+          await unpinBookmark(id);
+
+          runtimeApi.notifyBookmarksChanged();
+          return;
+        }
+
+        if (value === 'rename') {
+          setIsRenameModalOpen(true);
+          return;
         }
 
         if (value === 'delete') {
-          const response = await runtimeApi.deleteBookmark(id);
+          await deleteBookmark(id);
+          await reload();
+          await reloadHasBookmarks();
 
-          if (!response.ok) {
-            error(t(`error-messages.${response.error}`));
-            return;
-          }
+          runtimeApi.notifyBookmarksChanged();
 
           success(t('success-messages.bookmark-deleted'));
+          return;
         }
-      } catch {
-        error(t(`error-messages.${UNSUPPORTED_MESSAGE_TYPE}`));
+      } catch (caughtError: unknown) {
+        const errorMessage =
+          caughtError instanceof Error
+            ? caughtError.message
+            : UNSUPPORTED_MESSAGE_TYPE;
+
+        error(t(`error-messages.${errorMessage}`));
       } finally {
         setIsLoading(false);
       }
     },
-    [error, id, success, t],
+    [error, id, reloadHasBookmarks, setIsRenameModalOpen, success, t],
   );
 
   return { handleDropdownItemClick, isLoading };

@@ -12,12 +12,12 @@ export const useSortItems = () => {
   const sortItems = useMemo<IDropdownMenuItem[]>(
     () => [
       {
-        value: 'newest-to-oldest',
+        value: 'addedAt-desc',
         label: t('newest-to-oldest'),
         icon: <NewestToOldestIcon />,
       },
       {
-        value: 'oldest-to-newest',
+        value: 'addedAt-asc',
         label: t('oldest-to-newest'),
         icon: <OldestToNewestIcon />,
       },

@@ -1,5 +1,5 @@
-import type { BookmarkItem } from '../../../../shared/types/bookmark-item';
+import type { IBookmarkItem } from '../../../../shared/types/bookmark-item';
 
-export type SearchableBookmark = BookmarkItem & {
+export type SearchableBookmark = IBookmarkItem & {
   id: string;
 };

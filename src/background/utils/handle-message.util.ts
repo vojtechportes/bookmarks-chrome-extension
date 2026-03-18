@@ -1,52 +1,18 @@
 import { UNSUPPORTED_MESSAGE_TYPE } from '../../shared/constants/error-messages';
 import type { BookmarkMessage } from '../../shared/types/bookmark-message';
 import type { BookmarkResponse } from '../../shared/types/bookmark-response';
-import { deleteAllBookmarks } from '../api/delete-all-bookmarks';
-import { deleteBookmark } from '../api/delete-bookmark';
-import { getBookmarks } from '../api/get-bookmarks';
+import { bookmarksChanged } from '../api/bookmarks-changed';
 import { openBookmarkUrl } from '../api/open-bookmark-url';
-import { pinBookmark } from '../api/pin-bookmark';
 import { saveActiveTabBookmark } from '../api/save-active-tab-bookmark';
-import { unpinBookmark } from '../api/unpin-bookmark';
 
 export async function handleMessage(
   message: BookmarkMessage,
 ): Promise<BookmarkResponse<unknown>> {
   switch (message.type) {
-    case 'GET_BOOKMARKS': {
-      const bookmarks = await getBookmarks();
-
-      return { ok: true, data: bookmarks };
-    }
-
     case 'SAVE_ACTIVE_TAB': {
       const bookmark = await saveActiveTabBookmark();
 
       return { ok: true, data: bookmark };
-    }
-
-    case 'PIN_BOOKMARK': {
-      await pinBookmark(message.payload.id);
-
-      return { ok: true, data: undefined };
-    }
-
-    case 'UNPIN_BOOKMARK': {
-      await unpinBookmark(message.payload.id);
-
-      return { ok: true, data: undefined };
-    }
-
-    case 'DELETE_BOOKMARK': {
-      await deleteBookmark(message.payload.id);
-
-      return { ok: true, data: undefined };
-    }
-
-    case 'DELETE_ALL_BOOKMARKS': {
-      await deleteAllBookmarks();
-
-      return { ok: true, data: undefined };
     }
 
     case 'OPEN_BOOKMARK': {
@@ -54,6 +20,12 @@ export async function handleMessage(
         message.payload.url,
         message.payload.newTab ?? true,
       );
+
+      return { ok: true, data: undefined };
+    }
+
+    case 'BOOKMARKS_CHANGED': {
+      await bookmarksChanged();
 
       return { ok: true, data: undefined };
     }
