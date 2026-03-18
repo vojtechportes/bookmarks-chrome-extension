@@ -103,8 +103,9 @@ pinned?: boolean;
 ```
 
 Assets, specifically favicons and screenshots are stored in `IndexedDB`.
-
 Assets are downscaled and compressed before storage, except for SVG files.
+
+When bookmark is deleted, assets tied to that bookmark are deleted as well. When all bookmarks are deleted, both database tables are emptied.
 
 Preferences, sorting and view type are stored in `chrome.local.storage`.
 
