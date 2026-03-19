@@ -99,6 +99,7 @@ lightIconAssetId?: string;
 screenshotAssetId?: string;
 description: string;
 addedAt: string;
+updatedAt: string;
 pinned?: boolean;
 ```
 
