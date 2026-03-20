@@ -183,9 +183,11 @@ export const SettingsScene: FC = () => {
           {summarizerStatus.value?.value === 100 &&
             !summarizerStatus.value.isDownloading && (
               <Alert variant="success">
-                {t(
-                  'use-ai-generated-descriptions.model-successfully-downloaded',
-                )}
+                <SanitizedText
+                  text={t(
+                    'use-ai-generated-descriptions.model-successfully-downloaded',
+                  )}
+                />
               </Alert>
             )}
         </form>

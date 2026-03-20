@@ -4,7 +4,7 @@
     "label": "Use AI generated descriptions",
     "info": "Enable AI-generated descriptions for saved pages. Turning this on <strong>will download a large AI model</strong> (takes approximately 5-15 minutes depending on your connection) and use a significant amount of storage.<br /><br /> For best results, first time, enable this feature on a stable, unmetered network (e.g., Wi-Fi).",
     "downloading": "Downloading... <strong>{{count}}%</strong>",
-    "error": "Downloading AI model was taking longer than expected and either stalled or stopped reporting. Try restarting your browser or remove removing model from chrome://on-device-internals/.",
+    "error": "The AI model download is taking longer than expected or may have stalled. First, try closing and reopening the extension. If that doesn't help, restart your browser.<br /><br />Afterward, go back to Settings and check whether the download resumes or starts again.<br /><br />If the issue persists, uninstall the AI model via chrome://on-device-internals/, then restart your browser. The download should start again afterward.",
     "model-successfully-downloaded": "AI model was successfully downloaded"
   }
 }
