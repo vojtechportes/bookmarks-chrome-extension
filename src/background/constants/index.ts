@@ -1,1 +1,3 @@
 export const OFFSCREEN_DOCUMENT_PATH = 'offscreen.html';
+export const EXTRACTED_TEXT_MAXIMUM_LENGTH = 4000;
+export const EXTRACTED_TITLE_MAXIMUM_LENGTH = 250;
