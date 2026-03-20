@@ -1,0 +1,15 @@
+.settings-button {
+  position: fixed;
+  bottom: calc(var(--space-size) * 2);
+  right: calc(var(--space-size) * 2);
+  z-index: var(--z-index-floating-button);
+
+  &.push-left {
+    right: calc(var(--space-size) * 9);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    border: 1px solid
+      color-mix(in srgb, var(--color-white) 30%, transparent 70%);
+  }
+}

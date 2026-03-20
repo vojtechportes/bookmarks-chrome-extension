@@ -1,0 +1,10 @@
+{
+  "navigate-back": "Navigate back",
+  "use-ai-generated-descriptions": {
+    "label": "Use AI generated descriptions",
+    "info": "Enable AI-generated descriptions for saved pages. Turning this on <strong>will download a large AI model</strong> (takes approximately 5-15 minutes depending on your connection) and use a significant amount of storage.<br /><br /> For best results, first time, enable this feature on a stable, unmetered network (e.g., Wi-Fi).",
+    "downloading": "Downloading... <strong>{{count}}%</strong>",
+    "error": "Downloading AI model was taking longer than expected and either stalled or stopped reporting. Try restarting your browser or remove removing model from chrome://on-device-internals/.",
+    "model-successfully-downloaded": "AI model was successfully downloaded"
+  }
+}

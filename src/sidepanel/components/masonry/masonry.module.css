@@ -1,0 +1,23 @@
+.root {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--masonry-gap, 16px);
+  width: 100%;
+
+  &.xs {
+    max-width: 380px;
+    margin: auto;
+  }
+}
+
+.column {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: var(--masonry-gap, 16px);
+  min-width: 0;
+}
+
+.item {
+  width: 100%;
+}

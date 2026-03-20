@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { type FC, type PropsWithChildren } from 'react';
+import React, { type FC, type PropsWithChildren } from 'react';
 import classes from './button.module.css';
 import type { IDataTest } from '../../types/data-test';
 import { Skeleton } from '../skeleton/skeleton';
@@ -12,6 +12,7 @@ export interface IButtonSlots {
 export interface IButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>, IDataTest {
   variant?: 'primary' | 'secondary' | 'faux';
+  outlined?: boolean;
   loading?: boolean;
   icon?: React.ReactNode;
   slots?: IButtonSlots;
@@ -19,6 +20,7 @@ export interface IButtonProps
 
 export const Button: FC<PropsWithChildren<IButtonProps>> = ({
   variant = 'primary',
+  outlined,
   loading,
   disabled,
   icon,
@@ -29,9 +31,10 @@ export const Button: FC<PropsWithChildren<IButtonProps>> = ({
 }) => (
   <button
     className={clsx(
-      classes.btn,
+      classes.root,
       classes[variant],
       (disabled || loading) && classes.disabled,
+      outlined && classes.outlined,
       icon && classes.icon,
       className,
     )}

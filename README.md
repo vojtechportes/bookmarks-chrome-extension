@@ -75,12 +75,14 @@ Repository is structured into following folders:
 /src
   /__mocks__
   /background
+  /offscreen
   /shared
   /sidepanel
   /test
 ```
 
 - `background` contains `service-worker.ts`, `Chrome API` related functions, and background utilities.
+- `offscreen` hidden document to AI summarize page content when `Use AI generated descriptions` is enabled in extension settings
 - `shared` contains shared constants, types and database-related and functions.
 - `sidepanel` then contains React application.
 
@@ -99,7 +101,9 @@ lightIconAssetId?: string;
 screenshotAssetId?: string;
 description: string;
 addedAt: string;
+updatedAt: string;
 pinned?: boolean;
+isGeneratingDescription?: boolean;
 ```
 
 Assets, specifically favicons and screenshots are stored in `IndexedDB`.
@@ -107,7 +111,7 @@ Assets are downscaled and compressed before storage, except for SVG files.
 
 When bookmark is deleted, assets tied to that bookmark are deleted as well. When all bookmarks are deleted, both database tables are emptied.
 
-Preferences, sorting and view type are stored in `chrome.local.storage`.
+Preferences, `sorting`, `view type` and `extension settings` are stored in `chrome.local.storage`.
 
 ## Library choices
 
@@ -137,13 +141,13 @@ To communicate with `IndexedDb`, `idb` package is used.
 
 This extension uses a **Manifest V3 service worker** as the backend layer and a **React side panel** as the UI layer.
 
-The **side panel** is responsible for rendering bookmarks, search, sorting, view preferences, and user interactions like bookmarking the current tab, opening a bookmark, pinning, unpinning, deleting items, and deleting all items.
+The **side panel** is responsible for rendering bookmarks, search, sorting, view preferences, settings and user interactions like bookmarking the current tab, opening a bookmark, pinning, unpinning, deleting items, and deleting all items.
 
 Bookmark metadata and downscaled assets are stored in `IndexedDb` in two separate tables.
 
 User preferences are stored in `chrome.storage.local` and accessed through a `storageApi` abstraction. In the React UI this is used via the `useStorage` hook, which also subscribes to storage changes so the UI automatically updates stored data changes.
 
-Operations that require privileged extension APIs (accessing the active tab, capturing screenshots, or opening new tab) are executed through a `runtimeApi` abstraction, which communicates with the background service worker using `chrome.runtime.sendMessage()`.
+Operations that require privileged extension APIs (accessing the active tab, capturing screenshots, AI summarization or opening new tab) are executed through a `runtimeApi` abstraction, which communicates with the background service worker using `chrome.runtime.sendMessage()`.
 
 `IndexedDB` is accessed through a shared database API. Sorting is performed at the database layer, while search is handled in the React UI. State changes are synchronized through messaging between the React UI and the background layer, with `BroadcastChannel` serving as a fallback for non-extension or out-of-context environments.
 
@@ -155,7 +159,9 @@ Overall:
 
 The **service worker** is the main orchestration layer. The side panel communicates with it through `chrome.runtime.sendMessage()`. Inside the worker, `handleMessage()` routes messages to dedicated bookmark actions.
 
-When saving a bookmark, the worker first resolves the **active tab**, checks whether the URL is bookmarkable, or whether the bookmark is not already saved and then uses `chrome.scripting.executeScript()` to extract page metadata like title, URL, description, and favicon from the page DOM. It also captures a screenshot of the current tab. Data is then saved to `IndexedDb`. If unsuccesfull, exception is thrown and communicated to user.
+Aside of service worker, there is also an **offscreen** which is used to execute AI analysis of a page content and generate a description.
+
+When saving a bookmark, the worker first resolves the **active tab**, checks whether the URL is bookmarkable, or whether the bookmark is not already saved and then uses `chrome.scripting.executeScript()` to extract page metadata like title, URL, description, and favicon from the page DOM. At the same time, when `Use AI generated descriptions` is enabled and the `Summarizer` is available and AI model downloaded, **page description is AI generated** in `offscreen` in async mode and temporary loading state flag `isGeneratingDescription` is saved to the bookmark metadata and later on updated when generated description is ready. It also captures a screenshot of the current tab. Data is then saved to `IndexedDb`. If unsuccesfull, exception is thrown and communicated to user.
 
 The extension uses **two storage layers**:
 
@@ -168,9 +174,7 @@ For local browser development outside the extension environment, the project inc
 
 Sorting is implemented through a dropdown instead of a toggle. I found toggling between four sorting states less intuitive, while a dropdown makes the available options clearer and easier to use.
 
-Scraping page content for bookmark descriptions is also done in the opposite order from the original brief. The extension first prefers the page description and only then falls back to page content.
-
-Raw page content intends to be noisy and not very useful without additional summarization. Eventhough Chrome now provides Prompt API that could potentially summarize page content, it requires significant system resources (RAM/VRAM), which makes it unsuitable for a lightweight browser extension intended to run reliably on most machines. For this reason the extension avoids AI-based summarization and relies on page metadata instead. If it would be up to me, I would skip the raw page content intentionally and go with no description at all in case meta description is not available, but I am keeping it as the brief asked for it. 
+Scraping page content for bookmark descriptions is also done in the opposite order from the original brief. The extension first prefers the page description and only then falls back to page content, because raw page content tends to be noisy and very often contains unusable information. In case user opt-ins for AI generated descriptions in the settings, then the AI generated description has the heighest priority and when available, it is used first.
 
 ### Additional functionality
 
@@ -178,7 +182,7 @@ Raw page content intends to be noisy and not very useful without additional summ
 - User can delete all bookmarks.
 - User can pin bookmarks. If there are any pinned bookmarks, sorting happens in two stages. First pinned bookmarks are sorted, which stay on top and then the rest.
 - Searched text is highlighted (though when original searched text is fuzzy, the match might not be fully displayed)
-- User can rename bookmarks
+- User can rename bookmarks/
 
 ## Known limitations
 
@@ -225,6 +229,8 @@ I migrated bookmark metadata to `IndexedDB`, using a dedicated store. This provi
 Search remains implemented on the client using `minisearch`, as it currently provides better flexibility and relevance than what would be practical to achieve directly in IndexedDB.
 
 Additionally, I introduced bookmark renaming as a small usability improvement.
+
+Later on, I also added **AI generated descriptions** and with that Settings section and refactored some parts of the code and improved UI of the extension.
 
 ### Potential improvements
 

@@ -5,6 +5,7 @@ import { compressImageBlob } from './compress-image-blob.util';
 export const saveIconAsset = async (
   bookmarkId: string,
   iconUrl: string,
+  suffix?: string,
 ): Promise<string | undefined> => {
   const response = await fetch(iconUrl, {
     credentials: 'include',
@@ -20,7 +21,7 @@ export const saveIconAsset = async (
     return undefined;
   }
 
-  const assetId = `${bookmarkId}-icon`;
+  const assetId = `${bookmarkId}-${suffix}-icon`;
 
   let blobToStore = originalBlob;
   let mimeType = originalBlob.type || 'image/png';

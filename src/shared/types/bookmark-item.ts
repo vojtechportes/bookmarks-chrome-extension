@@ -9,5 +9,7 @@ export interface IBookmarkItem {
   screenshotAssetId?: string;
   description: string | null;
   addedAt: string;
+  updatedAt: string;
   pinned?: boolean;
+  isGeneratingDescription?: boolean;
 }

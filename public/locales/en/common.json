@@ -1,8 +1,4 @@
 {
-  "no-data": {
-    "title": "Nothing saved for later yet!",
-    "button": "Save to read later"
-  },
   "error-messages": {
     "BOOKMARK_NOT_FOUND": "Bookmark not found",
     "FAILED_TO_EXTRACT_DATA": "Failed to save tab for later",
@@ -12,47 +8,12 @@
     "ACTIVE_TAB_ID_MISSING": "Failed to save tab for later",
     "TAB_CANNOT_BE_BOOKMARKED": "This tab can't be saved",
     "UNSUPPORTED_MESSAGE_TYPE": "Something went wrong :(",
-    "INVALID_BOOKMARK_URL": "Opening bookmarked tab failed",
-    "renaming-bookmark-failed": "Renaming bookmark failed"
+    "INVALID_BOOKMARK_URL": "Opening bookmarked tab failed"
   },
   "info-messages": {
     "BOOKMARK_ALREADY_EXISTS": "Bookmark already exsts"
   },
-  "success-messages": {
-    "bookmark-added": "Tab added to your collection",
-    "bookmarks-deleted": "All bookmarked tabs were deleted",
-    "bookmark-deleted": "Tab deleted",
-    "bookmark-renamed": "Bookmarked renamed"
-  },
   "cancel": "Cancel",
   "confirm": "Confirm",
-  "no-match": {
-    "title": "No saved tabs matched your search criteria",
-    "button-title": "Reset search"
-  },
-  "matched-records": "{{count}} saved tabs matched your search criteria. <0>Reset search</0>",
-  "matched-records_one": "{{count}} saved tab matched your search criteria. <0>Reset search</0>",
-  "matched-records_many": "{{count}} saved tabs matched your search criteria. <0>Reset search</0>",
-  "type-to-search": "Type to search",
-  "bookmark": "Save to read later",
-  "newest-to-oldest": "Newest to oldest",
-  "oldest-to-newest": "Oldest to newest",
-  "title-asc": "Title A to Z",
-  "title-desc": "Title Z to A",
-  "pin": "Pin",
-  "unpin": "Unpin",
-  "delete": "Delete",
-  "rename": "Rename",
-  "delete-all": "Delete all",
-  "delete-all-modal": {
-    "title": "Delete all bookmarks?",
-    "description": "This action is irreversible. Are you sure you want to proceed?"
-  },
-  "rename-dialog": {
-    "title": "Rename bookmarked tab",
-    "fields": {
-      "title": "Title:"
-    },
-    "title-cant-be-empty": "Title can't be empty"
-  }
+  "copy": "Copy"
 }

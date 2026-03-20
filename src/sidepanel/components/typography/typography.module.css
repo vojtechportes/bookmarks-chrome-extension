@@ -1,5 +1,17 @@
-.typography {
+.root {
   color: var(--color-text-primary);
+
+  &.disabled {
+    color: color-mix(in srgb, var(--color-text-primary) 50%, transparent);
+  }
+
+  &.secondary {
+    color: var(--color-text-secondary);
+
+    &.disabled {
+      color: color-mix(in srgb, var(--color-text-secondary) 50%, transparent);
+    }
+  }
 
   .skeleton {
     margin: 1px 0;
@@ -8,6 +20,10 @@
   &.p,
   &.span {
     font-size: var(--font-size);
+
+    &.small {
+      font-size: calc(var(--font-size) * 0.85);
+    }
 
     .skeleton {
       height: calc(var(--font-size));

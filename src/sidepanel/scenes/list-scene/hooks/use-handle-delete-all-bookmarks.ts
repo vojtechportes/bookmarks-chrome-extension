@@ -7,7 +7,7 @@ import { useBookmarksContext } from '../../../components/bookmarks-provider/hook
 import { runtimeApi } from '../../../api/runtime-api/runtime-api';
 
 export const useHandleDeleteAllBookmarks = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['bookmarks-scene', 'common']);
   const { error: errorAlert, success: successAlert } = useAlert();
   const [isDeleting, setIsDeleting] = useState(false);
   const { reloadHasBookmarks } = useBookmarksContext();
@@ -26,7 +26,7 @@ export const useHandleDeleteAllBookmarks = () => {
       const errorMessage =
         error instanceof Error ? error.message : UNSUPPORTED_MESSAGE_TYPE;
 
-      errorAlert(t(`error-messages.${errorMessage}`));
+      errorAlert(t(`common:error-messages.${errorMessage}`));
     } finally {
       setIsDeleting(false);
     }

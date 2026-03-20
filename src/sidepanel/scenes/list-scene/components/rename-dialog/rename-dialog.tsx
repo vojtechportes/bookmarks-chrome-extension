@@ -5,8 +5,9 @@ import { Textarea } from '../../../../components/textarea/textarea';
 import type { IBookmarkItem } from '../../../../../shared/types/bookmark-item';
 import { clsx } from 'clsx';
 import classes from './rename-dialog.module.css';
-import { Typography } from '../../../../components/typography/typography';
 import { useHandleRenameBookmark } from './hooks/use-handle-rename-bookmark';
+import labelClasses from '../../../../components/label/label.module.css';
+import { Error } from '../../../../components/error/error';
 
 export interface IRenameDialogProps {
   open: boolean;
@@ -21,7 +22,7 @@ export const RenameDialog: FC<IRenameDialogProps> = ({
   data,
   reload,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('bookmarks-scene');
   const [titleValue, setTitleValue] = useState(data.title);
 
   const hasError = useMemo(() => titleValue.length === 0, [titleValue.length]);
@@ -56,7 +57,9 @@ export const RenameDialog: FC<IRenameDialogProps> = ({
       }}
     >
       <div className={clsx(classes.content)}>
-        <label htmlFor="title">{t('rename-dialog.fields.title')}</label>
+        <label htmlFor="title" className={clsx(labelClasses.label)}>
+          {t('rename-dialog.fields.title')}
+        </label>
 
         <Textarea
           name="title"
@@ -76,11 +79,7 @@ export const RenameDialog: FC<IRenameDialogProps> = ({
           {titleValue}
         </Textarea>
 
-        {hasError && (
-          <Typography className={clsx(classes.error)} noMargin>
-            {t('rename-dialog.title-cant-be-empty')}
-          </Typography>
-        )}
+        {hasError && <Error>{t('rename-dialog.title-cant-be-empty')}</Error>}
       </div>
     </Dialog>
   );

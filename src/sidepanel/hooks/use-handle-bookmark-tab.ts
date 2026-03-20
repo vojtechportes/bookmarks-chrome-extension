@@ -8,7 +8,7 @@ import {
 } from '../../shared/constants/error-messages';
 
 export const useHandleBookmarkTab = (reload: () => Promise<void>) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['bookmarks-scene', 'common']);
 
   const { success, error, info } = useAlert();
   const [isSaving, setIsSaving] = useState(false);
@@ -22,18 +22,18 @@ export const useHandleBookmarkTab = (reload: () => Promise<void>) => {
 
       if (!response.ok) {
         if (response.error === BOOKMARK_ALREADY_EXISTS) {
-          info(t(`info-messages.${response.error}`));
+          info(t(`common:info-messages.${response.error}`));
           return;
         }
 
-        error(t(`error-messages.${response.error}`));
+        error(t(`common:error-messages.${response.error}`));
         return;
       }
 
       runtimeApi.notifyBookmarksChanged();
       success(t('success-messages.bookmark-added'));
     } catch {
-      error(t(`error-messages.${UNSUPPORTED_MESSAGE_TYPE}`));
+      error(t(`common:error-messages.${UNSUPPORTED_MESSAGE_TYPE}`));
     } finally {
       setIsSaving(false);
     }

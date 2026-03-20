@@ -1,4 +1,4 @@
-import { useCallback, useMemo, type FC } from 'react';
+import React, { useCallback, useMemo, type FC } from 'react';
 import type { IDataTest } from '../../types/data-test';
 import { clsx } from 'clsx';
 import classes from './input.module.css';
@@ -40,7 +40,7 @@ export const Input: FC<IInputProps> = ({
   );
 
   return (
-    <div className={clsx(classes.inputContainer)}>
+    <div className={clsx(classes.root)}>
       <input type="text" className={clsx(classes.input)} {...rest} />
 
       {canClear && (

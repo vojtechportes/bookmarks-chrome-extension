@@ -1,0 +1,10 @@
+.form {
+  width: 100%;
+  max-width: calc(var(--space-size) * 60);
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: calc(var(--space-size) * 4);
+}

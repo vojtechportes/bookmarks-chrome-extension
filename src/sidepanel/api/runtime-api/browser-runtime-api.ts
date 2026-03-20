@@ -8,6 +8,7 @@ import type { OpenBookmarkResponse } from './types/open-bookmark-response';
 import type { SetActiveTabResponse } from './types/set-active-tab-response';
 import { notifyBookmarksChanged } from '../../../shared/broadcast/bookmarks-events';
 import type { BookmarksChangedResponse } from '../../../shared/types/bookmarks-changed-response';
+import type { SummarizeTextResponse } from './types/summarize-response';
 
 export class BrowserRuntimeApi implements IRuntimeApi {
   async saveActiveTab(): Promise<SetActiveTabResponse> {
@@ -52,6 +53,21 @@ export class BrowserRuntimeApi implements IRuntimeApi {
     return {
       ok: true,
       data: undefined,
+    };
+  }
+
+  async summarizeActiveTab(
+    options?: SummarizerCreateOptions,
+  ): Promise<SummarizeTextResponse> {
+    console.warn(
+      '[dev] SUMMARIZE_ACTIVE_TAB called outside extension context with parameters',
+      'options',
+      options,
+    );
+
+    return {
+      ok: true,
+      data: 'Mock summary',
     };
   }
 

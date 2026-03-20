@@ -12,30 +12,8 @@
 }
 
 .list {
-  &.view-tiles {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-auto-rows: 1fr;
-    gap: var(--space-size);
-    max-width: 100%;
-
-    @media (min-width: 520px) {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    @media (min-width: 768px) {
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-
-    @media (min-width: 1024px) {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-    }
-  }
-
-  &.view-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-size);
-    max-width: 100%;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-size);
+  max-width: 100%;
 }

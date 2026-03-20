@@ -46,7 +46,7 @@
 }
 
 .link {
-  p {
+  span {
     text-decoration: underline;
   }
 }
@@ -78,7 +78,28 @@
   box-shadow: none;
 }
 
-.iconButtonContainer {
+.icon-button-container {
   padding: 4px;
   margin: -4px;
+}
+
+.copy-button {
+  position: relative;
+  top: 1px;
+}
+
+.description {
+  position: relative;
+}
+
+.generating-description {
+  position: absolute;
+  bottom: var(--space-size);
+  left: var(--space-size);
+  width: calc(var(--space-size) * 2.5);
+  opacity: 0.5;
+
+  svg {
+    fill: var(--color-text-primary);
+  }
 }

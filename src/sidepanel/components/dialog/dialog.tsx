@@ -45,7 +45,7 @@ export const Dialog: FC<PropsWithChildren<IDialogProps>> = ({
         aria-hidden="true"
       />
 
-      <div className={clsx(classes.dialog)}>
+      <div className={clsx(classes.root)}>
         <div className={clsx(classes.title)}>
           <Typography as="h5" noMargin className={clsx(classes.typography)}>
             {title}

@@ -7,7 +7,7 @@ import TitleDescIcon from '../../../components/icons/title-desc-icon.svg?react';
 import type { IDropdownMenuItem } from '../../../components/dropdown-menu/dropdown-menu';
 
 export const useSortItems = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('bookmarks-scene');
 
   const sortItems = useMemo<IDropdownMenuItem[]>(
     () => [

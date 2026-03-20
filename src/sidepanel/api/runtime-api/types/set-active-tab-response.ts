@@ -1,7 +1,4 @@
 import type { IBookmarkItem } from '../../../../shared/types/bookmark-item';
-import type { ErrorResponse } from '../../../../shared/types/error-response';
-import type { SuccessResponse } from '../../../../shared/types/success-response';
+import type { BookmarkResponse } from '../../../../shared/types/bookmark-response';
 
-export type SetActiveTabResponse =
-  | ErrorResponse
-  | SuccessResponse<IBookmarkItem>;
+export type SetActiveTabResponse = BookmarkResponse<IBookmarkItem>;

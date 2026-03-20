@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { hasBookmarks } from '../../shared/database/api/bookmarks/has-bookmarks';
 import { useSynchronizeBookmarks } from './use-synchronize-bookmarks';
+import { FAILED_TO_CHECK_BOOKMARKS } from '../../shared/constants/error-messages';
 
 export interface IUseHasBookmarksResult {
   hasBookmarks: boolean;
@@ -25,7 +26,7 @@ export const useHasBookmarks = (): IUseHasBookmarksResult => {
       setError(
         caughtError instanceof Error
           ? caughtError
-          : new Error('Failed to check bookmarks'),
+          : new Error(FAILED_TO_CHECK_BOOKMARKS),
       );
     } finally {
       setIsLoading(false);

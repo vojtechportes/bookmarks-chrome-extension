@@ -1,4 +1,4 @@
-.panel {
+.root {
   display: flex;
   flex-direction: column;
   padding: calc(var(--space-size) * 4);

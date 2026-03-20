@@ -14,7 +14,7 @@ export const Stack: FC<PropsWithChildren<IStackProps>> = ({
   children,
 }) => (
   <div
-    className={clsx(classes.stack, className)}
+    className={clsx(classes.root, className)}
     style={{ gap: normalizeSize(gap) }}
   >
     {children}

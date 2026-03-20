@@ -30,7 +30,7 @@ export const Skeleton: FC<ISkeletonProps> = ({
   return (
     <div
       className={clsx(
-        classes.skeleton,
+        classes.root,
         classes[shape],
         classes[variant],
         !roundedCorners && classes.noRoundedCorners,

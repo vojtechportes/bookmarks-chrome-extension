@@ -11,5 +11,6 @@ export const activeTabResponseMock = (
     title: 'Tab name',
     url: 'https://example.com',
     addedAt: new Date(2026, 1, 1).toISOString(),
+    updatedAt: new Date(2026, 1, 1).toISOString(),
   },
 });

@@ -12,6 +12,7 @@ import { NotFound } from '../not-found/not-found';
 import { Stack } from '../stack/stack';
 import { Panel } from '../panel/panel';
 import { ResetSearch } from './components/reset-search/reset-search';
+import { Masonry } from '../masonry/masonry';
 
 export interface IListProps
   extends React.HTMLAttributes<HTMLDivElement>, IDataTest {
@@ -36,7 +37,7 @@ export const List: FC<PropsWithChildren<IListProps>> = ({
   const { numberMatches } = searchProps;
 
   return (
-    <>
+    <div className={clsx(className)} {...rest}>
       <Filters
         loading={loading}
         viewTypeProps={viewTypeProps}
@@ -75,18 +76,13 @@ export const List: FC<PropsWithChildren<IListProps>> = ({
             </div>
           )}
 
-          <div
-            className={clsx(
-              classes.list,
-              viewTypeProps.variant && classes[`view-${viewTypeProps.variant}`],
-              className,
-            )}
-            {...rest}
-          >
-            {children}
-          </div>
+          {viewTypeProps.variant === 'tiles' ? (
+            <Masonry>{children}</Masonry>
+          ) : (
+            <div className={clsx(classes.list)}>{children}</div>
+          )}
         </>
       )}
-    </>
+    </div>
   );
 };
