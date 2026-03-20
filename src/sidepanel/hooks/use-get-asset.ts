@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getAssetById } from '../../shared/database/api/assets/get-asset-by-id';
 import type { IAssetItem } from '../../shared/types/asset-item';
+import { FAILED_TO_LOAD_ASSET } from '../../shared/constants/error-messages';
 
 export interface IUseGetAssetResult {
   asset: IAssetItem | undefined;
@@ -32,7 +33,7 @@ export const useGetAsset = (assetId?: string): IUseGetAssetResult => {
       setError(
         caughtError instanceof Error
           ? caughtError
-          : new Error('Failed to load asset'),
+          : new Error(FAILED_TO_LOAD_ASSET),
       );
     } finally {
       setIsLoading(false);

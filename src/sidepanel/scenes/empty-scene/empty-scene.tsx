@@ -12,7 +12,7 @@ export interface IEmptySceneProps {
 }
 
 export const EmptyScene: FC<IEmptySceneProps> = ({ loading }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('bookmarks-scene');
   const { reloadHasBookmarks } = useBookmarksContext();
   const { handleBookmarkTab, isSaving } =
     useHandleBookmarkTab(reloadHasBookmarks);

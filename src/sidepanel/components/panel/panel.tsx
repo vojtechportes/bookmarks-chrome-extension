@@ -20,7 +20,7 @@ export const Panel: FC<PropsWithChildren<IPanelProps>> = ({
 }) => (
   <div
     className={clsx(
-      classes.panel,
+      classes.root,
       classes?.[align],
       fullHeight && classes.fullHeight,
       transparent && classes.transparent,

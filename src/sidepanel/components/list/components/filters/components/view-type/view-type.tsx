@@ -20,7 +20,7 @@ export const ViewType: FC<IViewTypeProps> = ({
       type="single"
       unselectable="on"
       value={variant}
-      className={toggleGroupClasses.toggleGroup}
+      className={toggleGroupClasses.root}
       onValueChange={onChange}
     >
       <ToggleGroup.Item value="tiles" className={toggleGroupClasses.item}>

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Bookmarks",
-  "version": "1.0",
+  "version": "{VERSION}",
   "description": "A simple bookmark manager designed for speed and simplicity",
   "icons": {
     "16": "favicon-16.png",
@@ -16,7 +16,9 @@
     "scripting",
     "favicon",
     "notifications",
-    "pageCapture"
+    "pageCapture",
+    "offscreen",
+    "clipboardWrite"
   ],
   "host_permissions": ["<all_urls>"],
   "background": {

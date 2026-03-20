@@ -13,7 +13,7 @@ export const useHandleRenameBookmark = (
   reload: () => Promise<void>,
   onRenamed: () => void,
 ) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('bookmarks-scene');
   const { success, error, info } = useAlert();
 
   const [isRenaming, setIsRenaming] = useState(false);

@@ -9,6 +9,7 @@ import {
 } from './components/view-type/view-type';
 import { Search, type ISearchProps } from './components/search/search';
 import { Skeleton } from '../../../skeleton/skeleton';
+import type React from 'react';
 
 export interface IFiltersProps extends React.HTMLAttributes<HTMLDivElement> {
   loading?: boolean;
@@ -29,7 +30,7 @@ export const Filters: FC<PropsWithChildren<IFiltersProps>> = ({
   ...rest
 }) => (
   <div className={clsx(className)}>
-    <div className={clsx(classes.filters)} {...rest}>
+    <div className={clsx(classes.root)} {...rest}>
       <div className={clsx(classes.container)}>
         <div>
           {loading ? (

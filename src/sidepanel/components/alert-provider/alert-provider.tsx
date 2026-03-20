@@ -104,7 +104,7 @@ export const AlertProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <AlertContext.Provider value={value}>
       {alerts.length > 0 && (
-        <div className={clsx(classes.container)}>
+        <div className={clsx(classes.root)}>
           {alerts.map((alert) => (
             <Alert
               key={alert.id}

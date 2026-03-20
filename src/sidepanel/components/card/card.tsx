@@ -50,7 +50,7 @@ export const Card: FC<PropsWithChildren<ICardProps>> = ({
   return (
     <div
       className={clsx(
-        classes.card,
+        classes.root,
         highlighted && classes.highlighted,
         clickable && classes.clickable,
         loading && classes.loading,

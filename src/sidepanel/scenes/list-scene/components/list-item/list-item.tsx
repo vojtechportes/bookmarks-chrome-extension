@@ -29,6 +29,9 @@ import { useHandleDropdownItemClick } from './hooks/use-handle-dropdown-item-cli
 import { useDarkMode } from '../../../../hooks/use-dark-mode';
 import { UNSUPPORTED_MESSAGE_TYPE } from '../../../../../shared/constants/error-messages';
 import { RenameDialog } from '../rename-dialog/rename-dialog';
+import { truncate } from '../../../../utils/truncate.util';
+import { CopyButton } from '../../../../components/copy-button/copy-button';
+import CreationIcon from '../../../../components/icons/creation-icon.svg?react';
 
 export interface IListItemProps {
   data: IBookmarkItem;
@@ -56,9 +59,10 @@ export const ListItem: FC<IListItemProps> = ({
     screenshotAssetId,
     pinned,
     addedAt,
+    isGeneratingDescription,
   } = data;
 
-  const { t } = useTranslation();
+  const { t } = useTranslation(['bookmarks-scene', 'common']);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const { error } = useAlert();
   const isDark = useDarkMode();
@@ -117,10 +121,10 @@ export const ListItem: FC<IListItemProps> = ({
         const response = await runtimeApi.openBookmark(url);
 
         if (!response.ok) {
-          error(t(`error-messages.${response.error}`));
+          error(t(`common:error-messages.${response.error}`));
         }
       } catch {
-        error(t(`error-messages.${UNSUPPORTED_MESSAGE_TYPE}`));
+        error(t(`common:error-messages.${UNSUPPORTED_MESSAGE_TYPE}`));
       }
     },
     [url, error, t],
@@ -172,31 +176,33 @@ export const ListItem: FC<IListItemProps> = ({
                 {iconUrl && !loading && <img src={iconUrl} alt={title} />}
               </div>
 
-              <DropdownMenu
-                items={dropdownItems}
-                onChange={(value) => handleDropdownItemClick(value, reload)}
-                sideOffset={-4}
-                trigger={
-                  <div
-                    className={clsx(classes.iconButtonContainer, 'safe-area')}
-                  >
-                    <IconButton
-                      size="small"
-                      apperance="outlined"
-                      transparent
-                      loading={isActionResultLoading || loading}
-                      slots={{
-                        skeleton: {
-                          variant: isDark ? 'light' : 'dark',
-                        },
-                      }}
-                      className={clsx(classes.noShadow)}
+              <div>
+                <DropdownMenu
+                  items={dropdownItems}
+                  onChange={(value) => handleDropdownItemClick(value, reload)}
+                  sideOffset={0}
+                  trigger={
+                    <div
+                      className={clsx(classes.iconButtonContainer, 'safe-area')}
                     >
-                      <DotsIcon />
-                    </IconButton>
-                  </div>
-                }
-              />
+                      <IconButton
+                        size="small"
+                        apperance="outlined"
+                        transparent
+                        loading={isActionResultLoading || loading}
+                        slots={{
+                          skeleton: {
+                            variant: isDark ? 'light' : 'dark',
+                          },
+                        }}
+                        className={clsx(classes.noShadow)}
+                      >
+                        <DotsIcon />
+                      </IconButton>
+                    </div>
+                  }
+                />
+              </div>
             </div>
           }
         >
@@ -217,7 +223,24 @@ export const ListItem: FC<IListItemProps> = ({
 
         <div>
           {viewType === 'tiles' && (
-            <Item className={clsx(classes.firstItem)} loading={loading}>
+            <Item
+              className={clsx(classes.firstItem)}
+              loading={loading || isGeneratingDescription}
+              slots={{
+                skeleton: {
+                  width: '100%',
+                  height: '64px',
+                },
+                typography: {
+                  className: clsx(classes.description),
+                  loadingStartAdornment: isGeneratingDescription ? (
+                    <span className={clsx(classes.generatingDescription)}>
+                      <CreationIcon />
+                    </span>
+                  ) : null,
+                },
+              }}
+            >
               {description}
             </Item>
           )}
@@ -229,8 +252,23 @@ export const ListItem: FC<IListItemProps> = ({
             classes.link,
           )}
           loading={loading}
+          aria-label={url}
         >
-          {renderHighlightedText(url)}
+          <span>{renderHighlightedText(truncate(url))}</span>
+          &nbsp;
+          <CopyButton
+            value={url}
+            slots={{
+              iconButton: {
+                size: 'small',
+                variant: 'faux',
+              },
+            }}
+            className={clsx(classes.copyButton)}
+            successMessage={t('url-copied-success')}
+            errorMessage={t('copying-url-failed')}
+            title={t('common:copy')}
+          />
         </Item>
 
         <Item className={clsx(classes.date)} loading={loading}>

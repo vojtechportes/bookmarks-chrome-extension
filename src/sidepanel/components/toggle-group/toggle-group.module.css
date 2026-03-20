@@ -1,4 +1,4 @@
-.toggle-group {
+.root {
   display: inline-flex;
   background-color: var(--color-primary);
   border-radius: calc(var(--space-size) / 2);
@@ -21,11 +21,7 @@
     cursor: pointer;
 
     @media (prefers-color-scheme: dark) {
-      background-color: color-mix(
-      in srgb,
-      var(--color-primary) 60%,
-      var(--color-white) 40%
-    );
+      background-color: var(--color-primary-dark);
     }
 
     &:first-child {
@@ -44,8 +40,16 @@
       background-color: var(--color-primary-light);
     }
 
-    &[data-state="on"] {
+    &[data-state='on'] {
       background-color: var(--color-primary);
+
+      @media (prefers-color-scheme: dark) {
+        background-color: color-mix(
+          in srgb,
+          var(--color-primary) 70%,
+          var(--color-white) 30%
+        );
+      }
 
       svg {
         fill: var(--color-white);

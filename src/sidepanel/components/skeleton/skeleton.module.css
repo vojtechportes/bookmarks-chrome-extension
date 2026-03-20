@@ -12,7 +12,7 @@
   }
 }
 
-.skeleton {
+.root {
   display: 'block';
   animation: pulsingAnimation 2s ease-in-out 0.5s infinite;
   background-color: color-mix(in srgb, var(--color-white) 40%, transparent);

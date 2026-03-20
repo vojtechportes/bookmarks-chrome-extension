@@ -1,14 +1,14 @@
 import { type FC } from 'react';
-import { EmptyScene } from '../scenes/empty-scene/empty-scene';
-import { ListScene } from '../scenes/list-scene/list-scene';
-import { useBookmarksContext } from '../components/bookmarks-provider/hooks/use-bookmarks-context';
+// import { prepareSummarizer } from '../utils/prepare-summarizer.util';
+import { HashRouter, Route, Routes } from 'react-router-dom';
+import { BookmarksScene } from '../scenes/bookmarks-scene/bookmarks-scene';
+import { SettingsScene } from '../scenes/settings-scene/settings-scene';
 
-export const App: FC = () => {
-  const { hasBookmarks, isLoadingHasBookmarks } = useBookmarksContext();
-
-  if (hasBookmarks) {
-    return <ListScene />;
-  }
-
-  return <EmptyScene loading={isLoadingHasBookmarks} />;
-};
+export const App: FC = () => (
+  <HashRouter>
+    <Routes>
+      <Route path="/" Component={BookmarksScene} />
+      <Route path="/settings" Component={SettingsScene} />
+    </Routes>
+  </HashRouter>
+);

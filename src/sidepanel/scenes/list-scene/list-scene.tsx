@@ -17,7 +17,7 @@ import { useGetBookmarks } from '../../hooks/use-get-bookmarks';
 import { useSortOptions } from './hooks/use-sort-options';
 
 export const ListScene: FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('bookmarks-scene');
   const [deleteAllModalOpen, setDeleteAllModalOpen] = useState(false);
   const { handleDeleteAllBookmarks, isDeleting } =
     useHandleDeleteAllBookmarks();

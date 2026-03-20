@@ -1,4 +1,4 @@
-.card {
+.root {
   overflow: hidden;
   min-width: 0;
   border-radius: var(--space-size);

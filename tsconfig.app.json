@@ -10,7 +10,9 @@
       "vite-plugin-svgr/client",
       "chrome-types",
       "vitest/globals",
-      "@testing-library/jest-dom"
+      "@testing-library/jest-dom",
+      "./types",
+      "@types/dom-chromium-ai"
     ],
     "skipLibCheck": true,
 
@@ -32,3 +34,4 @@
   },
   "include": ["src", "vite.config.ts"]
 }
+

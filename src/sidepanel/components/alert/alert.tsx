@@ -84,7 +84,7 @@ export const Alert: FC<PropsWithChildren<IAlertProps>> = ({
   return (
     <div
       className={clsx(
-        classes.alert,
+        classes.root,
         classes[variant],
         autoDismiss && classes.autoDismiss,
         isDismissible && classes.dismissible,

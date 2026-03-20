@@ -1,4 +1,4 @@
-.container {
+.root {
   position: sticky;
   top: var(--space-size);
   display: flex;

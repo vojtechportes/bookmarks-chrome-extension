@@ -1,0 +1,79 @@
+.root {
+  all: unset;
+  width: 42px;
+  height: 25px;
+  background-color: var(--color-primary-light);
+  border-radius: 9999px;
+  position: relative;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  border: 2px solid;
+  border-color: var(--color-primary-dark);
+  cursor: pointer;
+
+  &[data-state='checked'] {
+    background-color: var(--color-primary-dark);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--color-primary-dark);
+
+    &[data-state='checked'] {
+      background-color: var(--color-primary-light);
+    }
+  }
+
+  &.disabled {
+    cursor: initial;
+
+    background-color: color-mix(
+      in srgb,
+      var(--color-primary-light) 50%,
+      transparent
+    );
+    border-color: color-mix(
+      in srgb,
+      var(--color-primary-dark) 50%,
+      transparent
+    );
+
+    &[data-state='checked'] {
+      background-color: color-mix(
+        in srgb,
+        var(--color-primary-dark) 50%,
+        transparent
+      );
+    }
+
+    .thumb {
+      background-color: color-mix(
+        in srgb,
+        var(--color-primary-contrast-text) 60%,
+        transparent
+      );
+    }
+  }
+
+  .thumb {
+    display: block;
+    width: 21px;
+    height: 21px;
+    background-color: var(--color-primary-contrast-text);
+    border-radius: 50%;
+    box-shadow: var(--shadow-1);
+    transition: transform 100ms;
+    transform: translateX(2px);
+    will-change: transform;
+
+    &[data-state='checked'] {
+      transform: translateX(19px);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      background-color: color-mix(
+        in srgb,
+        var(--color-primary-contrast-text) 80%,
+        transparent
+      );
+    }
+  }
+}

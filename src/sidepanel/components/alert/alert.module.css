@@ -8,7 +8,7 @@
   }
 }
 
-.alert {
+.root {
   position: relative;
   overflow: hidden;
   border-radius: var(--space-size);

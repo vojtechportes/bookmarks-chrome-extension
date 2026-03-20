@@ -3,6 +3,7 @@ import type { IBookmarkItem } from '../../shared/types/bookmark-item';
 import type { IBookmarkSortOptions } from '../../shared/types/bookmark-sort-options';
 import { getAllBookmarks } from '../../shared/database/api/bookmarks/get-all-bookmarks';
 import { useSynchronizeBookmarks } from './use-synchronize-bookmarks';
+import { FAILED_TO_LOAD_BOOKMARKS } from '../../shared/constants/error-messages';
 
 export interface IUseGetBookmarksResult {
   bookmarks: IBookmarkItem[];
@@ -30,7 +31,7 @@ export const useGetBookmarks = (
       setBookmarks(result);
     } catch (error: unknown) {
       setError(
-        error instanceof Error ? error : new Error('Failed to load bookmarks'),
+        error instanceof Error ? error : new Error(FAILED_TO_LOAD_BOOKMARKS),
       );
     } finally {
       setIsLoading(false);

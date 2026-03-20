@@ -33,7 +33,7 @@ export const IconButton: FC<PropsWithChildren<IIconButtonProps>> = ({
 }) => (
   <button
     className={clsx(
-      classes.btnIcon,
+      classes.root,
       classes[variant],
       classes[size],
       classes[apperance],

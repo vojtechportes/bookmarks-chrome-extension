@@ -7,5 +7,6 @@ export const updateBookmarkTitle = async (
   return updateBookmark(bookmarkId, (bookmark) => ({
     ...bookmark,
     title,
+    updatedAt: new Date().toISOString(),
   }));
 };

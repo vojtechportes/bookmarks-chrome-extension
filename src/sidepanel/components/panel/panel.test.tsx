@@ -23,7 +23,7 @@ describe('Panel', () => {
 
     const panel = screen.getByText('Panel content').parentElement;
 
-    expect(panel).toHaveClass(classes.panel);
+    expect(panel).toHaveClass(classes.root);
     expect(panel).toHaveClass(classes.center);
   });
 

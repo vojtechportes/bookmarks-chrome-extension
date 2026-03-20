@@ -1,4 +1,3 @@
-import type { ErrorResponse } from '../../../../shared/types/error-response';
-import type { SuccessResponse } from '../../../../shared/types/success-response';
+import type { BookmarkResponse } from '../../../../shared/types/bookmark-response';
 
-export type OpenBookmarkResponse = ErrorResponse | SuccessResponse;
+export type OpenBookmarkResponse = BookmarkResponse;

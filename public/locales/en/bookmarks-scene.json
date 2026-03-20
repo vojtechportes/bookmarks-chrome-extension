@@ -1,0 +1,46 @@
+{
+  "no-data": {
+    "title": "Nothing saved for later yet!",
+    "button": "Save to read later"
+  },
+  "no-match": {
+    "title": "No saved tabs matched your search criteria",
+    "button-title": "Reset search"
+  },
+  "matched-records": "{{count}} saved tabs matched your search criteria. <0>Reset search</0>",
+  "matched-records_one": "{{count}} saved tab matched your search criteria. <0>Reset search</0>",
+  "matched-records_many": "{{count}} saved tabs matched your search criteria. <0>Reset search</0>",
+  "type-to-search": "Type to search",
+  "bookmark": "Save to read later",
+  "newest-to-oldest": "Newest to oldest",
+  "oldest-to-newest": "Oldest to newest",
+  "title-asc": "Title A to Z",
+  "title-desc": "Title Z to A",
+  "pin": "Pin",
+  "unpin": "Unpin",
+  "delete": "Delete",
+  "rename": "Rename",
+  "delete-all": "Delete all",
+  "delete-all-modal": {
+    "title": "Delete all bookmarks?",
+    "description": "This action is irreversible. Are you sure you want to proceed?"
+  },
+  "rename-dialog": {
+    "title": "Rename bookmarked tab",
+    "fields": {
+      "title": "Title:"
+    },
+    "title-cant-be-empty": "Title can't be empty"
+  },
+  "error-messages": {
+    "renaming-bookmark-failed": "Renaming bookmark failed"
+  },
+  "success-messages": {
+    "bookmark-added": "Tab added to your collection",
+    "bookmarks-deleted": "All bookmarked tabs were deleted",
+    "bookmark-deleted": "Tab deleted",
+    "bookmark-renamed": "Bookmarked renamed"
+  },
+  "url-copied-success": "Bookmark url was coppied to your clipboard",
+  "failed-to-copy-url": "Failed to copy bookmark url to your clipboard"
+}

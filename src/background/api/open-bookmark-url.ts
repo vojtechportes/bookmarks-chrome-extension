@@ -2,10 +2,10 @@ import { INVALID_BOOKMARK_URL } from '../../shared/constants/error-messages';
 import { isBookmarkableUrl } from '../utils/is-bookmarkable-url.util';
 import { getActiveTab } from './get-active-tab';
 
-export async function openBookmarkUrl(
+export const openBookmarkUrl = async (
   url: string,
   newTab: boolean,
-): Promise<void> {
+): Promise<void> => {
   if (!isBookmarkableUrl(url)) {
     throw new Error(INVALID_BOOKMARK_URL);
   }
@@ -23,4 +23,4 @@ export async function openBookmarkUrl(
   }
 
   await chrome.tabs.update(activeTab.id, { url });
-}
+};

@@ -11,11 +11,7 @@ export const ResetSearch: FC<PropsWithChildren<IResetSearchProps>> = ({
   onClick,
   children,
 }) => (
-  <Button
-    variant="faux"
-    onClick={onClick}
-    className={clsx(classes.resetSearch)}
-  >
+  <Button variant="faux" onClick={onClick} className={clsx(classes.root)}>
     {children}
   </Button>
 );

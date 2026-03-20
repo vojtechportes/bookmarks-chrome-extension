@@ -3,14 +3,4 @@
   flex-direction: column;
   gap: calc(var(--space-size));
   padding: calc(var(--space-size) * 4);
-
-  label {
-    display: block;
-    color: var(--color-text-secondary);
-    font-size: var(--font-size);
-  }
-
-  .error {
-    color: var(--color-error);
-  }
 }
