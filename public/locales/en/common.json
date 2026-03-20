@@ -8,7 +8,16 @@
     "ACTIVE_TAB_ID_MISSING": "Failed to save tab for later",
     "TAB_CANNOT_BE_BOOKMARKED": "This tab can't be saved",
     "UNSUPPORTED_MESSAGE_TYPE": "Something went wrong :(",
-    "INVALID_BOOKMARK_URL": "Opening bookmarked tab failed"
+    "INVALID_BOOKMARK_URL": "Opening bookmarked tab failed",
+    "COULD_NOT_GENERATE_DESCRIPTION": "Generating description failed",
+    "SUMMARIZE_API_IS_UNAVILABLE": "Generating AI descriptions is unavilable",
+    "SUMMARIZE_API_IS_NOT_SUPPORTED": "Generating AI descriptions is not supported",
+    "UNKNOWN_SUMMARIZE_ERROR": "Something went wrong :(",
+    "FAILED_TO_SUMMARIZE_TEXT": "Generating description failed",
+    "NO_READABLE_TEXT_FOUND": "Generating description failed",
+    "FAILED_TO_LOAD_ASSET": "Failed to load asset",
+    "FAILED_TO_LOAD_BOOKMARKS": "Failed to load bookmarks",
+    "FAILED_TO_CHECK_BOOKMARKS": "Failed to check bookmarks"
   },
   "info-messages": {
     "BOOKMARK_ALREADY_EXISTS": "Bookmark already exsts"
