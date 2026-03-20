@@ -133,6 +133,7 @@ To communicate with `IndexedDb`, `idb` package is used.
 
 - UI: React side panel
 - Background: Manifest V3 service worker
+- Offscreen: AI summarization
 - Persistence: IndexedDB (bookmarks + assets)
 - Preferences: chrome.storage.local
 - Sync: runtime messaging (with BroadcastChannel fallback)
