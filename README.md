@@ -164,6 +164,12 @@ Aside of service worker, there is also an **offscreen** which is used to execute
 
 When saving a bookmark, the worker first resolves the **active tab**, checks whether the URL is bookmarkable, or whether the bookmark is not already saved and then uses `chrome.scripting.executeScript()` to extract page metadata like title, URL, description, and favicon from the page DOM. At the same time, when `Use AI generated descriptions` is enabled and the `Summarizer` is available and AI model downloaded, **page description is AI generated** in `offscreen` in async mode and temporary loading state flag `isGeneratingDescription` is saved to the bookmark metadata and later on updated when generated description is ready. It also captures a screenshot of the current tab. Data is then saved to `IndexedDb`. If unsuccesfull, exception is thrown and communicated to user.
 
+#### Why offscreen for AI summarization
+
+Technically, the summarization of page content could be performed directly in the Sidepanel React UI. However, this approach introduces a risk that the summarization process would be interrupted if the extension UI is closed while the request is still running. When the Sidepanel is closed, the React UI is unmounted and any ongoing summarization task would be terminated.
+
+By delegating the summarization to an offscreen document, the process can continue independently of the UI lifecycle. This ensures that the summarization completes and the result can be safely persisted even if the user closes the extension during execution.
+
 The extension uses **two storage layers**:
 
 - `chrome.storage.local` stores UI preferences.
@@ -171,23 +177,12 @@ The extension uses **two storage layers**:
 
 For local browser development outside the extension environment, the project includes **browser fallbacks** for runtime and storage APIs.
 
-## Intentional deviation from assignment brief
+## Internacionalization
 
-Sorting is implemented through a dropdown instead of a toggle. I found toggling between four sorting states less intuitive, while a dropdown makes the available options clearer and easier to use.
+React UI is localized using `i18next` and `react-i18next`. Localization files are located in `public/locales`. Localization configuration is then located in `src/sidepanel/i18n/index.ts`.
 
-Scraping page content for bookmark descriptions is also done in the opposite order from the original brief. The extension first prefers the page description and only then falls back to page content, because raw page content tends to be noisy and very often contains unusable information. In case user opt-ins for AI generated descriptions in the settings, then the AI generated description has the heighest priority and when available, it is used first.
+Manifest is localized using standard Chrome extension localization API for which `message.json` file is located in `public/_locales` folder.
 
-### Additional functionality
-
-- User can switch between two different views, where one is more condensed.
-- User can delete all bookmarks.
-- User can pin bookmarks. If there are any pinned bookmarks, sorting happens in two stages. First pinned bookmarks are sorted, which stay on top and then the rest.
-- Searched text is highlighted (though when original searched text is fuzzy, the match might not be fully displayed)
-- User can rename bookmarks/
-
-## Known limitations
-
-Fetched favicons do not always work well across dark mode and light mode. For example, an icon fetched in dark mode may not display well in light mode. I tried to improve this for pages that expose both light and dark icon variants in their source code, but it is still an issue.
 
 ## Testing
 
@@ -220,6 +215,24 @@ Additional steps:
 - Verifies build output.
 - Creates a zip file containing build output.
 - Creates a release and attaches the zip file.
+
+## Intentional deviation from assignment brief
+
+Sorting is implemented through a dropdown instead of a toggle. I found toggling between four sorting states less intuitive, while a dropdown makes the available options clearer and easier to use.
+
+Scraping page content for bookmark descriptions is also done in the opposite order from the original brief. The extension first prefers the page description and only then falls back to page content, because raw page content tends to be noisy and very often contains unusable information. In case user opt-ins for AI generated descriptions in the settings, then the AI generated description has the heighest priority and when available, it is used first.
+
+### Additional functionality
+
+- User can switch between two different views, where one is more condensed.
+- User can delete all bookmarks.
+- User can pin bookmarks. If there are any pinned bookmarks, sorting happens in two stages. First pinned bookmarks are sorted, which stay on top and then the rest.
+- Searched text is highlighted.
+- User can rename bookmarks.
+
+## Known limitations
+
+Fetched favicons do not always work well across dark mode and light mode. For example, an icon fetched in dark mode may not display well in light mode. I tried to improve this for pages that expose both light and dark icon variants in their source code, but it is still an issue.
 
 ## Post-mortem
 
