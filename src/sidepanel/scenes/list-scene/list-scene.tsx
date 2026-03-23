@@ -10,7 +10,7 @@ import classes from './list-scene.module.css';
 import { Dialog } from '../../components/dialog/dialog';
 import type { SortOrder } from './types/sort-order';
 import { useHandleBookmarkTab } from '../../hooks/use-handle-bookmark-tab';
-import { useHandleFilterData } from './hooks/use-handle-filter-data';
+import { useHandleFilterData } from './hooks/use-handle-filter-data/use-handle-filter-data';
 import { useSortItems } from './hooks/use-sort-items';
 import { useHandleDeleteAllBookmarks } from './hooks/use-handle-delete-all-bookmarks';
 import { useGetBookmarks } from '../../hooks/use-get-bookmarks';
@@ -33,9 +33,10 @@ export const ListScene: FC = () => {
 
   const {
     data: filteredData,
+    searchTerms,
+    searchValue,
     handleSearchChange,
     handleViewTypeChange,
-    searchValue,
     sortOrderStorage,
     viewTypeStorage,
   } = useHandleFilterData(bookmarks);
@@ -96,7 +97,7 @@ export const ListScene: FC = () => {
           <ListItem
             key={item.id}
             data={item}
-            searchValue={searchValue}
+            searchTerms={searchTerms}
             viewType={viewTypeStorage.value}
             loading={isDeleting}
             reload={reloadBookmarks}

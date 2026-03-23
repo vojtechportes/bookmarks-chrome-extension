@@ -33,7 +33,7 @@ export const List: FC<PropsWithChildren<IListProps>> = ({
   children,
   ...rest
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('bookmarks-scene');
   const { numberMatches } = searchProps;
 
   return (

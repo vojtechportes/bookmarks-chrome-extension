@@ -1,3 +1,13 @@
 .no-margin {
   margin: 0;
 }
+
+.highlight {
+  background-color: color-mix(
+    in srgb,
+    var(--color-warning-light) 80%,
+    transparent 20%
+  );
+  color: inherit;
+  border-radius: 2px;
+}

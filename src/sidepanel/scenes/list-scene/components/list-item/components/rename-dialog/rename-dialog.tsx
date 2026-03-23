@@ -1,13 +1,13 @@
 import { useCallback, useMemo, useState, type FC } from 'react';
-import { Dialog } from '../../../../components/dialog/dialog';
+import { Dialog } from '../../../../../../components/dialog/dialog';
 import { useTranslation } from 'react-i18next';
-import { Textarea } from '../../../../components/textarea/textarea';
-import type { IBookmarkItem } from '../../../../../shared/types/bookmark-item';
+import { Textarea } from '../../../../../../components/textarea/textarea';
+import type { IBookmarkItem } from '../../../../../../../shared/types/bookmark-item';
 import { clsx } from 'clsx';
 import classes from './rename-dialog.module.css';
 import { useHandleRenameBookmark } from './hooks/use-handle-rename-bookmark';
-import labelClasses from '../../../../components/label/label.module.css';
-import { Error } from '../../../../components/error/error';
+import { Error } from '../../../../../../components/error/error';
+import { Label } from '../../../../../../components/label/label';
 
 export interface IRenameDialogProps {
   open: boolean;
@@ -57,9 +57,7 @@ export const RenameDialog: FC<IRenameDialogProps> = ({
       }}
     >
       <div className={clsx(classes.content)}>
-        <label htmlFor="title" className={clsx(labelClasses.label)}>
-          {t('rename-dialog.fields.title')}
-        </label>
+        <Label htmlFor="title">{t('rename-dialog.fields.title')}</Label>
 
         <Textarea
           name="title"
@@ -67,9 +65,8 @@ export const RenameDialog: FC<IRenameDialogProps> = ({
           rows={4}
           /**
            * Intentionally disabled no-autofocus rule since
-           * in this case, the input is in dropdown menu and
-           * which is a form of dialog and should be therefore
-           * focused automatically.
+           * in this case, the input is in a dialog and should
+           * be therefore focused automatically.
            *
            * https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/dialog/
            */

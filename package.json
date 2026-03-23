@@ -17,10 +17,8 @@
     "format:stage": "npx lint-staged"
   },
   "dependencies": {
-    "@mui/lab": "^7.0.1-beta.23",
     "@preact/signals": "^2.8.2",
     "@preact/signals-react": "^3.9.1",
-    "@types/dom-chromium-ai": "^0.0.15",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "i18next": "^25.8.18",
@@ -47,6 +45,7 @@
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
     "@types/babel__core": "^7.20.5",
+    "@types/dom-chromium-ai": "^0.0.15",
     "@types/node": "^24.12.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

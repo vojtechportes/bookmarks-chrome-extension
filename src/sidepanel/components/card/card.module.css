@@ -34,8 +34,13 @@
   &.highlighted {
     border-color: color-mix(
       in srgb,
-      var(--color-success) 85%,
-      var(--color-white) 15%
+      var(--color-success) 80%,
+      var(--color-white) 20%
+    );
+    background-color: color-mix(
+      in srgb,
+      var(--color-black) 70%,
+      var(--color-success) 30%
     );
 
     @media (prefers-color-scheme: light) {
@@ -93,8 +98,8 @@
 
           background-color: color-mix(
             in srgb,
-            var(--color-black) 80%,
-            var(--color-success) 20%
+            var(--color-black) 60%,
+            var(--color-success) 40%
           );
         }
       }

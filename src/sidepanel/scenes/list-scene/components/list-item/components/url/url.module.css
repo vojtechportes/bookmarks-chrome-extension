@@ -1,0 +1,19 @@
+.root {
+  span {
+    text-decoration: underline;
+  }
+}
+
+.first-item {
+  margin-top: var(--space-size);
+}
+
+.icon-button-container {
+  padding: 4px;
+  margin: -4px;
+}
+
+.copy-button {
+  position: relative;
+  top: 1px;
+}

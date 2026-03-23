@@ -24,5 +24,9 @@
   },
   "cancel": "Cancel",
   "confirm": "Confirm",
-  "copy": "Copy"
+  "copy": "Copy",
+  "matched-records": "{{count}} saved tabs matched your search criteria. <0>Reset search</0>",
+  "matched-records_one": "{{count}} saved tab matched your search criteria. <0>Reset search</0>",
+  "matched-records_many": "{{count}} saved tabs matched your search criteria. <0>Reset search</0>",
+  "type-to-search": "Type to search"
 }

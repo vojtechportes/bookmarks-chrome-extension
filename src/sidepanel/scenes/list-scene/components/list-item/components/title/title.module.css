@@ -1,0 +1,24 @@
+.root {
+  display: grid;
+  grid-template-columns: auto min-content;
+  gap: calc(var(--space-size) * 2);
+
+  .end-adornment {
+    display: grid;
+    grid-template-columns: 24px 24px;
+    gap: var(--space-size);
+
+    .icon {
+      width: 24px;
+
+      img {
+        display: block;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.no-shadow {
+  box-shadow: none;
+}

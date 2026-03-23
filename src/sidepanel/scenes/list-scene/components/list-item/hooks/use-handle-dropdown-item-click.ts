@@ -17,7 +17,7 @@ export const useHandleDropdownItemClick = (
   id: string,
   setIsRenameModalOpen: Dispatch<SetStateAction<boolean>>,
 ) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('bookmarks-scene');
   const { reloadHasBookmarks } = useBookmarksContext();
   const { success, error } = useAlert();
   const [isLoading, setIsLoading] = useState(false);
@@ -63,7 +63,7 @@ export const useHandleDropdownItemClick = (
             ? caughtError.message
             : UNSUPPORTED_MESSAGE_TYPE;
 
-        error(t(`error-messages.${errorMessage}`));
+        error(t(`shared:error-messages.${errorMessage}`));
       } finally {
         setIsLoading(false);
       }
