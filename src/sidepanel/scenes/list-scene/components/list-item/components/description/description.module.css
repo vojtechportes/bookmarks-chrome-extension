@@ -1,0 +1,19 @@
+.root {
+  margin-top: var(--space-size);
+}
+
+.typography {
+  position: relative;
+}
+
+.generating-description {
+  position: absolute;
+  bottom: var(--space-size);
+  left: var(--space-size);
+  width: calc(var(--space-size) * 2.5);
+  opacity: 0.5;
+
+  svg {
+    fill: var(--color-text-primary);
+  }
+}

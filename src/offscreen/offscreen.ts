@@ -4,6 +4,7 @@ import {
   UNKNOWN_SUMMARIZE_ERROR,
 } from '../shared/constants/error-messages';
 import { SUMMARIZER_OPTIONS } from '../shared/constants/summarizer';
+import { DESCRIPTION_MAXIMUM_LENGTH } from '../shared/constants/text-extraction';
 import type { OffscreenSummarizeTextMessage } from '../shared/types/ofscreen-summarize-text-message';
 
 chrome.runtime.onMessage.addListener(
@@ -37,8 +38,7 @@ chrome.runtime.onMessage.addListener(
 
         const summarizer = await Summarizer.create({
           ...message.payload.options,
-          sharedContext:
-            'You are being provided a context of a page. Summarize what the page is about in maximum 3 sentences or 160 characters at most. The summary should be then used as a description for a bookmark user created.',
+          sharedContext: `You are being provided a context of a page. Summarize what the page is about in ${DESCRIPTION_MAXIMUM_LENGTH - 3} characters at most. Use a single sentence.`,
         });
 
         try {

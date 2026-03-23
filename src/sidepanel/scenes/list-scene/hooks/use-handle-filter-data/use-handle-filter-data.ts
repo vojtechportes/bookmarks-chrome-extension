@@ -2,13 +2,14 @@ import { useCallback, useMemo, useState } from 'react';
 import {
   BOOKMARKS_SORT_ORDER_STORAGE_KEY,
   BOOKMARKS_VIEW_TYPE_STORAGE_KEY,
-} from '../../../../shared/constants/storage';
-import { useStorage } from '../../../hooks/use-storage';
-import type { SortOrder } from '../types/sort-order';
-import type { ViewType } from '../types/view-type';
+} from '../../../../../shared/constants/storage';
+import { useStorage } from '../../../../hooks/use-storage';
+import type { SortOrder } from '../../types/sort-order';
+import type { ViewType } from '../../types/view-type';
 import MiniSearch from 'minisearch';
-import type { SearchableBookmark } from '../types/searchable-bookmark';
-import type { IBookmarkItem } from '../../../../shared/types/bookmark-item';
+import type { SearchableBookmark } from './types/searchable-bookmark';
+import type { IBookmarkItem } from '../../../../../shared/types/bookmark-item';
+import { toSearchableBookmark } from './utils/to-searchable-bookmark.util';
 
 export const useHandleFilterData = (data: IBookmarkItem[]) => {
   const [searchValue, setSearchValue] = useState('');
@@ -44,7 +45,7 @@ export const useHandleFilterData = (data: IBookmarkItem[]) => {
   const miniSearch = useMemo(() => {
     const instance = new MiniSearch<SearchableBookmark>({
       idField: 'id',
-      fields: ['title', 'url'],
+      fields: ['searchTitle', 'searchUrl'],
       storeFields: ['id'],
       searchOptions: {
         prefix: true,
@@ -52,31 +53,42 @@ export const useHandleFilterData = (data: IBookmarkItem[]) => {
       },
     });
 
-    instance.addAll(data);
+    instance.addAll(data.map(toSearchableBookmark));
 
     return instance;
   }, [data]);
 
-  const filteredData = useMemo(() => {
+  const { filteredResults, searchTerms } = useMemo(() => {
     const normalizedQuery = searchValue.trim();
 
     if (normalizedQuery.length === 0) {
-      return data;
+      return { filteredResults: data };
     }
 
     const results = miniSearch.search(normalizedQuery);
 
-    return results
+    const searchTerms = results.reduce((acc, current) => {
+      for (const item of current.terms) {
+        acc.add(item);
+      }
+
+      return acc;
+    }, new Set<string>());
+
+    const filteredResults = results
       .map((result) => bookmarkMap.get(result.id))
       .filter((item): item is IBookmarkItem => Boolean(item));
+
+    return { filteredResults, searchTerms: [...searchTerms] };
   }, [bookmarkMap, data, miniSearch, searchValue]);
 
   return {
-    data: filteredData,
+    data: filteredResults,
+    searchTerms,
+    searchValue,
     viewTypeStorage,
     sortOrderStorage,
     handleViewTypeChange,
     handleSearchChange,
-    searchValue,
   };
 };

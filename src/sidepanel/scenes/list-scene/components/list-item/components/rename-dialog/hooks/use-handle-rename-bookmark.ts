@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { renameBookmark } from '../../../../../../shared/database/api/bookmarks/rename-bookmark';
-import { useAlert } from '../../../../../components/alert-provider/hooks/use-alert';
-import { runtimeApi } from '../../../../../api/runtime-api/runtime-api';
+import { renameBookmark } from '../../../../../../../../shared/database/api/bookmarks/rename-bookmark';
+import { useAlert } from '../../../../../../../components/alert-provider/hooks/use-alert';
+import { runtimeApi } from '../../../../../../../api/runtime-api/runtime-api';
 
 export interface IRenameBookmarkParams {
   id: string;

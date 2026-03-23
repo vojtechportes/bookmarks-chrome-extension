@@ -1,42 +1,25 @@
-import { useCallback, useMemo, useState, type FC } from 'react';
-import Highlighter from 'react-highlight-words';
+import { useState, type FC } from 'react';
 import { Card } from '../../../../components/card/card';
-import { Title } from '../../../../components/card/components/title/title';
 import { Item } from '../../../../components/card/components/item/item';
 import type { IBookmarkItem } from '../../../../../shared/types/bookmark-item';
 import { clsx } from 'clsx';
 import classes from './list-item.module.css';
-import { IconButton } from '../../../../components/icon-button/icon-button';
-import DotsIcon from '../../../../components/icons/dots-icon.svg?react';
-import DeleteIcon from '../../../../components/icons/delete-icon.svg?react';
-import PinIcon from '../../../../components/icons/pin-icon.svg?react';
-import UnpinIcon from '../../../../components/icons/unpin-icon.svg?react';
-import RenameIcon from '../../../../components/icons/rename-icon.svg?react';
-import {
-  DropdownMenu,
-  type IDropdownMenuItem,
-} from '../../../../components/dropdown-menu/dropdown-menu';
-import { runtimeApi } from '../../../../api/runtime-api/runtime-api';
 import { useAssetUrl } from './hooks/use-asset-url';
 import { Image } from '../../../../components/card/components/image/image';
-import { useAlert } from '../../../../components/alert-provider/hooks/use-alert';
-import { useTranslation } from 'react-i18next';
 import { DATE_TIME_FORMAT } from '../../../../constants/date';
 import { format } from 'date-fns';
 import type { ViewType } from '../../types/view-type';
-import { useIconUrl } from './hooks/use-icon-url';
 import { useHandleDropdownItemClick } from './hooks/use-handle-dropdown-item-click';
-import { useDarkMode } from '../../../../hooks/use-dark-mode';
-import { UNSUPPORTED_MESSAGE_TYPE } from '../../../../../shared/constants/error-messages';
-import { RenameDialog } from '../rename-dialog/rename-dialog';
-import { truncate } from '../../../../utils/truncate.util';
-import { CopyButton } from '../../../../components/copy-button/copy-button';
-import CreationIcon from '../../../../components/icons/creation-icon.svg?react';
+import { RenameDialog } from './components/rename-dialog/rename-dialog';
+import { Title } from './components/title/title';
+import { Description } from './components/description/description';
+import { useHandleOpenBookmark } from './hooks/use-handle-open-bookmark';
+import { Url } from './components/url/url';
 
 export interface IListItemProps {
   data: IBookmarkItem;
   viewType: ViewType;
-  searchValue?: string;
+  searchTerms?: string[];
   loading?: boolean;
   reload: () => Promise<void>;
 }
@@ -44,7 +27,7 @@ export interface IListItemProps {
 export const ListItem: FC<IListItemProps> = ({
   data,
   viewType,
-  searchValue = '',
+  searchTerms = [],
   loading,
   reload,
 }) => {
@@ -53,102 +36,17 @@ export const ListItem: FC<IListItemProps> = ({
     title,
     description,
     url,
-    iconAssetId,
-    darkIconAssetId,
-    lightIconAssetId,
     screenshotAssetId,
     pinned,
     addedAt,
     isGeneratingDescription,
   } = data;
 
-  const { t } = useTranslation(['bookmarks-scene', 'common']);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
-  const { error } = useAlert();
-  const isDark = useDarkMode();
   const { assetUrl: screenshotAssetUrl } = useAssetUrl(screenshotAssetId);
-  const { iconUrl } = useIconUrl(
-    iconAssetId,
-    darkIconAssetId,
-    lightIconAssetId,
-  );
-
   const { handleDropdownItemClick, isLoading: isActionResultLoading } =
     useHandleDropdownItemClick(id, setIsRenameModalOpen);
-
-  const dropdownItems = useMemo<IDropdownMenuItem[]>(
-    () => [
-      {
-        value: pinned ? 'unpin' : 'pin',
-        label: t(pinned ? 'unpin' : 'pin'),
-        icon: pinned ? <UnpinIcon /> : <PinIcon />,
-      },
-      {
-        value: 'rename',
-        label: t('rename'),
-        icon: <RenameIcon />,
-      },
-      {
-        value: 'delete',
-        label: t('delete'),
-        icon: <DeleteIcon />,
-      },
-    ],
-    [pinned, t],
-  );
-
-  const searchWords = useMemo(() => {
-    return searchValue
-      .trim()
-      .split(/\s+/)
-      .map((item) => item.trim())
-      .filter(Boolean);
-  }, [searchValue]);
-
-  const handleOpenBookmark = useCallback(
-    async (event: React.MouseEvent) => {
-      try {
-        const element = event.target as HTMLElement;
-
-        if (
-          element.closest(
-            'button, [role="menuitem"], [role="menu"], .safe-area',
-          )
-        ) {
-          return;
-        }
-
-        const response = await runtimeApi.openBookmark(url);
-
-        if (!response.ok) {
-          error(t(`common:error-messages.${response.error}`));
-        }
-      } catch {
-        error(t(`common:error-messages.${UNSUPPORTED_MESSAGE_TYPE}`));
-      }
-    },
-    [url, error, t],
-  );
-
-  const renderHighlightedText = useCallback(
-    (value?: string) => {
-      const resolvedValue = value ?? '';
-
-      if (!searchWords.length) {
-        return resolvedValue;
-      }
-
-      return (
-        <Highlighter
-          searchWords={searchWords}
-          textToHighlight={resolvedValue}
-          autoEscape
-          highlightClassName={classes.highlight}
-        />
-      );
-    },
-    [searchWords],
-  );
+  const { handleOpenBookmark } = useHandleOpenBookmark(url);
 
   return (
     <>
@@ -168,46 +66,14 @@ export const ListItem: FC<IListItemProps> = ({
         loading={loading}
       >
         <Title
-          viewType={viewType}
-          className={clsx(classes.title)}
-          endAdornment={
-            <div className={clsx(classes.endAdornment)}>
-              <div className={clsx(classes.icon)}>
-                {iconUrl && !loading && <img src={iconUrl} alt={title} />}
-              </div>
-
-              <div>
-                <DropdownMenu
-                  items={dropdownItems}
-                  onChange={(value) => handleDropdownItemClick(value, reload)}
-                  sideOffset={0}
-                  trigger={
-                    <div
-                      className={clsx(classes.iconButtonContainer, 'safe-area')}
-                    >
-                      <IconButton
-                        size="small"
-                        apperance="outlined"
-                        transparent
-                        loading={isActionResultLoading || loading}
-                        slots={{
-                          skeleton: {
-                            variant: isDark ? 'light' : 'dark',
-                          },
-                        }}
-                        className={clsx(classes.noShadow)}
-                      >
-                        <DotsIcon />
-                      </IconButton>
-                    </div>
-                  }
-                />
-              </div>
-            </div>
+          data={data}
+          loading={isActionResultLoading || !!loading}
+          onDropdownItemClick={(value) =>
+            handleDropdownItemClick(value, reload)
           }
-        >
-          {renderHighlightedText(title)}
-        </Title>
+          searchTerms={searchTerms}
+          viewType={viewType}
+        />
 
         <div>
           {screenshotAssetUrl && (
@@ -221,55 +87,19 @@ export const ListItem: FC<IListItemProps> = ({
           )}
         </div>
 
-        <div>
-          {viewType === 'tiles' && (
-            <Item
-              className={clsx(classes.firstItem)}
-              loading={loading || isGeneratingDescription}
-              slots={{
-                skeleton: {
-                  width: '100%',
-                  height: '64px',
-                },
-                typography: {
-                  className: clsx(classes.description),
-                  loadingStartAdornment: isGeneratingDescription ? (
-                    <span className={clsx(classes.generatingDescription)}>
-                      <CreationIcon />
-                    </span>
-                  ) : null,
-                },
-              }}
-            >
-              {description}
-            </Item>
-          )}
-        </div>
+        <Description
+          description={description}
+          viewType={viewType}
+          loading={!!loading}
+          isGeneratingDescription={isGeneratingDescription}
+        />
 
-        <Item
-          className={clsx(
-            viewType === 'list' && classes.firstItem,
-            classes.link,
-          )}
-          loading={loading}
-          aria-label={url}
-        >
-          <span>{renderHighlightedText(truncate(url))}</span>
-          &nbsp;
-          <CopyButton
-            value={url}
-            slots={{
-              iconButton: {
-                size: 'small',
-                variant: 'faux',
-              },
-            }}
-            className={clsx(classes.copyButton)}
-            successMessage={t('url-copied-success')}
-            errorMessage={t('copying-url-failed')}
-            title={t('common:copy')}
-          />
-        </Item>
+        <Url
+          url={url}
+          searchTerms={searchTerms}
+          viewType={viewType}
+          loading={!!loading}
+        />
 
         <Item className={clsx(classes.date)} loading={loading}>
           {addedAt ? format(new Date(addedAt), DATE_TIME_FORMAT) : '-'}

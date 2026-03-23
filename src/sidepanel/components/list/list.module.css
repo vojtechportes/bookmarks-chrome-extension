@@ -9,6 +9,10 @@
   margin: 0 0 calc(var(--space-size) * 3);
   text-align: center;
   color: var(--color-primary-contrast-text);
+
+  && button {
+    display: inline;
+  }
 }
 
 .list {

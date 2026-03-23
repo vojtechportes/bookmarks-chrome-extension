@@ -1,4 +1,6 @@
 import { FAILED_TO_EXTRACT_DATA } from '../../shared/constants/error-messages';
+import { DESCRIPTION_MAXIMUM_LENGTH } from '../../shared/constants/text-extraction';
+import { truncate } from '../../shared/utils/truncate.util';
 
 export interface IExtractedPageData {
   title: string;
@@ -102,8 +104,7 @@ export const extractPageData = async (
       };
 
       const bodyText = normalizeWhitespace(document.body?.innerText || '');
-      const textDescription =
-        bodyText.length > 0 ? bodyText.slice(0, 160) : undefined;
+      const textDescription = bodyText.length > 0 ? bodyText : undefined;
 
       const metaDescription = getMetaContent([
         'meta[name="description"]',
@@ -114,13 +115,15 @@ export const extractPageData = async (
 
       const icons = getIcons();
 
+      const resolvedDescription = metaDescription ?? textDescription ?? null;
+
       return {
         title: document.title?.trim() || '',
         url: window.location.href,
         icon: icons.icon,
         iconLight: icons.iconLight,
         iconDark: icons.iconDark,
-        description: metaDescription || textDescription || null,
+        description: resolvedDescription,
       };
     },
   });
@@ -140,7 +143,7 @@ export const extractPageData = async (
     iconDark: typeof result.iconDark === 'string' ? result.iconDark : undefined,
     description:
       typeof result.description === 'string' && result.description.trim()
-        ? result.description.trim()
+        ? truncate(result.description.trim(), DESCRIPTION_MAXIMUM_LENGTH)
         : null,
   };
 };
