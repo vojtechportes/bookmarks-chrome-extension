@@ -72,6 +72,7 @@ Alternatively, you can download the extension source code from [the repository r
 Repository is structured into following folders:
 
 ```
+/public
 /src
   /__mocks__
   /background
@@ -82,8 +83,8 @@ Repository is structured into following folders:
 ```
 
 - `background` contains `service-worker.ts`, `Chrome API` related functions, and background utilities.
-- `offscreen` hidden document to AI summarize page content when `Use AI generated descriptions` is enabled in extension settings
-- `shared` contains shared constants, types and database-related and functions.
+- `offscreen` is a hidden document to AI summarize page content when `Use AI generated descriptions` is enabled in extension settings
+- `shared` contains shared utility functions, constants, types and database-related functions.
 - `sidepanel` then contains React application.
 
 ## Data storage
