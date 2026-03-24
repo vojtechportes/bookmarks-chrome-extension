@@ -1,7 +1,5 @@
 import { lazy, Suspense, type FC } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
-// import { BookmarksScene } from '../scenes/bookmarks-scene/bookmarks-scene';
-// import { SettingsScene } from '../scenes/settings-scene/settings-scene';
 
 const BookmarksScene = lazy(() =>
   import('../scenes/bookmarks-scene/bookmarks-scene').then((module) => ({
