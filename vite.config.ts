@@ -74,7 +74,7 @@ export default defineConfig({
     exclude: ['**/node_modules/**', '**/.git/**', './tests/**/*.test.ts'],
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'html', 'json-summary'],
+      reporter: ['text', 'html', 'json', 'json-summary'],
       include: ['src/**/*.{ts,tsx}'],
       exclude: [
         'src/**/*.d.ts',
