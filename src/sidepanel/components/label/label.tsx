@@ -12,9 +12,12 @@ export const Label: FC<PropsWithChildren<ILabelProps>> = ({
   disabled,
   className,
   children,
+  ...rest
 }) => (
   <label
     className={clsx(classes.root, disabled && classes.disabled, className)}
+    data-test-name="label"
+    {...rest}
   >
     {children}
   </label>

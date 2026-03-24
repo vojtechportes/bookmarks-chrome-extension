@@ -64,6 +64,8 @@ export const ListItem: FC<IListItemProps> = ({
         clickable
         onClick={handleOpenBookmark}
         loading={loading}
+        data-test-name="bookmark-item"
+        data-test-value={pinned ? 'pinned' : undefined}
       >
         <Title
           data={data}

@@ -16,19 +16,34 @@ export const ViewType: FC<IViewTypeProps> = ({
   onChange,
 }) => {
   return (
-    <ToggleGroup.Root
-      type="single"
-      unselectable="on"
-      value={variant}
-      className={toggleGroupClasses.root}
-      onValueChange={onChange}
-    >
-      <ToggleGroup.Item value="tiles" className={toggleGroupClasses.item}>
-        <TileViewIcon width={18} />
-      </ToggleGroup.Item>
-      <ToggleGroup.Item value="list" className={toggleGroupClasses.item}>
-        <ListViewIcon width={24} />
-      </ToggleGroup.Item>
-    </ToggleGroup.Root>
+    <div data-test-name="view-type">
+      <ToggleGroup.Root
+        type="single"
+        unselectable="on"
+        value={variant}
+        className={toggleGroupClasses.root}
+        onValueChange={onChange}
+        data-test-name="toggle-group"
+        data-test-value={variant}
+      >
+        <ToggleGroup.Item
+          value="tiles"
+          data-test-name="toggle-item"
+          data-test-value="tiles"
+          className={toggleGroupClasses.item}
+        >
+          <TileViewIcon width={18} />
+        </ToggleGroup.Item>
+
+        <ToggleGroup.Item
+          value="list"
+          data-test-name="toggle-item"
+          data-test-value="list"
+          className={toggleGroupClasses.item}
+        >
+          <ListViewIcon width={24} />
+        </ToggleGroup.Item>
+      </ToggleGroup.Root>
+    </div>
   );
 };

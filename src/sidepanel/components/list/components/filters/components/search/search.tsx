@@ -11,9 +11,15 @@ export interface ISearchProps {
 }
 
 export const Search: FC<ISearchProps> = ({ value, onChange, loading }) => (
-  <SearchDropdown value={value} onChange={onChange}>
-    <IconButton size="medium" loading={loading}>
-      <SearchIcon />
-    </IconButton>
-  </SearchDropdown>
+  <div data-test-name="search">
+    <SearchDropdown value={value} onChange={onChange}>
+      <IconButton
+        size="medium"
+        loading={loading}
+        datat-test-value="dropdown-trigger"
+      >
+        <SearchIcon />
+      </IconButton>
+    </SearchDropdown>
+  </div>
 );

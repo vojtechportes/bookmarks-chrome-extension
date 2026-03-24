@@ -1,14 +1,27 @@
-import { type FC } from 'react';
-// import { prepareSummarizer } from '../utils/prepare-summarizer.util';
+import { lazy, Suspense, type FC } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
-import { BookmarksScene } from '../scenes/bookmarks-scene/bookmarks-scene';
-import { SettingsScene } from '../scenes/settings-scene/settings-scene';
+// import { BookmarksScene } from '../scenes/bookmarks-scene/bookmarks-scene';
+// import { SettingsScene } from '../scenes/settings-scene/settings-scene';
+
+const BookmarksScene = lazy(() =>
+  import('../scenes/bookmarks-scene/bookmarks-scene').then((module) => ({
+    default: module.BookmarksScene,
+  })),
+);
+
+const SettingsScene = lazy(() =>
+  import('../scenes/settings-scene/settings-scene').then((module) => ({
+    default: module.SettingsScene,
+  })),
+);
 
 export const App: FC = () => (
   <HashRouter>
-    <Routes>
-      <Route path="/" Component={BookmarksScene} />
-      <Route path="/settings" Component={SettingsScene} />
-    </Routes>
+    <Suspense fallback={null}>
+      <Routes>
+        <Route path="/" Component={BookmarksScene} />
+        <Route path="/settings" Component={SettingsScene} />
+      </Routes>
+    </Suspense>
   </HashRouter>
 );

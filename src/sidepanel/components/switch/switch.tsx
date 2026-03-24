@@ -13,6 +13,8 @@ export const Switch = React.forwardRef<SwitchElement, SwitchProps>(
         ref={ref}
         className={clsx(classes.root, disabled && classes.disabled, className)}
         disabled={disabled}
+        data-test-name="switch"
+        data-test-value={rest.id}
         {...rest}
       >
         <SwitchBase.Thumb className={clsx(classes.thumb)} />

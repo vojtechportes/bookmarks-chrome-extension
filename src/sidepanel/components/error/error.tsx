@@ -11,7 +11,11 @@ export const Error: FC<PropsWithChildren<IErrorProps>> = ({
   dark,
   children,
 }) => (
-  <Typography className={clsx(classes.root, dark && classes.dark)} noMargin>
+  <Typography
+    className={clsx(classes.root, dark && classes.dark)}
+    noMargin
+    data-test-name="error"
+  >
     {children}
   </Typography>
 );

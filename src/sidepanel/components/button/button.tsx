@@ -39,6 +39,7 @@ export const Button: FC<PropsWithChildren<IButtonProps>> = ({
       className,
     )}
     disabled={disabled || loading}
+    data-test-name="button"
     {...rest}
   >
     {loading ? (

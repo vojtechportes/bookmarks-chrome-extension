@@ -6,8 +6,8 @@ import { Panel } from './components/panel/panel';
 import { AlertProvider } from './components/alert-provider/alert-provider';
 import { BookmarksProvider } from './components/bookmarks-provider/bookmarks-provider';
 
-import './styles/global.css';
 import './i18n';
+import './styles/global.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

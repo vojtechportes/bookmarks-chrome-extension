@@ -56,6 +56,7 @@ export const Card: FC<PropsWithChildren<ICardProps>> = ({
         loading && classes.loading,
         className,
       )}
+      data-test-name="card"
       {...rest}
     >
       {clonedElements}

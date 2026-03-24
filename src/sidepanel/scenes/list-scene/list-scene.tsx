@@ -53,6 +53,7 @@ export const ListScene: FC = () => {
         open={deleteAllModalOpen}
         onCancel={() => setDeleteAllModalOpen(false)}
         onConfirm={handleDeleteAllBookmarks}
+        data-test-value="delete-all"
       />
 
       <IconButton

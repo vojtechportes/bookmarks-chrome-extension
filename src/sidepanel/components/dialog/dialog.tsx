@@ -4,12 +4,16 @@ import { clsx } from 'clsx';
 import { Typography } from '../typography/typography';
 import { Button, type IButtonProps } from '../button/button';
 import { useTranslation } from 'react-i18next';
+import type { IDataTest } from '../../types/data-test';
+import type { IBaseTypographyProps } from '../typography/types';
 
 export interface IDialogSlots {
   confirmButton?: IButtonProps;
   cancelButton?: IButtonProps;
+  title?: IBaseTypographyProps;
+  description?: IBaseTypographyProps;
 }
-export interface IDialogProps {
+export interface IDialogProps extends IDataTest {
   open?: boolean;
   title: React.ReactNode;
   description?: React.ReactNode;
@@ -30,6 +34,7 @@ export const Dialog: FC<PropsWithChildren<IDialogProps>> = ({
   onConfirm,
   slots,
   children,
+  ...rest
 }) => {
   const { t } = useTranslation();
 
@@ -45,9 +50,14 @@ export const Dialog: FC<PropsWithChildren<IDialogProps>> = ({
         aria-hidden="true"
       />
 
-      <div className={clsx(classes.root)}>
+      <div className={clsx(classes.root)} data-test-name="dialog" {...rest}>
         <div className={clsx(classes.title)}>
-          <Typography as="h5" noMargin className={clsx(classes.typography)}>
+          <Typography
+            as="h5"
+            noMargin
+            className={clsx(classes.typography)}
+            {...slots?.title}
+          >
             {title}
           </Typography>
         </div>
@@ -55,7 +65,7 @@ export const Dialog: FC<PropsWithChildren<IDialogProps>> = ({
         {description && (
           <>
             <div className={clsx(classes.description)}>
-              <Typography>{description}</Typography>
+              <Typography {...slots?.description}>{description}</Typography>
             </div>
             <div className={clsx(classes.divider)} />
           </>
@@ -69,12 +79,17 @@ export const Dialog: FC<PropsWithChildren<IDialogProps>> = ({
         )}
 
         <div className={clsx(classes.actions)}>
-          <Button onClick={onConfirm} {...slots?.confirmButton}>
+          <Button
+            onClick={onConfirm}
+            data-test-value="confirm"
+            {...slots?.confirmButton}
+          >
             {confirmLabel ?? t('confirm')}
           </Button>
           <Button
             onClick={onCancel}
             variant="secondary"
+            data-test-value="cancel"
             {...slots?.cancelButton}
           >
             {cancelLabel ?? t('cancel')}
