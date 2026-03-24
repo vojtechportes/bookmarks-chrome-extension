@@ -27,7 +27,7 @@ export const test = base.extend<Fixtures>({
 
     const context = await chromium.launchPersistentContext(userDataDir, {
       channel: 'chromium',
-      headless: false,
+      headless: true,
       args: [
         `--disable-extensions-except=${pathToExtension}`,
         `--load-extension=${pathToExtension}`,
