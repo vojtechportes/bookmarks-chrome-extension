@@ -157,7 +157,6 @@ Overall:
 
 - `runtimeApi` is used to perform operations handled by the background layer and to observe changes.
 - `storageApi` is used to read and write stored data and observe storage updates
-- shared 
 
 The **service worker** is the main orchestration layer. The side panel communicates with it through `chrome.runtime.sendMessage()`. Inside the worker, `handleMessage()` routes messages to dedicated bookmark actions.
 
@@ -189,6 +188,14 @@ Manifest is localized using standard Chrome extension localization API for which
 
 The project uses `vitest` and `@testing-library`. The coverage is not perfect, but most important parts are tested.
 
+For end to end tests, this project is using `playwright`. Tests are located in `tests` folder in the root of the repository and are testing these basic user flow.
+
+- Add bookmark
+- Delete bookmark
+- Delete all bookmarks
+- Pin and unpin bookmark
+- Rename bookmark
+
 ## CI/CD
 
 ### CI
@@ -201,6 +208,10 @@ Runs and verifies:
 - npm run lint
 - npm run test
 - npm run build
+
+### E2E Tests
+
+Triggers on pull requests to `main` and on pushes to `main`.
 
 ### Release Chrome Extension
 
