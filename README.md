@@ -202,25 +202,20 @@ For end to end tests, this project is using `playwright`. Tests are located in `
 
 Triggers on pull requests to `main`.
 
-Runs and verifies:
+Runs:
 
-- npm ci
-- npm run lint
-- npm run test
-- npm run build
+- Lint
+- Unit Tests
+- Build
+- E2E Tests
 
-### E2E Tests
-
-Triggers on pull requests to `main` and on pushes to `main`.
-
-### Release Chrome Extension
+### CD
 
 Triggers when tag matching pattern `v*` is pushed into `main` branch.
 
 Runs:
 
-- npm ci
-- npm run build
+- Build
 
 Additional steps:
 
