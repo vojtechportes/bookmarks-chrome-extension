@@ -26,8 +26,10 @@ export const Textarea: FC<TextareaProps> = ({
   return (
     <textarea
       className={clsx(classes.root, className)}
-      {...rest}
       defaultValue={sanitizedChildren}
+      data-test-name="textarea"
+      data-test-value={rest.name}
+      {...rest}
     />
   );
 };

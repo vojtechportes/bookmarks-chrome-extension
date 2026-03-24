@@ -14,12 +14,18 @@ export const Options: FC<PropsWithChildren<IOptionsProps>> = ({
   loading,
   ...rest
 }) => (
-  <DropdownMenu
-    {...rest}
-    trigger={
-      <IconButton size="medium" loading={loading}>
-        <DotsIcon />
-      </IconButton>
-    }
-  />
+  <div data-test-name="options">
+    <DropdownMenu
+      trigger={
+        <IconButton
+          size="medium"
+          loading={loading}
+          data-test-value="dropdown-trigger"
+        >
+          <DotsIcon />
+        </IconButton>
+      }
+      {...rest}
+    />
+  </div>
 );

@@ -96,6 +96,7 @@ export const Title: FC<ITitleProps> = ({
                       },
                     }}
                     className={clsx(classes.noShadow)}
+                    data-test-value="dropdown-trigger"
                   >
                     <DotsIcon />
                   </IconButton>
@@ -105,6 +106,7 @@ export const Title: FC<ITitleProps> = ({
           </div>
         </div>
       }
+      data-test-value={title}
     >
       {renderHighlightedText(title)}
     </TitleBase>

@@ -55,6 +55,7 @@ export const RenameDialog: FC<IRenameDialogProps> = ({
           disabled: isRenaming,
         },
       }}
+      data-test-value="rename"
     >
       <div className={clsx(classes.content)}>
         <Label htmlFor="title">{t('rename-dialog.fields.title')}</Label>

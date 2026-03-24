@@ -43,8 +43,14 @@ export const SettingsScene: FC = () => {
   const isSummarizerSupported = !!Summarizer;
 
   const handleEnableSummarizer = useCallback(async (): Promise<void> => {
+    const { summarizerStatus } =
+      await import('../../signals/summarizer-status.signal');
+
     try {
-      await prepareSummarizer(SUMMARIZER_OPTIONS);
+      await prepareSummarizer(
+        SUMMARIZER_OPTIONS,
+        (status) => (summarizerStatus.value = status),
+      );
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : UNSUPPORTED_MESSAGE_TYPE;

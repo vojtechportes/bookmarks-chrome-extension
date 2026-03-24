@@ -29,6 +29,10 @@ export const EmptyScene: FC<IEmptySceneProps> = ({ loading }) => {
               onClick: handleBookmarkTab,
               icon: <BookmarkIcon />,
               loading: isSaving,
+              'data-test-value': 'bookmark',
+            },
+            title: {
+              'data-test-value': 'no-data.title',
             },
           }}
           loading={loading}

@@ -43,6 +43,7 @@ export const IconButton: FC<PropsWithChildren<IIconButtonProps>> = ({
       className,
     )}
     disabled={disabled}
+    data-test-name="icon-button"
     {...rest}
   >
     {loading ? (

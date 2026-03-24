@@ -32,6 +32,7 @@ export const DropdownMenu: FC<PropsWithChildren<IDropdownMenuProps>> = ({
       <DropdownMenuBase.Content
         className={clsx(dropdownMenuClasses.dropdownMenuContent)}
         sideOffset={sideOffset ?? 5}
+        data-test-name="dropdown-menu"
       >
         {items.map((item) => (
           <DropdownMenuBase.Item
@@ -41,6 +42,8 @@ export const DropdownMenu: FC<PropsWithChildren<IDropdownMenuProps>> = ({
               item.value === value && dropdownMenuClasses.active,
             )}
             onClick={() => onChange(item.value)}
+            data-test-name="dropdown-item"
+            data-test-value={item.value}
           >
             <div className={clsx(dropdownMenuClasses.content)}>
               {item.label}

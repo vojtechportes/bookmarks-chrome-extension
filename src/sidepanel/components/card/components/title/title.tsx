@@ -28,6 +28,7 @@ export const Title: FC<PropsWithChildren<ITitleProps>> = ({
   return (
     <div
       className={clsx(classes.title, viewType && classes[viewType], className)}
+      data-test-name="title"
       {...rest}
     >
       {startAdornment}

@@ -26,6 +26,7 @@ export const Panel: FC<PropsWithChildren<IPanelProps>> = ({
       transparent && classes.transparent,
       className,
     )}
+    data-test-name="panel"
     {...rest}
   >
     {children}

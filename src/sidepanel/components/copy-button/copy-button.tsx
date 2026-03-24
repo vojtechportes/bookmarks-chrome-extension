@@ -47,14 +47,15 @@ export const CopyButton: FC<ICopyButtonProps> = ({
 
   return (
     <IconButton
-      {...slots?.iconButton}
-      {...rest}
       className={clsx(
         classes[display],
         slots?.iconButton?.className,
         className,
       )}
       onClick={handleCopy}
+      data-test-value="copy"
+      {...slots?.iconButton}
+      {...rest}
     >
       <CopyIcon />
     </IconButton>

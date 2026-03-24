@@ -14,12 +14,18 @@ export const Sort: FC<PropsWithChildren<ISortProps>> = ({
   loading,
   ...rest
 }) => (
-  <DropdownMenu
-    {...rest}
-    trigger={
-      <IconButton size="medium" loading={loading}>
-        <SortIcon />
-      </IconButton>
-    }
-  />
+  <div data-test-name="sort">
+    <DropdownMenu
+      {...rest}
+      trigger={
+        <IconButton
+          size="medium"
+          data-test-value="dropdown-trigger"
+          loading={loading}
+        >
+          <SortIcon />
+        </IconButton>
+      }
+    />
+  </div>
 );

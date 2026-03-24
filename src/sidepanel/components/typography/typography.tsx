@@ -37,6 +37,7 @@ export const Typography = <K extends TypographyComponent = 'p'>({
       style={{
         textAlign,
       }}
+      data-test-name="typography"
       {...rest}
     >
       {loading ? (

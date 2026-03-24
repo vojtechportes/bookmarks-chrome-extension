@@ -28,7 +28,11 @@ export const Image: FC<IImageProps> = ({
   }
 
   return (
-    <AspectRatio.Root ratio={16 / 9} className={clsx(className)}>
+    <AspectRatio.Root
+      ratio={16 / 9}
+      className={clsx(className)}
+      data-test-name="image"
+    >
       {loading ? (
         <Skeleton
           height="100%"

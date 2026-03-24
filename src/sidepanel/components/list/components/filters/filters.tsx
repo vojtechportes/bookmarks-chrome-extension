@@ -29,7 +29,7 @@ export const Filters: FC<PropsWithChildren<IFiltersProps>> = ({
   loading,
   ...rest
 }) => (
-  <div className={clsx(className)}>
+  <div className={clsx(className)} data-test-name="filters">
     <div className={clsx(classes.root)} {...rest}>
       <div className={clsx(classes.container)}>
         <div>

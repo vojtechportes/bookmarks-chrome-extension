@@ -14,6 +14,7 @@ export const Progress = React.forwardRef<
     ref={ref}
     className={clsx(classes.root, className)}
     value={value}
+    data-test-name="proggress"
     {...rest}
   >
     <ProgressBase.Indicator

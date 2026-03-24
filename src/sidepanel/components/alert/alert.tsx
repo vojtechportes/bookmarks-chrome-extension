@@ -98,6 +98,7 @@ export const Alert: FC<PropsWithChildren<IAlertProps>> = ({
           onClose && classes.canClose,
         )}
         {...rest}
+        data-test-name="alert"
       >
         <Typography component="p" noMargin loading={loading}>
           {children}

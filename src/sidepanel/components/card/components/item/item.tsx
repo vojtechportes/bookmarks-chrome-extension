@@ -30,7 +30,7 @@ export const Item: FC<PropsWithChildren<IItemProps>> = ({
   const isDark = useDarkMode();
 
   return (
-    <div className={clsx(classes.item, className)}>
+    <div className={clsx(classes.item, className)} data-test-name="item">
       {startAdornment}
       <Typography
         loading={loading}

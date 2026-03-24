@@ -40,7 +40,11 @@ export const Input: FC<IInputProps> = ({
   );
 
   return (
-    <div className={clsx(classes.root)}>
+    <div
+      className={clsx(classes.root)}
+      data-test-name="input"
+      data-test-value={rest.name}
+    >
       <input type="text" className={clsx(classes.input)} {...rest} />
 
       {canClear && (
@@ -49,6 +53,7 @@ export const Input: FC<IInputProps> = ({
           variant="faux"
           className={clsx(classes.clearButton)}
           onClick={handleClear}
+          data-test-value="clear"
         >
           <CloseIcon />
         </IconButton>
