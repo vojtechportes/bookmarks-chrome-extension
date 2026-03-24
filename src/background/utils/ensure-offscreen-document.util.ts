@@ -15,6 +15,6 @@ export const ensureOffscreenDocument = async (): Promise<void> => {
   await chrome.offscreen.createDocument({
     url: OFFSCREEN_DOCUMENT_PATH,
     reasons: ['DOM_PARSER'],
-    justification: 'Run Chrome Summarizer API in a document context',
+    justification: 'Run AI summarization of web page content in a background DOM context. The summarization task may take several minutes to complete and must continue even if the extension UI (side panel) is closed or unmounted.',
   });
 };
