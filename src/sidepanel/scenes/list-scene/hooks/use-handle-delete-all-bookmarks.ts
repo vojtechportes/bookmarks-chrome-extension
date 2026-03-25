@@ -3,14 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { useAlert } from '../../../components/alert-provider/hooks/use-alert';
 import { UNSUPPORTED_MESSAGE_TYPE } from '../../../../shared/constants/error-messages';
 import { deleteAllBookmarks } from '../../../../shared/database/api/bookmarks/delete-all-bookmarks';
-import { useBookmarksContext } from '../../../components/bookmarks-provider/hooks/use-bookmarks-context';
+import { useBookmarks } from '../../../components/bookmarks-provider/hooks/use-bookmarks';
 import { runtimeApi } from '../../../api/runtime-api/runtime-api';
 
 export const useHandleDeleteAllBookmarks = () => {
   const { t } = useTranslation(['bookmarks-scene', 'common']);
   const { error: errorAlert, success: successAlert } = useAlert();
   const [isDeleting, setIsDeleting] = useState(false);
-  const { reloadHasBookmarks } = useBookmarksContext();
+  const { reloadHasBookmarks } = useBookmarks();
 
   const handleDeleteAllBookmarks = useCallback(async () => {
     try {

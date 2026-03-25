@@ -1,5 +1,5 @@
 import { useCallback, useMemo, type FC } from 'react';
-import { useBookmarksContext } from '../../components/bookmarks-provider/hooks/use-bookmarks-context';
+import { useBookmarks } from '../../components/bookmarks-provider/hooks/use-bookmarks';
 import { ListScene } from '../list-scene/list-scene';
 import { EmptyScene } from '../empty-scene/empty-scene';
 import { IconButton } from '../../components/icon-button/icon-button';
@@ -14,7 +14,7 @@ import { SUMMARIZER_OPTIONS } from '../../../shared/constants/summarizer';
 
 export const BookmarksScene: FC = () => {
   const { t } = useTranslation('bookmarks-scene');
-  const { hasBookmarks, isLoadingHasBookmarks } = useBookmarksContext();
+  const { hasBookmarks, isLoadingHasBookmarks } = useBookmarks();
   const navigate = useNavigate();
 
   const sceneElements = useMemo(() => {
