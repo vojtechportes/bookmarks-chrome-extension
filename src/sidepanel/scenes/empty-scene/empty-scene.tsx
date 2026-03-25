@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Stack } from '../../components/stack/stack';
 import BookmarkIcon from '../../components/icons/bookmark-icon.svg?react';
 import { useHandleBookmarkTab } from '../../hooks/use-handle-bookmark-tab';
-import { useBookmarksContext } from '../../components/bookmarks-provider/hooks/use-bookmarks-context';
+import { useBookmarks } from '../../components/bookmarks-provider/hooks/use-bookmarks';
 
 export interface IEmptySceneProps {
   loading?: boolean;
@@ -13,7 +13,7 @@ export interface IEmptySceneProps {
 
 export const EmptyScene: FC<IEmptySceneProps> = ({ loading }) => {
   const { t } = useTranslation('bookmarks-scene');
-  const { reloadHasBookmarks } = useBookmarksContext();
+  const { reloadHasBookmarks } = useBookmarks();
   const { handleBookmarkTab, isSaving } =
     useHandleBookmarkTab(reloadHasBookmarks);
 

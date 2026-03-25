@@ -10,7 +10,7 @@ import { UNSUPPORTED_MESSAGE_TYPE } from '../../../../../../shared/constants/err
 import { pinBookmark } from '../../../../../../shared/database/api/bookmarks/pin-bookmark';
 import { unpinBookmark } from '../../../../../../shared/database/api/bookmarks/unpin-bookmark';
 import { deleteBookmark } from '../../../../../../shared/database/api/bookmarks/delete-bookmark';
-import { useBookmarksContext } from '../../../../../components/bookmarks-provider/hooks/use-bookmarks-context';
+import { useBookmarks } from '../../../../../components/bookmarks-provider/hooks/use-bookmarks';
 import { runtimeApi } from '../../../../../api/runtime-api/runtime-api';
 
 export const useHandleDropdownItemClick = (
@@ -18,7 +18,7 @@ export const useHandleDropdownItemClick = (
   setIsRenameModalOpen: Dispatch<SetStateAction<boolean>>,
 ) => {
   const { t } = useTranslation('bookmarks-scene');
-  const { reloadHasBookmarks } = useBookmarksContext();
+  const { reloadHasBookmarks } = useBookmarks();
   const { success, error } = useAlert();
   const [isLoading, setIsLoading] = useState(false);
 

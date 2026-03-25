@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import type { IBookmarksContext } from '../types';
 import { BookmarksContext } from '../components/bookmarks-context';
 
-export const useBookmarksContext = (): IBookmarksContext => {
+export const useBookmarks = (): IBookmarksContext => {
   const context = useContext(BookmarksContext);
 
   if (!context) {
