@@ -185,7 +185,7 @@ Manifest is localized using standard Chrome extension localization API for which
 
 ## Security
 
-To prevent `CSR`, manifest is set to `script-src 'self'; object-src 'self';`.
+To prevent `XSS`, CSP in manifest file is set to `script-src 'self'; object-src 'self';`.
 
 To avoid html injection, all saved strings (titles and descriptions, including AI generated descriptions) are sanitized and stripped of any html tags. To avoid script injection into svg files, svg files are rasterized in `offscreen` document.
 
