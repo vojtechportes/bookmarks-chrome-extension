@@ -1,4 +1,5 @@
 import { updateBookmark } from './update-bookmark';
+import escapeHTML from 'escape-html';
 
 export const updateBookmarkTitle = async (
   bookmarkId: string,
@@ -6,7 +7,7 @@ export const updateBookmarkTitle = async (
 ) => {
   return updateBookmark(bookmarkId, (bookmark) => ({
     ...bookmark,
-    title,
+    title: escapeHTML(title),
     updatedAt: new Date().toISOString(),
   }));
 };

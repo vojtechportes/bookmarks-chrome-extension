@@ -11,11 +11,14 @@ import { useNavigate } from 'react-router-dom';
 import { getSummarizerAvailability } from '../../utils/get-summarizer-availability.util';
 import { prepareSummarizer } from '../../utils/prepare-summarizer.util';
 import { SUMMARIZER_OPTIONS } from '../../../shared/constants/summarizer';
+import { useAlert } from '../../components/alert-provider/hooks/use-alert';
+import { UNSUPPORTED_MESSAGE_TYPE } from '../../../shared/constants/error-messages';
 
 export const BookmarksScene: FC = () => {
   const { t } = useTranslation('bookmarks-scene');
   const { hasBookmarks, isLoadingHasBookmarks } = useBookmarks();
   const navigate = useNavigate();
+  const { error: errorAlert } = useAlert();
 
   const sceneElements = useMemo(() => {
     return hasBookmarks ? (
@@ -38,14 +41,21 @@ export const BookmarksScene: FC = () => {
     const availability = await getSummarizerAvailability();
 
     if (availability === 'downloading') {
-      prepareSummarizer(
-        SUMMARIZER_OPTIONS,
-        (status) => (summarizerStatus.value = status),
-      );
+      try {
+        prepareSummarizer(
+          SUMMARIZER_OPTIONS,
+          (status) => (summarizerStatus.value = status),
+        );
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : UNSUPPORTED_MESSAGE_TYPE;
+
+        errorAlert(t(`common:error-message.${errorMessage}`));
+      }
     }
 
     navigate('/settings');
-  }, [navigate]);
+  }, [errorAlert, navigate, t]);
 
   return (
     <>

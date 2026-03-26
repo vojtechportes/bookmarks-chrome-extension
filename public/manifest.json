@@ -28,5 +28,8 @@
   },
   "side_panel": {
     "default_path": "index.html"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
   }
 }

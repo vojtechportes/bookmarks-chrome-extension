@@ -12,6 +12,9 @@ import { saveScreenshotAsset } from '../utils/save-screenshot-asset.util';
 import { addBookmark } from '../../shared/database/api/bookmarks/add-bookmark';
 import { SETTINGS_USE_AI_GENERATED_DESCRIPTIONS } from '../../shared/constants/storage';
 import { generateBookmarkDescription } from '../utils/generate-bookmark-description.util';
+import { logger } from '../../shared/logger/logger';
+import { SAVE_TAB } from '../../shared/constants/operations';
+import { FAILED_TO_PERSIST_ASSET } from '../../shared/constants/warning-messages';
 
 export const saveActiveTabBookmark = async (): Promise<IBookmarkItem> => {
   const activeTab = await getActiveTab();
@@ -20,10 +23,20 @@ export const saveActiveTabBookmark = async (): Promise<IBookmarkItem> => {
   )[SETTINGS_USE_AI_GENERATED_DESCRIPTIONS] as boolean;
 
   if (!activeTab.id) {
+    logger('error', ACTIVE_TAB_ID_MISSING, {
+      operation: SAVE_TAB,
+      scope: 'service-worker',
+    });
+
     throw new Error(ACTIVE_TAB_ID_MISSING);
   }
 
   if (!activeTab.url || !isBookmarkableUrl(activeTab.url)) {
+    logger('error', TAB_CANNOT_BE_BOOKMARKED, {
+      operation: SAVE_TAB,
+      scope: 'service-worker',
+    });
+
     throw new Error(TAB_CANNOT_BE_BOOKMARKED);
   }
 
@@ -41,8 +54,11 @@ export const saveActiveTabBookmark = async (): Promise<IBookmarkItem> => {
   if (resolvedIconUrl) {
     try {
       iconAssetId = await saveIconAsset(bookmarkId, resolvedIconUrl);
-    } catch (error) {
-      console.warn('[bookmark-extension] failed to persist icon asset', error);
+    } catch {
+      logger('warn', FAILED_TO_PERSIST_ASSET, {
+        operation: SAVE_TAB,
+        scope: 'service-worker',
+      });
     }
   }
 
@@ -53,8 +69,11 @@ export const saveActiveTabBookmark = async (): Promise<IBookmarkItem> => {
         resolvedDarkIconUrl,
         'dark',
       );
-    } catch (error) {
-      console.warn('[bookmark-extension] failed to persist icon asset', error);
+    } catch {
+      logger('warn', FAILED_TO_PERSIST_ASSET, {
+        operation: SAVE_TAB,
+        scope: 'service-worker',
+      });
     }
   }
 
@@ -65,8 +84,11 @@ export const saveActiveTabBookmark = async (): Promise<IBookmarkItem> => {
         resolvedLightIconUrl,
         'light',
       );
-    } catch (error) {
-      console.warn('[bookmark-extension] failed to persist icon asset', error);
+    } catch {
+      logger('warn', FAILED_TO_PERSIST_ASSET, {
+        operation: SAVE_TAB,
+        scope: 'service-worker',
+      });
     }
   }
 
@@ -74,11 +96,11 @@ export const saveActiveTabBookmark = async (): Promise<IBookmarkItem> => {
 
   try {
     screenshotAssetId = await saveScreenshotAsset(bookmarkId);
-  } catch (error) {
-    console.warn(
-      '[bookmark-extension] failed to persist screenshot asset',
-      error,
-    );
+  } catch {
+    logger('warn', FAILED_TO_PERSIST_ASSET, {
+      operation: SAVE_TAB,
+      scope: 'service-worker',
+    });
   }
 
   const currentDate = new Date().toISOString();

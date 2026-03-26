@@ -5,6 +5,7 @@ import {
 } from '../shared/constants/error-messages';
 import { SUMMARIZER_OPTIONS } from '../shared/constants/summarizer';
 import { DESCRIPTION_MAXIMUM_LENGTH } from '../shared/constants/text-extraction';
+import { logger } from '../shared/logger/logger';
 import type { OffscreenSummarizeTextMessage } from '../shared/types/ofscreen-summarize-text-message';
 
 chrome.runtime.onMessage.addListener(
@@ -19,6 +20,10 @@ chrome.runtime.onMessage.addListener(
     (async () => {
       try {
         if (!Summarizer) {
+          logger('error', SUMMARIZE_API_IS_NOT_SUPPORTED, {
+            scope: 'offscreen',
+          });
+
           sendResponse({
             ok: false,
             error: SUMMARIZE_API_IS_NOT_SUPPORTED,
@@ -52,6 +57,15 @@ chrome.runtime.onMessage.addListener(
           summarizer.destroy?.();
         }
       } catch (error) {
+        logger(
+          'error',
+          UNKNOWN_SUMMARIZE_ERROR,
+          {
+            scope: 'offscreen',
+          },
+          error,
+        );
+
         sendResponse({
           ok: false,
           error:

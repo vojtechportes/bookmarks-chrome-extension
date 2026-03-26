@@ -1,5 +1,8 @@
 /// <reference types="chrome-types" />
 
+import { FAILED_TO_SET_SIDEPANEL } from '../shared/constants/error-messages';
+import { SERVICE_WORKER_INSTALLED } from '../shared/constants/info-messages';
+import { logger } from '../shared/logger/logger';
 import type { BookmarkMessage } from '../shared/types/bookmark-message';
 import type { BookmarkResponse } from '../shared/types/bookmark-response';
 import { handleMessage } from './utils/handle-message.util';
@@ -23,14 +26,20 @@ export const initBookmarksSync = () => {
 };
 
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('[bookmark-extension] service worker installed');
+  logger('info', SERVICE_WORKER_INSTALLED, {
+    scope: 'service-worker',
+  });
 
   if (chrome.sidePanel?.setPanelBehavior) {
     chrome.sidePanel
       .setPanelBehavior({ openPanelOnActionClick: true })
       .catch((error) => {
-        console.error(
-          '[bookmark-extension] failed to set side panel behavior',
+        logger(
+          'error',
+          FAILED_TO_SET_SIDEPANEL,
+          {
+            scope: 'service-worker',
+          },
           error,
         );
       });

@@ -1,6 +1,10 @@
 import { FAILED_TO_EXTRACT_DATA } from '../../shared/constants/error-messages';
+import { EXTRACT_PAGE_DATA } from '../../shared/constants/operations';
 import { DESCRIPTION_MAXIMUM_LENGTH } from '../../shared/constants/text-extraction';
+import { logger } from '../../shared/logger/logger';
+import { sanitizeUrl } from '../../shared/logger/utils/sanitize-url.util';
 import { truncate } from '../../shared/utils/truncate.util';
+import escapeHtml from 'escape-html';
 
 export interface IExtractedPageData {
   title: string;
@@ -131,11 +135,17 @@ export const extractPageData = async (
   const result = results[0]?.result;
 
   if (!result) {
+    logger('error', FAILED_TO_EXTRACT_DATA, {
+      operation: EXTRACT_PAGE_DATA,
+      scope: 'service-worker',
+      url: sanitizeUrl(window.location.href),
+    });
+
     throw new Error(FAILED_TO_EXTRACT_DATA);
   }
 
   return {
-    title: typeof result.title === 'string' ? result.title : '',
+    title: typeof result.title === 'string' ? escapeHtml(result.title) : '',
     url: typeof result.url === 'string' ? result.url : '',
     icon: typeof result.icon === 'string' ? result.icon : undefined,
     iconLight:
@@ -143,7 +153,9 @@ export const extractPageData = async (
     iconDark: typeof result.iconDark === 'string' ? result.iconDark : undefined,
     description:
       typeof result.description === 'string' && result.description.trim()
-        ? truncate(result.description.trim(), DESCRIPTION_MAXIMUM_LENGTH)
+        ? escapeHtml(
+            truncate(result.description.trim(), DESCRIPTION_MAXIMUM_LENGTH),
+          )
         : null,
   };
 };

@@ -1,4 +1,6 @@
 import { UNSUPPORTED_MESSAGE_TYPE } from '../../shared/constants/error-messages';
+import { HANDLE_MESSAGE } from '../../shared/constants/operations';
+import { logger } from '../../shared/logger/logger';
 import type { BookmarkMessage } from '../../shared/types/bookmark-message';
 import type { BookmarkResponse } from '../../shared/types/bookmark-response';
 import { bookmarksChanged } from '../api/bookmarks-changed';
@@ -45,6 +47,11 @@ export async function handleMessage(
     }
 
     default: {
+      logger('error', UNSUPPORTED_MESSAGE_TYPE, {
+        operation: HANDLE_MESSAGE,
+        scope: 'service-worker',
+      });
+
       return {
         ok: false,
         error: UNSUPPORTED_MESSAGE_TYPE,

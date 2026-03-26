@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { compressImageBlob } from './compress-image-blob.util';
-import { FAILED_TO_GET_CANVAS_TEXT } from '../../shared/constants/error-messages';
+import { FAILED_TO_GET_CANVAS_CONTEXT } from '../../shared/constants/error-messages';
 
 describe('compressImageBlob', () => {
   beforeEach(() => {
@@ -103,7 +103,7 @@ describe('compressImageBlob', () => {
     vi.stubGlobal('OffscreenCanvas', OffscreenCanvasMock);
 
     await expect(compressImageBlob(inputBlob)).rejects.toThrow(
-      FAILED_TO_GET_CANVAS_TEXT,
+      FAILED_TO_GET_CANVAS_CONTEXT,
     );
   });
 });

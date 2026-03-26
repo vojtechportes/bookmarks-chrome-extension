@@ -1,3 +1,8 @@
+import {
+  BOOKMARK_NOT_FOUND,
+  TRANSACTION_ABORTED,
+} from '../../../constants/error-messages';
+import { logger } from '../../../logger/logger';
 import { ASSETS_STORE, BOOKMARKS_STORE } from '../../constants';
 import { getDatabase } from '../../database';
 import { BookmarkNotFoundError } from '../../errors/bookmark-not-found-error';
@@ -17,6 +22,10 @@ export const deleteBookmark = async (bookmarkId: string): Promise<void> => {
     const bookmark = await bookmarksStore.get(bookmarkId);
 
     if (!bookmark) {
+      logger('error', BOOKMARK_NOT_FOUND, {
+        scope: 'database',
+      });
+
       throw new BookmarkNotFoundError();
     }
 
@@ -28,6 +37,15 @@ export const deleteBookmark = async (bookmarkId: string): Promise<void> => {
 
     await transaction.done;
   } catch (error) {
+    logger(
+      'error',
+      TRANSACTION_ABORTED,
+      {
+        scope: 'database',
+      },
+      error,
+    );
+
     transaction.abort();
     throw error;
   }

@@ -1,4 +1,6 @@
 import { FAILED_TO_SUMMARIZE_TEXT } from '../../shared/constants/error-messages';
+import { SUMMARIZE_TEXT } from '../../shared/constants/operations';
+import { logger } from '../../shared/logger/logger';
 import type { SummarizeTextMessage } from '../../shared/types/summarize-text-message';
 import { ensureOffscreenDocument } from '../utils/ensure-offscreen-document.util';
 
@@ -14,6 +16,11 @@ export const summarizeText = async (
   });
 
   if (!response?.ok) {
+    logger('error', FAILED_TO_SUMMARIZE_TEXT, {
+      operation: SUMMARIZE_TEXT,
+      scope: 'service-worker',
+    });
+
     throw new Error(response?.error ?? FAILED_TO_SUMMARIZE_TEXT);
   }
 
