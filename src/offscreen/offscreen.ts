@@ -1,78 +1,54 @@
-import {
-  SUMMARIZE_API_IS_NOT_SUPPORTED,
-  SUMMARIZE_API_IS_UNAVILABLE,
-  UNKNOWN_SUMMARIZE_ERROR,
-} from '../shared/constants/error-messages';
-import { SUMMARIZER_OPTIONS } from '../shared/constants/summarizer';
-import { DESCRIPTION_MAXIMUM_LENGTH } from '../shared/constants/text-extraction';
-import { logger } from '../shared/logger/logger';
-import type { OffscreenSummarizeTextMessage } from '../shared/types/ofscreen-summarize-text-message';
+import type { OffscreenRasterizeSvgMessage } from '../shared/types/offscreen-rasterize-svg-message';
+import type { OffscreenSummarizeTextMessage } from '../shared/types/offscreen-summarize-text-message';
+import type { OffscreenValidateImageMessage } from '../shared/types/offscreen-validate-image-message';
+import { rasterizeSvg } from './utils/rasterize-svg.util';
+import { summarize } from './utils/summarize.util';
+import { validateImage } from './utils/validate-image.util';
 
 chrome.runtime.onMessage.addListener(
-  (message: OffscreenSummarizeTextMessage, _sender, sendResponse) => {
+  (
+    message:
+      | OffscreenSummarizeTextMessage
+      | OffscreenValidateImageMessage
+      | OffscreenRasterizeSvgMessage,
+    _sender,
+    sendResponse,
+  ) => {
     if (
       message.target !== 'offscreen' ||
-      message.type !== 'OFFSCREEN_SUMMARIZE_TEXT'
+      (message.type !== 'OFFSCREEN_SUMMARIZE_TEXT' &&
+        message.type !== 'OFFSCREEN_VALIDATE_IMAGE' &&
+        message.type !== 'OFFSCREEN_RASTERIZE_SVG')
     ) {
       return;
     }
 
-    (async () => {
-      try {
-        if (!Summarizer) {
-          logger('error', SUMMARIZE_API_IS_NOT_SUPPORTED, {
-            scope: 'offscreen',
-          });
+    if (
+      message.target === 'offscreen' &&
+      message.type === 'OFFSCREEN_SUMMARIZE_TEXT'
+    ) {
+      summarize(message, sendResponse);
+    }
 
-          sendResponse({
-            ok: false,
-            error: SUMMARIZE_API_IS_NOT_SUPPORTED,
-          });
-          return;
-        }
+    if (
+      message.target === 'offscreen' &&
+      message.type === 'OFFSCREEN_VALIDATE_IMAGE'
+    ) {
+      const uint8Array = new Uint8Array(message.payload.bytes);
+      const blob = new Blob([uint8Array], { type: message.payload.mimeType });
 
-        const availability = await Summarizer.availability(SUMMARIZER_OPTIONS);
+      validateImage(blob, sendResponse);
+    }
 
-        if (availability === 'unavailable') {
-          sendResponse({
-            ok: false,
-            error: SUMMARIZE_API_IS_UNAVILABLE,
-          });
-          return;
-        }
+    if (
+      message.target === 'offscreen' &&
+      message.type === 'OFFSCREEN_RASTERIZE_SVG'
+    ) {
+      const uint8Array = new Uint8Array(message.payload.bytes);
+      const blob = new Blob([uint8Array], { type: 'image/svg+xml' });
 
-        const summarizer = await Summarizer.create({
-          ...message.payload.options,
-          sharedContext: `You are being provided a context of a page. Summarize what the page is about in ${DESCRIPTION_MAXIMUM_LENGTH - 3} characters at most. Use a single sentence.`,
-        });
-
-        try {
-          const summary = await summarizer.summarize(message.payload.input);
-
-          sendResponse({
-            ok: true,
-            data: summary,
-          });
-        } finally {
-          summarizer.destroy?.();
-        }
-      } catch (error) {
-        logger(
-          'error',
-          UNKNOWN_SUMMARIZE_ERROR,
-          {
-            scope: 'offscreen',
-          },
-          error,
-        );
-
-        sendResponse({
-          ok: false,
-          error:
-            error instanceof Error ? error.message : UNKNOWN_SUMMARIZE_ERROR,
-        });
-      }
-    })();
+      rasterizeSvg(blob, sendResponse);
+    }
 
     return true;
   },

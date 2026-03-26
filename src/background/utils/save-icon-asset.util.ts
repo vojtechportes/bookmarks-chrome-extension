@@ -3,6 +3,8 @@ import { SAVE_ASSET } from '../../shared/constants/operations';
 import { addAsset } from '../../shared/database/api/assets/add-asset';
 import { logger } from '../../shared/logger/logger';
 import { compressImageBlob } from './compress-image-blob.util';
+import { rasterizeSvg } from './rasterize-svg.util';
+import { validateImageBlob } from './validate-image-blob/validate-image-blob.util';
 
 export const saveIconAsset = async (
   bookmarkId: string,
@@ -29,18 +31,44 @@ export const saveIconAsset = async (
     return undefined;
   }
 
+  const validatedImageBlob = await validateImageBlob(originalBlob);
+
+  if (!validatedImageBlob.valid) {
+    logger('error', FAILED_TO_FETCH_ICON, {
+      operation: SAVE_ASSET,
+      scope: 'service-worker',
+      bookmarkId,
+    });
+
+    throw new Error(FAILED_TO_FETCH_ICON);
+  }
+
   const assetId = `${bookmarkId}-${suffix}-icon`;
 
   let blobToStore = originalBlob;
-  let mimeType = originalBlob.type || 'image/png';
+  let mimeType = originalBlob.type;
+
+  if (mimeType.includes('svg')) {
+    const rasterizedSvg = await rasterizeSvg(blobToStore);
+
+    if (rasterizedSvg) {
+      blobToStore = rasterizedSvg;
+      mimeType = 'image/png';
+    }
+  }
 
   if (!mimeType.includes('svg')) {
     try {
-      blobToStore = await compressImageBlob(originalBlob, 48, 0.9);
-      mimeType = blobToStore.type || 'image/webp';
+      blobToStore = await compressImageBlob(blobToStore, 48, 0.9);
+      mimeType = blobToStore.type;
     } catch {
-      blobToStore = originalBlob;
-      mimeType = originalBlob.type || mimeType;
+      logger('error', FAILED_TO_FETCH_ICON, {
+        operation: SAVE_ASSET,
+        scope: 'service-worker',
+        bookmarkId,
+      });
+
+      throw new Error(FAILED_TO_FETCH_ICON);
     }
   }
 

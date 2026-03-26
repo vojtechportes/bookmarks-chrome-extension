@@ -108,7 +108,7 @@ isGeneratingDescription?: boolean;
 ```
 
 Assets, specifically favicons and screenshots are stored in `IndexedDB`.
-Assets are downscaled and compressed before storage, except for SVG files.
+Assets are downscaled and compressed before storage, svg files are rasterized into png.
 
 When bookmark is deleted, assets tied to that bookmark are deleted as well. When all bookmarks are deleted, both database tables are emptied.
 
@@ -183,6 +183,13 @@ React UI is localized using `i18next` and `react-i18next`. Localization files ar
 
 Manifest is localized using standard Chrome extension localization API for which `message.json` file is located in `public/_locales` folder.
 
+## Security
+
+To prevent `CSR`, manifest is set to `script-src 'self'; object-src 'self';`.
+
+To avoid html injection, all saved strings (titles and descriptions, including AI generated descriptions) are sanitized and stripped of any html tags. To avoid script injection into svg files, svg files are rasterized in `offscreen` document.
+
+All saved image assets are validated first against its mime-type using `file-type` library and attempted to render as bitmap in `offscreen` document to verify they are really images.
 
 ## Testing
 
