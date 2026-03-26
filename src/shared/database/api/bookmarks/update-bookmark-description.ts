@@ -1,3 +1,4 @@
+import escapeHTML from 'escape-html';
 import { updateBookmark } from './update-bookmark';
 
 export const updateBookmarkDescription = async (
@@ -6,7 +7,7 @@ export const updateBookmarkDescription = async (
 ) => {
   return updateBookmark(bookmarkId, (bookmark) => ({
     ...bookmark,
-    description,
+    description: escapeHTML(description),
     isGeneratingDescription: false,
     updatedAt: new Date().toISOString(),
   }));

@@ -25,6 +25,7 @@ i18next
       bindI18n: 'languageChanged',
       useSuspense: true,
     },
+    showSupportNotice: false,
   });
 
 export default i18next;

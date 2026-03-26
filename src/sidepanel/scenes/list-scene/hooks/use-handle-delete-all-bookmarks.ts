@@ -5,6 +5,7 @@ import { UNSUPPORTED_MESSAGE_TYPE } from '../../../../shared/constants/error-mes
 import { deleteAllBookmarks } from '../../../../shared/database/api/bookmarks/delete-all-bookmarks';
 import { useBookmarks } from '../../../components/bookmarks-provider/hooks/use-bookmarks';
 import { runtimeApi } from '../../../api/runtime-api/runtime-api';
+import { logger } from '../../../../shared/logger/logger';
 
 export const useHandleDeleteAllBookmarks = () => {
   const { t } = useTranslation(['bookmarks-scene', 'common']);
@@ -25,6 +26,8 @@ export const useHandleDeleteAllBookmarks = () => {
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : UNSUPPORTED_MESSAGE_TYPE;
+
+      logger('error', errorMessage, { scope: 'sidepanel' }, error);
 
       errorAlert(t(`common:error-messages.${errorMessage}`));
     } finally {

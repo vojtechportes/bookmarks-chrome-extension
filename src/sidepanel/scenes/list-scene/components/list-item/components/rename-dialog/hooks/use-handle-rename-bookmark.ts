@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { renameBookmark } from '../../../../../../../../shared/database/api/bookmarks/rename-bookmark';
 import { useAlert } from '../../../../../../../components/alert-provider/hooks/use-alert';
 import { runtimeApi } from '../../../../../../../api/runtime-api/runtime-api';
+import { logger } from '../../../../../../../../shared/logger/logger';
+import { CANT_RENAME_BOOKMARK } from '../../../../../../../../shared/constants/error-messages';
 
 export interface IRenameBookmarkParams {
   id: string;
@@ -14,7 +16,7 @@ export const useHandleRenameBookmark = (
   onRenamed: () => void,
 ) => {
   const { t } = useTranslation('bookmarks-scene');
-  const { success, error, info } = useAlert();
+  const { success, error: errorAlert, info } = useAlert();
 
   const [isRenaming, setIsRenaming] = useState(false);
 
@@ -38,13 +40,23 @@ export const useHandleRenameBookmark = (
         runtimeApi.notifyBookmarksChanged();
 
         success(t('success-messages.bookmark-renamed'));
-      } catch {
-        error(t('error-messages.renaming-bookmark-failed'));
+      } catch (error) {
+        logger(
+          'error',
+          CANT_RENAME_BOOKMARK,
+          {
+            scope: 'sidepanel',
+            bookmarkId: id,
+          },
+          error,
+        );
+
+        errorAlert(t('error-messages.renaming-bookmark-failed'));
       } finally {
         setIsRenaming(false);
       }
     },
-    [error, info, onRenamed, reload, success, t],
+    [errorAlert, info, onRenamed, reload, success, t],
   );
 
   return {

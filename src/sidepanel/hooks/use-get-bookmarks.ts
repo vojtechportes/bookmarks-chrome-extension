@@ -4,6 +4,7 @@ import type { IBookmarkSortOptions } from '../../shared/types/bookmark-sort-opti
 import { getAllBookmarks } from '../../shared/database/api/bookmarks/get-all-bookmarks';
 import { useSynchronizeBookmarks } from './use-synchronize-bookmarks';
 import { FAILED_TO_LOAD_BOOKMARKS } from '../../shared/constants/error-messages';
+import { logger } from '../../shared/logger/logger';
 
 export interface IUseGetBookmarksResult {
   bookmarks: IBookmarkItem[];
@@ -30,9 +31,12 @@ export const useGetBookmarks = (
 
       setBookmarks(result);
     } catch (error: unknown) {
-      setError(
-        error instanceof Error ? error : new Error(FAILED_TO_LOAD_BOOKMARKS),
-      );
+      const errorMessage =
+        error instanceof Error ? error : new Error(FAILED_TO_LOAD_BOOKMARKS);
+
+      logger('error', errorMessage.message, { scope: 'sidepanel' }, error);
+
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }

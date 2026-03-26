@@ -1,3 +1,8 @@
+import {
+  BOOKMARK_NOT_FOUND,
+  TRANSACTION_ABORTED,
+} from '../../../constants/error-messages';
+import { logger } from '../../../logger/logger';
 import type { IBookmarkItem } from '../../../types/bookmark-item';
 import { BOOKMARKS_STORE } from '../../constants';
 import { getDatabase } from '../../database';
@@ -15,6 +20,10 @@ export const updateBookmark = async (
     const bookmark = await store.get(bookmarkId);
 
     if (!bookmark) {
+      logger('error', BOOKMARK_NOT_FOUND, {
+        scope: 'database',
+      });
+
       throw new BookmarkNotFoundError();
     }
 
@@ -25,6 +34,15 @@ export const updateBookmark = async (
 
     return updatedBookmark;
   } catch (error) {
+    logger(
+      'error',
+      TRANSACTION_ABORTED,
+      {
+        scope: 'database',
+      },
+      error,
+    );
+
     transaction.abort();
     throw error;
   }

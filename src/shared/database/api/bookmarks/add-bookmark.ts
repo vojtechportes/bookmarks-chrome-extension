@@ -1,3 +1,5 @@
+import { BOOKMARK_ALREADY_EXISTS } from '../../../constants/error-messages';
+import { logger } from '../../../logger/logger';
 import type { IBookmarkItem } from '../../../types/bookmark-item';
 import { BOOKMARKS_STORE } from '../../constants';
 import { getDatabase } from '../../database';
@@ -18,6 +20,15 @@ export const addBookmark = async (
     return normalizedBookmark;
   } catch (error) {
     if (error instanceof DOMException && error.name === 'ConstraintError') {
+      logger(
+        'error',
+        BOOKMARK_ALREADY_EXISTS,
+        {
+          scope: 'database',
+        },
+        error,
+      );
+
       throw new BookmarkAlreadyExistsError();
     }
 

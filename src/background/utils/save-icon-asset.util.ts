@@ -1,5 +1,7 @@
 import { FAILED_TO_FETCH_ICON } from '../../shared/constants/error-messages';
+import { SAVE_ASSET } from '../../shared/constants/operations';
 import { addAsset } from '../../shared/database/api/assets/add-asset';
+import { logger } from '../../shared/logger/logger';
 import { compressImageBlob } from './compress-image-blob.util';
 
 export const saveIconAsset = async (
@@ -12,6 +14,12 @@ export const saveIconAsset = async (
   });
 
   if (!response.ok) {
+    logger('error', FAILED_TO_FETCH_ICON, {
+      operation: SAVE_ASSET,
+      scope: 'service-worker',
+      bookmarkId,
+    });
+
     throw new Error(FAILED_TO_FETCH_ICON);
   }
 
