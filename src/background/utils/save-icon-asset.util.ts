@@ -11,9 +11,7 @@ export const saveIconAsset = async (
   iconUrl: string,
   suffix?: string,
 ): Promise<string | undefined> => {
-  const response = await fetch(iconUrl, {
-    credentials: 'include',
-  });
+  const response = await fetch(iconUrl);
 
   if (!response.ok) {
     logger('error', FAILED_TO_FETCH_ICON, {
